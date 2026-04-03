@@ -8,6 +8,8 @@ AGG_DIR      = data/1_aggregated
 ANNOTATED_DIR = data/2_annotated
 RESULTS_DIR  = data/3_results
 SAMPLES_DIR  = data/4_samples
+TRAIN_DIR    = data/2_1_segmentation/training_data
+MODEL_DIR    = data/2_1_segmentation/models
 
 # Collect all raw CSVs and derive 3-letter language codes
 RAW_FILES  = $(wildcard $(RAW_DIR)/*.csv)
@@ -16,9 +18,9 @@ AGG_TARGETS = $(patsubst %,$(AGG_DIR)/%.csv,$(LANG_CODES))
 ANN_TARGETS = $(patsubst %,$(ANNOTATED_DIR)/%.csv,$(LANG_CODES))
 
 # ── Phony targets ──────────────────────────────────────────
-.PHONY: all aggregate preprocess analyze sample data-statistics clean-aggregate clean-preprocess clean-sample help
+.PHONY: all aggregate preprocess segment train-universal analyze sample data-statistics clean-aggregate clean-preprocess clean-sample help
 
-all: aggregate preprocess analyze
+all: aggregate preprocess segment analyze
 
 # ── Step 1: Aggregate raw data ─────────────────────────────
 aggregate: $(AGG_TARGETS)
@@ -37,6 +39,17 @@ $(ANNOTATED_DIR)/%.csv: $(AGG_DIR)/%.csv
 
 clean-preprocess:
 	rm -f $(ANNOTATED_DIR)/*.csv
+
+# ── Step 2.1: Segment annotated data (universal model) ──────
+segment: preprocess
+	$(PYTHON) src/2_1_segmentation/generate_universal.py segment \
+		--train-dir $(TRAIN_DIR) --freq-dir $(AGG_DIR) \
+		--model-dir $(MODEL_DIR) --annotated-dir $(ANNOTATED_DIR)
+
+train-universal:
+	$(PYTHON) src/2_1_segmentation/generate_universal.py train-save \
+		--train-dir $(TRAIN_DIR) --freq-dir $(AGG_DIR) \
+		--model-dir $(MODEL_DIR)
 
 # ── Step 2.5: Sample word lists ─────────────────────────────
 sample:
@@ -58,6 +71,8 @@ help:
 	@echo "Targets:"
 	@echo "  aggregate        – aggregate raw CSVs by language code"
 	@echo "  preprocess       – cut aggregated files at frequency cutoff"
+	@echo "  segment          – segment words with universal model"
+	@echo "  train-universal  – train universal segmentation models"
 	@echo "  analyze          – compute measures and write results"
 	@echo "  sample           – sample shorter word lists from annotated data"
 	@echo "  data-statistics  – compute raw data statistics"

@@ -110,7 +110,7 @@ def _read_file_chunked(path: Path) -> tuple[pd.DataFrame, int, int]:
         skiprows=skip,
         names=["word", "frequency"],
         header=0,
-        dtype={"word": str, "frequency": "int64"},
+        dtype={"word": str, "frequency": str},
         na_filter=False,
         chunksize=CHUNK_SIZE,
         quoting=0,  # QUOTE_MINIMAL – handles quoted and unquoted values
@@ -119,6 +119,10 @@ def _read_file_chunked(path: Path) -> tuple[pd.DataFrame, int, int]:
 
     for chunk in reader:
         total_rows += len(chunk)
+        # Coerce non-numeric frequencies (e.g. "-") to NaN, then drop them
+        chunk["frequency"] = pd.to_numeric(chunk["frequency"], errors="coerce")
+        chunk = chunk.dropna(subset=["frequency"])
+        chunk["frequency"] = chunk["frequency"].astype("int64")
         # Aggregate within chunk to reduce memory
         agg = chunk.groupby("word", sort=False)["frequency"].sum().reset_index()
         chunks.append(agg)

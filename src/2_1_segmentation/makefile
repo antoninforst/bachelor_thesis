@@ -7,6 +7,7 @@ TRAIN_DIR = $(ROOT)/data/2_1_segmentation/training_data
 MODEL_DIR = $(ROOT)/data/2_1_segmentation/models
 FREQ_DIR  = $(ROOT)/data/1_aggregated
 RESULT_DIR= $(ROOT)/data/3_results
+ANN_DIR   = $(ROOT)/data/2_annotated
 
 # Derived paths
 SOURCE    = $(TRAIN_DIR)/$(LNG).morf
@@ -25,7 +26,7 @@ SEED    ?= 42
 ALL_LANGS = $(notdir $(basename $(wildcard $(TRAIN_DIR)/*.morf)))
 
 # ── Phony targets ─────────────────────────────────────────
-.PHONY: help eval eval-all train interactive segment batch
+.PHONY: help eval eval-all train interactive segment batch universal-eval universal-train universal-segment
 
 help:
 	@echo "Usage: make <target> LNG=<code> [options]"
@@ -37,6 +38,11 @@ help:
 	@echo "  train        Train and save models without evaluation (LNG=ces)"
 	@echo "  interactive  Interactive mode with saved models (LNG=ces)"
 	@echo "  segment      Segment a text file (LNG=ces TEXT=input.txt OUTPUT=out.morf)"
+	@echo ""
+	@echo "Universal targets:"
+	@echo "  universal-eval     Leave-language-out cross-validation"
+	@echo "  universal-train    Train and save universal models"
+	@echo "  universal-segment  Segment all annotated CSVs with universal model"
 	@echo ""
 	@echo "Available languages: $(ALL_LANGS)"
 	@echo "Frequency file:      $(or $(FREQ_FILE),(not found for $(LNG)))"
@@ -89,3 +95,20 @@ batch:
 		-model_dir $(MODEL_DIR) -result_dir $(RESULT_DIR) \
 		-folds $(FOLDS) -seed $(SEED) \
 		$(if $(WORKERS),-workers $(WORKERS),)
+
+# ── Universal model targets ───────────────────────────────
+universal-eval:
+	$(PYTHON) generate_universal.py train-eval \
+		--train-dir $(TRAIN_DIR) --freq-dir $(FREQ_DIR) \
+		--model-dir $(MODEL_DIR) --result-dir $(RESULT_DIR) \
+		--seed $(SEED)
+
+universal-train: | $(MODEL_DIR)
+	$(PYTHON) generate_universal.py train-save \
+		--train-dir $(TRAIN_DIR) --freq-dir $(FREQ_DIR) \
+		--model-dir $(MODEL_DIR) --seed $(SEED)
+
+universal-segment:
+	$(PYTHON) generate_universal.py segment \
+		--train-dir $(TRAIN_DIR) --freq-dir $(FREQ_DIR) \
+		--model-dir $(MODEL_DIR) --annotated-dir $(ANN_DIR)
