@@ -25,20 +25,28 @@ class Frequency:
         self.total_count = 0
         self.hepax_count = 0
 
-    def add(self, key):
+    def add(self, key, count=1):
         if key in self.data:
             d = self.data[key]
             if d == 1:
                 self.hepax_count -= 1
-            self.data[key] = d + 1
+            self.data[key] = d + count
         else:
-            self.data[key] = 1
-            self.hepax_count += 1
-        self.total_count += 1
+            self.data[key] = count
+            if count == 1:
+                self.hepax_count += 1
+        self.total_count += count
     
     def add_range(self, keys):
         for key in keys:
             self.add(key)
+
+    @classmethod
+    def from_rows(cls, rows: list[Row]) -> Frequency:
+        freq = cls()
+        for r in rows:
+            freq.add(r.word, r.frequency)
+        return freq
 
     def get(self, key):
         if key in self.data:
@@ -78,7 +86,7 @@ class Frequency:
 
 
 
-MetricFn = Callable[[list[Row], Frequency], Any]
+MetricFn = Callable[[Frequency], Any]
 
 
 def load_shortcuts() -> dict[str, str]:
@@ -119,64 +127,126 @@ def safe_mean(values: list[float]) -> float:
 
 # ── Frequency metrics ──────────────────────────────────────
 
-def metric_num_rows(rows: list[Row], _) -> int:
-    return len(rows)
+def metric_num_rows(freq: Frequency) -> int:
+    return freq.get_unique_count()
 
-def metric_total_frequency(rows: list[Row], _) -> int:
-    return sum(r.frequency for r in rows)
+def metric_total_frequency(freq: Frequency) -> int:
+    return freq.get_total_count()
 
-def metric_hapax_count(rows: list[Row], _) -> int:
-    return sum(1 for r in rows if r.frequency == 1)
+def metric_hapax_count(freq: Frequency) -> int:
+    return freq.get_hepax_count()
 
-def metric_hapax_ratio(rows: list[Row], _) -> float:
-    hapax = sum(1 for r in rows if r.frequency == 1)
-    return hapax / len(rows) if rows else 0.0
+def metric_hapax_ratio(freq: Frequency) -> float:
+    unique = freq.get_unique_count()
+    return freq.get_hepax_count() / unique if unique else 0.0
 
-def metric_avg_word_len(rows: list[Row], _) -> float:
-    return safe_mean([len(r.word) for r in rows])
+def metric_avg_word_len(freq: Frequency) -> float:
+    return safe_mean([len(w) for w in freq.data.keys()])
 
-def metric_avg_word_len_weighted(rows: list[Row], _) -> float:
-    total_freq = sum(r.frequency for r in rows)
-    if total_freq == 0:
-        return float("nan")
-    return sum(len(r.word) * r.frequency for r in rows) / total_freq
+def metric_avg_word_len_weighted(freq: Frequency) -> float:
+    return sum(len(w) * f for w, f in freq.data.items()) / freq.get_total_count() if freq.get_total_count() else 0.0
 
-def metric_frequency_entropy(rows: list[Row], _) -> float:
-    total = sum(r.frequency for r in rows)
-    if total == 0:
-        return 0.0
-    s = 0.0
-    for r in rows:
-        p = r.frequency / total
-        if p > 0:
-            s -= p * math.log2(p)
-    return s
+def metric_frequency_entropy(freq: Frequency) -> float:
+    return freq.get_entropy()
 
-def metric_frequency_perplexity(rows: list[Row], _) -> float:
-    return 2 ** metric_frequency_entropy(rows, _)
+def metric_frequency_perplexity(freq: Frequency) -> float:
+    return 2 ** freq.get_entropy()
 
-def metric_ttr(rows: list[Row], _) -> float:
-    total = sum(r.frequency for r in rows)
-    return len(rows) / total if total else 0.0
+def metric_ttr(freq: Frequency) -> float:
+    total = freq.get_total_count()
+    return freq.get_unique_count() / total if total else 0.0
+
+class MorphStats:
+    def __init__(self):
+        self.word_count = 0
+        self.total_freq = 0
+        self.total_roots = 0
+        self.total_prefixes = 0
+        self.total_suffixes = 0
+        self.total_interfixes = 0
+        self.weighted_roots = 0
+        self.weighted_prefixes = 0
+        self.weighted_suffixes = 0
+        self.weighted_interfixes = 0
+
+    def add(self, row: Row):
+        morphemes = row.word.split()
+        freq = row.frequency
+
+        root_indices = [i for i, m in enumerate(morphemes) if m.startswith("@")]
+
+        if not root_indices:
+            roots = 1
+            prefixes = 0
+            suffixes = 0
+            interfixes = 0
+        else:
+            roots = len(root_indices)
+            first_root = root_indices[0]
+            last_root = root_indices[-1]
+            prefixes = first_root
+            suffixes = len(morphemes) - last_root - 1
+            interfixes = sum(
+                1 for i in range(first_root + 1, last_root)
+                if not morphemes[i].startswith("@")
+            )
+
+        self.word_count += 1
+        self.total_freq += freq
+        self.total_roots += roots
+        self.total_prefixes += prefixes
+        self.total_suffixes += suffixes
+        self.total_interfixes += interfixes
+        self.weighted_roots += roots * freq
+        self.weighted_prefixes += prefixes * freq
+        self.weighted_suffixes += suffixes * freq
+        self.weighted_interfixes += interfixes * freq
+
+    def get_metrics(self) -> dict[str, float]:
+        out: dict[str, float] = {}
+        if self.word_count:
+            out["avg_root_count"] = self.total_roots / self.word_count
+            out["avg_prefix_count"] = self.total_prefixes / self.word_count
+            out["avg_suffix_count"] = self.total_suffixes / self.word_count
+            out["avg_interfix_count"] = self.total_interfixes / self.word_count
+        if self.total_freq:
+            out["avg_root_count_weighted"] = self.weighted_roots / self.total_freq
+            out["avg_prefix_count_weighted"] = self.weighted_prefixes / self.total_freq
+            out["avg_suffix_count_weighted"] = self.weighted_suffixes / self.total_freq
+            out["avg_interfix_count_weighted"] = self.weighted_interfixes / self.total_freq
+        return out
 
 
 # ── Metric registry ───────────────────────────────────────
 
 METRICS: dict[str, MetricFn] = {
-    "word_count": metric_num_rows,
+    "count": metric_num_rows,
     "total_frequency": metric_total_frequency,
     "ttr": metric_ttr,
     "hapax_count": metric_hapax_count,
     "hapax_ratio": metric_hapax_ratio,
-    "avg_word_length": metric_avg_word_len,
-    "avg_word_length_weighted": metric_avg_word_len_weighted,
+    "avg_length": metric_avg_word_len,
+    "avg_length_weighted": metric_avg_word_len_weighted,
     "frequency_entropy": metric_frequency_entropy,
     "frequency_perplexity": metric_frequency_perplexity,
 }
 
+def break_word(word: str) -> tuple[str, list[str]]:
+    segmentation = word.split()
+    segmentation = [s[1:] if len(s) > 1 and s.startswith("@") else s for s in segmentation]
+    return "".join(segmentation), segmentation
 
 def compute_metrics_for_file(path: Path, lang_names: dict[str, str], statistics: dict[str, dict[str, int]]) -> dict[str, Any]:
     rows = read_csv_rows(path)
+    whole_words = Frequency()
+    morphs = Frequency()
+    morph_stats = MorphStats()
+    for row in rows:
+        word, segmentation = break_word(row.word)
+        whole_words.add(word, row.frequency)
+        for morph in segmentation:
+            morphs.add(morph, row.frequency)
+        morph_stats.add(row)
     code = path.stem
     out: dict[str, Any] = {"language": lang_names.get(code, code)}
 
@@ -185,7 +255,10 @@ def compute_metrics_for_file(path: Path, lang_names: dict[str, str], statistics:
         out.update(statistics[code])
 
     for name, fn in METRICS.items():
-        out[name] = fn(rows, None)
+        out["word_"+name] = fn(whole_words)
+        out["morph_"+name] = fn(morphs)
+
+    out.update(morph_stats.get_metrics())
 
     # percentage of original distinct words retained after cutoff
     if "original_distinct_words" in out and out["original_distinct_words"]:
