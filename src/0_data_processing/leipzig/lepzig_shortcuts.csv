@@ -1,0 +1,292 @@
+code,language
+abk,Abkhazian
+ace,Achinese
+ach,Acoli
+afr,Afrikaans
+aii,Assyrian Neo-Aramaic
+aka,Akan
+als,Tosk Albanian
+alt,Southern Altai
+amh,Amharic
+ang,Old English
+anw,Anaang
+ara,Arabic
+arg,Aragonese
+arz,Egyptian Arabic
+asm,Assamese
+ast,Leonese
+ava,Avaric
+aym,Aymara
+azb,South Azerbaijani
+aze,Azerbaijani
+bak,Bashkir
+bam,Bambara
+ban,Balinese
+bar,Bavarian
+bcl,Central Bicolano
+bel,Belarusian
+ben,Bengali
+bih,unknown
+bik,Bikol
+bis,Bislama
+bjn,Banjar
+bod,Tibetan
+bos,Bosnian
+bpy,Bishnupriya
+bre,Breton
+bua,Buriat
+bug,Buginese
+bul,Bulgarian
+cat,Catalan
+cbk,Chavacano
+cdo,Min Dong Chinese
+ceb,Cebuano
+ces,Czech
+cha,Chamorro
+che,Chechen
+chr,Cherokee
+chv,Chuvash
+ckb,Central Kurdish
+cmn,Mandarin Chinese
+cor,Cornish
+cos,Corsican
+crh,Crimean Turkish
+csb,Kashubian
+cym,Welsh
+dan,Danish
+deu,German
+diq,Dimli
+div,Maldivian
+dsb,Lower Sorbian
+edi,German
+ekk,Standard Estonian
+ell,Modern Greek
+eml,Emiliano-Romagnolo
+eng,English
+epo,Esperanto
+est,Estonian
+eus,Basque
+ewe,Ewe
+ext,Extremaduran
+fao,Faroese
+fas,Persian
+fij,Fijian
+fin,Finnish
+fra,French
+frp,Francoprovençal
+frr,Northern Frisian
+fry,Western Frisian
+ful,Fulah
+fur,Friulian
+gag,Gagauz
+gan,Gan Chinese
+gaz,West Central Oromo
+gla,Scottish Gaelic
+gle,Irish
+glg,Galician
+glk,Gilaki
+glv,Manx
+gom,Goan Konkani
+gor,Gorontalo
+grn,Guarani
+gsw,Swiss German
+guj,Gujarati
+hak,Hakka Chinese
+hat,Haitian Creole
+hau,Hausa
+haw,Hawaiian
+hbs,Serbo-Croatian
+heb,Hebrew
+hif,Fiji Hindi
+hin,Hindi
+hrv,Croatian (Croatia)
+hsb,Upper Sorbian
+hun,Hungarian
+hye,Armenian
+ibo,Igbo
+ido,Ido
+ile,Occidental
+ilo,Iloko
+ina,Interlingua
+ind,Indonesian
+inh,Ingush
+isl,Icelandic
+ita,Italian
+jav,Javanese
+kaa,Kara-Kalpak
+kab,Kabyle
+kal,Kalaallisut
+kan,Kannada
+kas,Kashmiri
+kat,Georgian
+kaz,Kazakh
+kbd,Kabardian
+kbp,Kabiyè
+kck,Kalanga
+khk,Halh Mongolian
+khm,Central Khmer
+kin,Kinyarwanda
+kir,Kyrgyz
+kng,Koongo
+koi,Komi-Permyak
+kom,Komi
+krc,Karachay-Balkar
+ksh,Kölsch
+kur,Kurdish
+lad,Ladino
+lao,Lao
+lat,Latin
+lav,Latvian
+lbe,Lak
+lij,Ligurian
+lim,Limburgish
+lin,Lingala
+lit,Lithuanian
+lmo,Lombard
+ltg,Latgalian
+ltz,Luxembourgish
+lug,Ganda
+lup,Lumbu
+lus,Lushai
+lvs,Standard Latvian
+mad,Madurese
+mah,Marshallese
+mai,Maithili
+mal,Malayalam
+mar,Marathi
+mdf,Moksha
+mhr,Eastern Mari
+min,Minangkabau
+mkd,Macedonian
+mkw,Kituba (Congo)
+mlg,Malagasy
+mlt,Maltese
+mon,Mongolian
+mri,Maori
+mrj,Western Mari
+msa,Malay (macrolanguage)
+mwl,Mirandese
+mya,Burmese
+myv,Erzya
+mzn,Mazanderani
+nah,Nahuatl
+nan,Min Nan Chinese
+nap,Neapolitan
+nau,Nauru
+nav,Navajo
+nci,Classical Nahuatl
+nde,North Ndebele
+ndo,Ndonga
+nds,Low Saxon
+nep,Nepali
+new,Newari
+nia,Nias
+nld,Dutch
+nno,Norwegian Nynorsk
+nob,Norwegian Bokmål
+non,Old Norse
+nor,Norwegian
+nov,Novial
+nso,Sepedi
+oci,Occitan (post 1500)
+ori,Oriya
+orm,Oromo
+oss,Ossetic
+pag,Pangasinan
+pam,Pampanga
+pan,Punjabi
+pap,Papiamento
+pcd,Picard
+pdc,Pennsylvania German
+pes,Iranian Persian
+pfl,Pfaelzisch
+plt,Plateau Malagasy
+pms,Piemontese
+pnb,Western Panjabi
+pnt,Pontic
+pol,Polish
+por,Portuguese
+prs,Dari
+pus,Pashto
+que,Quechua
+roa,Tarantino
+roh,Romansh
+rom,Romany
+ron,Romanian
+rue,Rusyn
+run,Rundi
+rup,Macedo-Romanian
+rus,Russian
+sag,Sango
+sah,Yakut
+san,Sanskrit
+scn,Sicilian
+sco,Scots
+scr,Croatian (Serbia)
+sgs,Samogitian
+sin,Sinhalese
+skr,Seraiki
+slk,Slovak
+slv,Slovenian
+sme,Northern Sami
+smi,Sami
+smo,Samoan
+sna,Shona
+snd,Sindhi
+som,Somali
+sot,Southern Sotho
+spa,Spanish
+sqi,Albanian
+srd,Sardinian
+srn,Sranan Tongo
+srp,Serbian
+ssw,Swati
+sun,Sundanese
+swa,Swahili (macrolanguage)
+swe,Swedish
+swh,Swahili
+szl,Silesian
+tah,Tahitian
+tam,Tamil
+tat,Tatar
+tcy,Tulu
+tel,Telugu
+tet,Tetum
+tgk,Tajik
+tgl,Tagalog
+tha,Thai
+tir,Tigrinya
+tlh,tlhIngan-Hol
+ton,Tonga (Tonga Islands)
+tpi,Tok Pisin
+tsn,Tswana
+tso,Tsonga
+tuk,Turkmen
+tum,Tumbuka
+tur,Turkish
+tyv,Tuvinian
+udm,Udmurt
+uig,Uyghur
+ukr,Ukrainian
+urd,Urdu
+uzb,Uzbek
+uzn,Northern Uzbek
+vec,Venetian
+ven,Venda
+vie,Vietnamese
+vls,Vlaams
+vol,Volapük
+vro,Võro
+war,Waray (Philippines)
+way,Wayana
+wln,Walloon
+wol,Wolof
+xal,Oirat
+xho,Xhosa
+xmf,Mingrelian
+ydd,Eastern Yiddish
+yid,Yiddish
+yor,Yoruba
+zea,Zeeuws
+zha,Zhuang
+zul,Zulu
