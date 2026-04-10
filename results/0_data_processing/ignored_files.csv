@@ -11,6 +11,7 @@ amh_wikipedia_2011_20260404141715.csv,amh,70.3% hapax overlap with amh_community
 amh_wikipedia_2018_30K_20260404141721.csv,amh,60.4% hapax overlap with amh_wikipedia_2021_20260404141728.csv
 amh_wikipedia_2021_20260404141728.csv,amh,46.1% hapax overlap with amh_community_2017_20260404141708.csv
 ang_wikipedia_2012_20260405082214.csv,ang,44.2% hapax overlap with ang_wikipedia_2021_20260405082219.csv
+ara-ud-nyuad.csv,ara,lang script Arabic only 0.0% in file (need >= 75.0%)
 ara_wikipedia_2018_1M_20260404141920.csv,ara,44.2% hapax overlap with ara_wikipedia_2021_20260404141945.csv
 arg_wikipedia_2018_30K_20260404142513.csv,arg,44.2% hapax overlap with arg_wikipedia_2021_20260404142520.csv
 arz_wikipedia_2011_20260404163602.csv,arz,49.7% hapax overlap with arz_wikipedia_2021_20260404163609.csv
@@ -20,7 +21,10 @@ asm_wikipedia_2018_30K_20260404142657.csv,asm,48.7% hapax overlap with asm_commu
 ast_wikipedia_2018_300K_20260405072550.csv,ast,43.6% hapax overlap with ast_wikipedia_2021_20260405072559.csv
 ava_wikipedia_2012_20260404142723.csv,ava,61.9% hapax overlap with ava_wikipedia_2021_20260404142729.csv
 aym_wikipedia_2012_20260404142735.csv,aym,56.7% hapax overlap with aym_wikipedia_2021_20260404142742.csv
+azb_wikipedia_2021_20260404180704.csv,azb,"file is 59.9% Latin, but lang script is Arabic (only 37.4% in file, need >= 75.0%)"
+aze_glot500_arab.csv,aze,"file is 86.5% Arabic, but lang script is Latin (only 13.1% in file, need >= 75.0%)"
 aze_wikipedia_2018_1M_20260404143052.csv,aze,61.5% hapax overlap with aze_wikipedia_2021_20260404143108.csv
+bak_glot500_latn.csv,bak,"file is 93.4% Latin, but lang script is Cyrillic (only 6.4% in file, need >= 75.0%)"
 bak_wikipedia_2011_20260404143206.csv,bak,40.7% hapax overlap with bak_community_2017_20260404143158.csv
 bak_wikipedia_2018_100K_20260404143213.csv,bak,63.6% hapax overlap with bak_wikipedia_2021_20260404143220.csv
 bam_wikipedia_2021_20260404143134.csv,bam,78.8% hapax overlap with bam_wikipedia_2012_20260404143128.csv
@@ -40,6 +44,7 @@ bod_community_2017_20260404184549.csv,bod,37.5% hapax overlap with bod_glot500_t
 bod_wikipedia_2012_20260404184556.csv,bod,34.7% hapax overlap with bod_glot500_tibt.csv
 bod_wikipedia_2021_20260404184603.csv,bod,45.7% hapax overlap with bod_glot500_tibt.csv
 bos_wikipedia_2018_300K_20260404143728.csv,bos,60.2% hapax overlap with bos_wikipedia_2021_20260404143737.csv
+bpy_wikipedia_2011_20260404143644.csv,bpy,lang script Bengali only 52.2% in file (need >= 75.0%)
 bpy_wikipedia_2021_20260404143650.csv,bpy,51.4% hapax overlap with bpy_wikipedia_2011_20260404143644.csv
 bre_wikipedia_2018_100K_20260404143753.csv,bre,51.6% hapax overlap with bre_wikipedia_2021_20260404143759.csv
 bua_wikipedia_2012_20260404143950.csv,bua,37.0% hapax overlap with bua_wikipedia_2018_10K_20260404143956.csv
@@ -48,11 +53,14 @@ bul_wikipedia_2018_1M_20260404143919.csv,bul,51.6% hapax overlap with bul_wikipe
 cbk_wikipedia_2012_20260404144304.csv,cbk,58.2% hapax overlap with cbk_wikipedia_2021_20260404144309.csv
 cdo_wikipedia_2012_20260405073759.csv,cdo,42.0% hapax overlap with cdo_wikipedia_2021_20260405073805.csv
 ceb_wikipedia_2011_20260404144158.csv,ceb,56.2% hapax overlap with ceb_community_2017_20260404144149.csv
+chr_wikipedia_2012_20260404144335.csv,chr,"file is 55.9% Latin, but lang script is Arabic (only 0.0% in file, need >= 75.0%)"
 chr_wikipedia_2021_20260404144340.csv,chr,51.3% hapax overlap with chr_wikipedia_2012_20260404144335.csv
 chv_community_2017_20260404144346.csv,chv,51.8% hapax overlap with chv_wikipedia_2021_20260404144403.csv
 chv_wikipedia_2011_20260404144356.csv,chv,80.3% hapax overlap with chv_community_2017_20260404144346.csv
+ckb-ud.csv,ckb,"file is 100.0% Latin, but lang script is Arabic (only 0.0% in file, need >= 75.0%)"
 cor_wikipedia_2012_20260404152042.csv,cor,41.4% hapax overlap with cor_wikipedia_2021_20260404152048.csv
 cos_wikipedia_2011_20260404152054.csv,cos,41.0% hapax overlap with cos_wikipedia_2021_20260404152059.csv
+crh_glot500_cyrl.csv,crh,"file is 99.0% Cyrillic, but lang script is Latin (only 1.0% in file, need >= 75.0%)"
 crh_wikipedia_2012_20260404152106.csv,crh,54.2% hapax overlap with crh_wikipedia_2021_20260404152111.csv
 csb_wikipedia_2012_20260405072011.csv,csb,58.4% hapax overlap with csb_wikipedia_2021_20260405072017.csv
 dan_newscrawl_2019_20260404153248.csv,dan,46.2% hapax overlap with dan_mixed-freqdic_2018_20260404152912.csv
@@ -64,6 +72,7 @@ diq_community_2017_20260404153840.csv,diq,44.6% hapax overlap with diq_wikipedia
 diq_wikipedia_2011_20260404153846.csv,diq,72.9% hapax overlap with diq_community_2017_20260404153840.csv
 dsb_wikipedia_2012_20260405072826.csv,dsb,55.8% hapax overlap with dsb_wikipedia_2021_20260405072832.csv
 eml_wikipedia_2012_20260404163616.csv,eml,47.8% hapax overlap with eml_wikipedia_2021_20260404163622.csv
+eng-ud-gumreddit.csv,eng,lang script Arabic only 0.0% in file (need >= 75.0%)
 eng_news_2012_3M_20260404163740.csv,eng,55.2% hapax overlap with eng_news_2012_20260404163724.csv
 eng_news_2023_20260404164359.csv,eng,100.0% hapax overlap with eng_news_2023_topic_20260404164538.csv
 eng_news_2023_topic2_20260404164651.csv,eng,54.6% hapax overlap with eng_news_2023_topic_20260404164538.csv
@@ -79,16 +88,22 @@ glk_community_2017_20260404173207.csv,glk,79.2% hapax overlap with glk_glot500_a
 glv_bible.csv,glv,57.6% hapax overlap with glv_glot500_latn.csv
 glv_wikipedia_2012_20260405073613.csv,glv,64.5% hapax overlap with glv_wikipedia_2021_20260405073618.csv
 gom_community_2017_20260404173228.csv,gom,45.4% hapax overlap with gom_glot500_latn.csv
+gom_glot500_deva.csv,gom,"file is 96.5% Devanagari, but lang script is Latin (only 3.5% in file, need >= 75.0%)"
 gom_newscrawl_2011_20260404173234.csv,gom,43.4% hapax overlap with gom_glot500_latn.csv
 gor_wikipedia_2021_20260404173247.csv,gor,38.8% hapax overlap with gor_glot500_latn.csv
 grn_community_2017_20260404173253.csv,grn,61.1% hapax overlap with grn_wikipedia_2021_20260404173306.csv
 grn_wikipedia_2012_20260404173300.csv,grn,60.7% hapax overlap with grn_community_2017_20260404173253.csv
 gsw_wikipedia_2012_20260404182123.csv,gsw,58.2% hapax overlap with gsw_wikipedia_2021_20260404182135.csv
+guj_glot500_deva.csv,guj,"file is 87.4% Devanagari, but lang script is Gujarati (only 3.9% in file, need >= 75.0%)"
 hat-ud-autogramm.csv,hat,51.6% hapax overlap with hat-ud-adolphe.csv
 hat_community_2017_20260404173351.csv,hat,42.1% hapax overlap with hat_wikipedia_2021_20260404173403.csv
 hat_wikipedia_2011_20260404173357.csv,hat,70.7% hapax overlap with hat_community_2017_20260404173351.csv
+hau_glot500_arab.csv,hau,"file is 96.5% Arabic, but lang script is Latin (only 3.5% in file, need >= 75.0%)"
 hau_newscrawl_2011_20260404173427.csv,hau,42.0% hapax overlap with hau_community_2017_20260404173421.csv
+hbs-rs_wikipedia_2010_20260405090509.csv,hbs,"file is 94.9% Cyrillic, but lang script is Latin (only 4.9% in file, need >= 75.0%)"
+hbs_glot500_cyrl.csv,hbs,"file is 94.3% Cyrillic, but lang script is Latin (only 5.7% in file, need >= 75.0%)"
 hif_wikipedia_2011_20260404171121.csv,hif,46.3% hapax overlap with hif_wikipedia_2021_20260404171127.csv
+hin_glot500_latn.csv,hin,"file is 91.5% Latin, but lang script is Devanagari (only 7.8% in file, need >= 75.0%)"
 hin_news_2011_1M_20260404173621.csv,hin,53.4% hapax overlap with hin_news_2011_20260404173611.csv
 hsb_news_1999_20260405092036.csv,hsb,49.0% hapax overlap with hsb_mixed_2012_20260405092027.csv
 ile_wikipedia_2012_20260405082128.csv,ile,42.0% hapax overlap with ile_wikipedia_2021_20260405082133.csv
@@ -100,12 +115,16 @@ isl_web_2005_20260404174441.csv,isl,74.7% hapax overlap with isl_mixed_2011_2026
 ita-ud-partut.csv,ita,46.5% hapax overlap with ita-ud-isdt.csv
 jav_community_2017_20260405071716.csv,jav,50.0% hapax overlap with jav_wikipedia_2021_20260405071729.csv
 jav_wikipedia_2011_20260405071722.csv,jav,49.5% hapax overlap with jav_community_2017_20260405071716.csv
+jpn_glot500_japn.csv,jpn,lang script Han only 30.3% in file (need >= 75.0%)
+kaa_glot500_latn.csv,kaa,"file is 98.9% Latin, but lang script is Cyrillic (only 0.8% in file, need >= 75.0%)"
+kaa_wikipedia_2012_20260405071935.csv,kaa,"file is 99.7% Latin, but lang script is Cyrillic (only 0.3% in file, need >= 75.0%)"
 kaa_wikipedia_2021_20260405071941.csv,kaa,34.3% hapax overlap with kaa_glot500_latn.csv
 kab_wikipedia_2012_20260405071810.csv,kab,49.9% hapax overlap with kab_wikipedia_2021_20260405071816.csv
 kan_community_2017_20260405071841.csv,kan,51.2% hapax overlap with kan_wikipedia_2011_20260405071854.csv
 kan_wikipedia_2011_20260405071854.csv,kan,72.6% hapax overlap with kan_wikipedia_2021_20260405071914.csv
 kat-ge_web_2017_20260404172414.csv,kat,83.2% hapax overlap with kat_mixed_2017_20260404172043.csv
 kat-ge_web_2019_20260404172601.csv,kat,35.3% hapax overlap with kat_mixed_2017_20260404172043.csv
+kat_glot500_latn.csv,kat,"file is 88.4% Latin, but lang script is Georgian (only 10.4% in file, need >= 75.0%)"
 kbd_wikipedia_2012_20260405071752.csv,kbd,72.7% hapax overlap with kbd_community_2017_20260405071745.csv
 kbd_wikipedia_2021_20260405071757.csv,kbd,71.2% hapax overlap with kbd_community_2017_20260405071745.csv
 kbp_wikipedia_2021_20260405071803.csv,kbp,49.3% hapax overlap with kbp_glot500_latn.csv
@@ -115,6 +134,10 @@ koi_wikipedia_2012_20260405072222.csv,koi,68.8% hapax overlap with koi_wikipedia
 kom_wikipedia_2012_20260405072211.csv,kom,49.4% hapax overlap with kom_wikipedia_2021_20260405072217.csv
 krc_wikipedia_2012_20260405071947.csv,krc,62.5% hapax overlap with krc_wikipedia_2021_20260405071954.csv
 ksh_wikipedia_2012_20260405072158.csv,ksh,69.7% hapax overlap with ksh_wikipedia_2021_20260405072204.csv
+kur_community_2017_20260405072240.csv,kur,"file is 98.2% Arabic, but lang script is Latin (only 1.8% in file, need >= 75.0%)"
+kur_glot500_arab.csv,kur,"file is 98.9% Arabic, but lang script is Latin (only 1.1% in file, need >= 75.0%)"
+kur_newscrawl_2011_20260405072247.csv,kur,"file is 99.7% Arabic, but lang script is Latin (only 0.3% in file, need >= 75.0%)"
+kur_wikipedia_2021_20260405072255.csv,kur,"file is 98.4% Arabic, but lang script is Latin (only 1.6% in file, need >= 75.0%)"
 lad_wikipedia_2012_20260405072349.csv,lad,51.5% hapax overlap with lad_wikipedia_2021_20260405072355.csv
 lao_newscrawl_2011_20260405072425.csv,lao,48.3% hapax overlap with lao_community_2017_20260405072412.csv
 lao_wikipedia_2021_20260405072431.csv,lao,42.7% hapax overlap with lao_community_2017_20260405072412.csv
@@ -140,6 +163,8 @@ min_community_2017_20260405073823.csv,min,82.2% hapax overlap with min_wikipedia
 min_wikipedia_2014_20260405073829.csv,min,97.6% hapax overlap with min_community_2017_20260405073823.csv
 mkd_wikipedia_2010_20260405073007.csv,mkd,56.2% hapax overlap with mkd_community_2017_20260405072931.csv
 mkd_wikipedia_2021_20260405073017.csv,mkd,44.6% hapax overlap with mkd_community_2017_20260405072931.csv
+mon_glot500_latn.csv,mon,"file is 94.8% Latin, but lang script is Cyrillic (only 5.1% in file, need >= 75.0%)"
+mon_news_2011_20260405074203.csv,mon,"file is 99.0% Mongolian, but lang script is Arabic (only 0.0% in file, need >= 75.0%)"
 mrj_wikipedia_2011_20260405092632.csv,mrj,72.1% hapax overlap with mrj_wikipedia_2021_20260405092638.csv
 msa_community_2017_20260405073130.csv,msa,33.7% hapax overlap with msa_wikipedia_2021_20260405073151.csv
 msa_newscrawl_2011_20260405073144.csv,msa,55.5% hapax overlap with msa_community_2017_20260405073130.csv
@@ -182,14 +207,18 @@ pus_newscrawl_2011_20260405082419.csv,pus,37.6% hapax overlap with pus_glot500_a
 pus_wikipedia_2021_20260405082429.csv,pus,33.8% hapax overlap with pus_glot500_arab.csv
 que_community_2017_20260405083523.csv,que,85.1% hapax overlap with que_wikipedia_2014_20260405083529.csv
 que_wikipedia_2021_20260405083535.csv,que,46.2% hapax overlap with que_wikipedia_2014_20260405083529.csv
+rmy_glot500_cyrl.csv,rmy,"file is 66.7% Cyrillic, but lang script is Latin (only 33.3% in file, need >= 75.0%)"
 rom_wikipedia_2021_20260405083915.csv,rom,49.1% hapax overlap with rom_wikipedia_2012_20260405083910.csv
+ron-ud-moldoro.csv,ron,"file is 100.0% Cyrillic, but lang script is Arabic (only 0.0% in file, need >= 75.0%)"
 rue_wikipedia_2010_20260405090131.csv,rue,35.8% hapax overlap with rue_wikipedia_2021_20260405090137.csv
 run_community_2017_20260405083921.csv,run,50.1% hapax overlap with run_glot500_latn.csv
 rup_wikipedia_2021_20260405072923.csv,rup,43.9% hapax overlap with rup_wikipedia_2012_20260405072917.csv
 rus_wikipedia_2010_20260405084808.csv,rus,47.5% hapax overlap with rus_mixed_2013_20260405084012.csv
 rus_wikipedia_2011_20260405084854.csv,rus,46.0% hapax overlap with rus_mixed_2013_20260405084012.csv
 sah_wikipedia_2011_20260405092806.csv,sah,39.7% hapax overlap with sah_wikipedia_2021_20260405092812.csv
+san-ud-vedic.csv,san,"file is 100.0% Latin, but lang script is Arabic (only 0.0% in file, need >= 75.0%)"
 san_glot500_deva.csv,san,64.6% hapax overlap with san_wikipedia_2021_20260405090230.csv
+san_glot500_latn.csv,san,"file is 89.9% Latin, but lang script is Devanagari (only 7.7% in file, need >= 75.0%)"
 scn_wikipedia_2011_20260405090558.csv,scn,60.9% hapax overlap with scn_wikipedia_2021_20260405090605.csv
 sgs_wikipedia_2011_20260405090205.csv,sgs,44.4% hapax overlap with sgs_wikipedia_2021_20260405090211.csv
 sin_community_2017_20260405090643.csv,sin,35.6% hapax overlap with sin_glot500_sinh.csv
@@ -201,6 +230,7 @@ sna-zw_web_2016_20260405090539.csv,sna,60.6% hapax overlap with sna-zw_web_2018_
 sna-zw_web_2018_100K_20260405090546.csv,sna,34.0% hapax overlap with sna_glot500_latn.csv
 snd_wikipedia_2012_20260405090629.csv,snd,44.6% hapax overlap with snd_community_2017_20260405090623.csv
 snd_wikipedia_2021_20260405090635.csv,snd,52.8% hapax overlap with snd_glot500_arab.csv
+som_glot500_arab.csv,som,"file is 94.4% Arabic, but lang script is Latin (only 5.6% in file, need >= 75.0%)"
 som_newscrawl_2011_20260404180646.csv,som,85.2% hapax overlap with som_community_2017_20260405090935.csv
 sot-za_web_2013_20260404180733.csv,sot,47.8% hapax overlap with sot_community_2017_20260404180715.csv
 sot_web_2012_20260404180721.csv,sot,43.1% hapax overlap with sot_community_2017_20260404180715.csv
@@ -208,6 +238,11 @@ sqi_newscrawl_2011_20260404141652.csv,sqi,44.0% hapax overlap with sqi_community
 sqi_wikipedia_2021_20260404141700.csv,sqi,33.7% hapax overlap with sqi_community_2017_20260404141617.csv
 srd_wikipedia_2012_20260405090246.csv,srd,48.9% hapax overlap with srd_wikipedia_2021_20260405090252.csv
 srn_wikipedia_2021_20260404181228.csv,srn,36.7% hapax overlap with srn_glot500_latn.csv
+srp_glot500_cyrl.csv,srp,"file is 90.4% Cyrillic, but lang script is Latin (only 9.2% in file, need >= 75.0%)"
+srp_news_2019_20260405090344.csv,srp,"file is 99.0% Cyrillic, but lang script is Latin (only 1.0% in file, need >= 75.0%)"
+srp_news_2020_20260405090351.csv,srp,"file is 99.0% Cyrillic, but lang script is Latin (only 1.0% in file, need >= 75.0%)"
+srp_news_2022_20260405090358.csv,srp,"file is 97.7% Cyrillic, but lang script is Latin (only 2.3% in file, need >= 75.0%)"
+srp_wikipedia_2021_20260405090408.csv,srp,"file is 92.9% Cyrillic, but lang script is Latin (only 6.9% in file, need >= 75.0%)"
 sun_community_2017_20260404181310.csv,sun,55.3% hapax overlap with sun_wikipedia_2021_20260404181323.csv
 sun_wikipedia_2007_20260404181317.csv,sun,37.6% hapax overlap with sun_community_2017_20260404181310.csv
 swa_newscrawl_2011_20260404181416.csv,swa,75.2% hapax overlap with swa_community_2017_20260404181355.csv
@@ -215,23 +250,32 @@ swa_wikipedia_2021_20260404181423.csv,swa,44.2% hapax overlap with swa_community
 szl_wikipedia_2012_20260405090611.csv,szl,48.5% hapax overlap with szl_wikipedia_2021_20260405090617.csv
 tam_newscrawl_2011_20260404182711.csv,tam,70.2% hapax overlap with tam_community_2017_20260404182451.csv
 tat_community_2017_20260404183100.csv,tat,86.3% hapax overlap with tat_mixed_2015_20260404183118.csv
+tat_glot500_latn.csv,tat,"file is 93.0% Latin, but lang script is Cyrillic (only 6.4% in file, need >= 75.0%)"
 tat_news_2005-2011_20260404183135.csv,tat,53.6% hapax overlap with tat_mixed_2015_20260404183118.csv
 tel_newscrawl_2011_20260404183431.csv,tel,75.1% hapax overlap with tel_community_2017_20260404183332.csv
 tet_wikipedia_2012_20260404183554.csv,tet,50.1% hapax overlap with tet_wikipedia_2021_20260404183559.csv
+tgk_glot500_arab.csv,tgk,"file is 90.9% Arabic, but lang script is Cyrillic (only 1.0% in file, need >= 75.0%)"
+tgk_glot500_latn.csv,tgk,"file is 90.2% Latin, but lang script is Cyrillic (only 8.6% in file, need >= 75.0%)"
 tgk_newscrawl_2011_20260404182346.csv,tgk,62.2% hapax overlap with tgk_community_2017_20260404182314.csv
 tgl_newscrawl_2011_20260404182235.csv,tgl,69.5% hapax overlap with tgl_community_2017_20260404182149.csv
 tgl_newscrawl_2013_300K_20260404182246.csv,tgl,53.4% hapax overlap with tgl_community_2017_20260404182149.csv
 tgl_wikipedia_2021_20260404182255.csv,tgl,41.8% hapax overlap with tgl_community_2017_20260404182149.csv
+tha-th_web_2018_20260404184542.csv,tha,lang script Thai only 61.7% in file (need >= 75.0%)
 tir_wikipedia_2012_20260404184608.csv,tir,52.4% hapax overlap with tir_wikipedia_2021_20260404184614.csv
 ton_wikipedia_2012_20260404184636.csv,ton,33.4% hapax overlap with ton_glot500_latn.csv
 ton_wikipedia_2021_20260404184642.csv,ton,35.6% hapax overlap with ton_glot500_latn.csv
 tsn_wikipedia_2021_20260404184728.csv,tsn,39.9% hapax overlap with tsn_community_2017_20260404184716.csv
 tso-za_web_2018_10K_20260404184710.csv,tso,36.5% hapax overlap with tso_glot500_latn.csv
+tuk_glot500_cyrl.csv,tuk,"file is 84.7% Cyrillic, but lang script is Latin (only 12.4% in file, need >= 75.0%)"
 udm_wikipedia_2012_20260405091125.csv,udm,46.9% hapax overlap with udm_wikipedia_2021_20260405091131.csv
 uig_community_2017_20260405092150.csv,uig,53.3% hapax overlap with uig_glot500_arab.csv
+uig_glot500_latn.csv,uig,"file is 77.6% Latin, but lang script is Arabic (only 20.1% in file, need >= 75.0%)"
 uig_wikipedia_2021_20260405092206.csv,uig,47.7% hapax overlap with uig_glot500_arab.csv
+uzb_community_2017_20260405092215.csv,uzb,lang script Latin only 53.6% in file (need >= 75.0%)
+uzb_glot500_cyrl.csv,uzb,"file is 95.1% Cyrillic, but lang script is Latin (only 4.5% in file, need >= 75.0%)"
 uzb_newscrawl_2011_20260405092237.csv,uzb,45.5% hapax overlap with uzb_community_2017_20260405092215.csv
 uzb_wikipedia_2021_20260405092247.csv,uzb,51.6% hapax overlap with uzb_community_2017_20260405092215.csv
+uzn-lat_newscrawl_2011_20260405081807.csv,uzn,"file is 99.7% Latin, but lang script is Cyrillic (only 0.3% in file, need >= 75.0%)"
 vec_wikipedia_2011_20260405092313.csv,vec,45.8% hapax overlap with vec_wikipedia_2021_20260405092319.csv
 ven_community_2017_20260405092256.csv,ven,34.5% hapax overlap with ven_glot500_latn.csv
 ven_wikipedia_2012_20260405092302.csv,ven,63.1% hapax overlap with ven_wikipedia_2021_20260405092307.csv

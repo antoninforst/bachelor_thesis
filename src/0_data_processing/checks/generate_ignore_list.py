@@ -22,8 +22,10 @@ from typing import Optional
 # Constants
 # ---------------------------------------------------------------------------
 OVERLAP_CSV = Path("results/0_data_processing/hapax_overlap.csv")
+SCRIPT_CSV = Path("results/0_data_processing/script_check.csv")
 OUTPUT_DIR = Path("results/0_data_processing")
-DEFAULT_THRESHOLD = 33.3  # percent
+DEFAULT_THRESHOLD = 33.3  # percent (hapax overlap)
+DEFAULT_SCRIPT_THRESHOLD = 75.0  # percent (dominant script share)
 
 
 # ---------------------------------------------------------------------------
@@ -76,6 +78,49 @@ def _build_ignore_set(overlap_path: Path, threshold: float) -> dict[str, str]:
     return ignore
 
 
+_KNOWN_COLUMNS = {"file", "language", "dominant_script_share", "second_script_share"}
+
+
+def _build_script_ignore_set(script_path: Path, threshold: float) -> dict[str, str]:
+    """
+    Return {filename: reason} for files whose dominant script share
+    falls below *threshold*.
+    """
+    ignore: dict[str, str] = {}
+
+    with open(script_path, encoding="utf-8", newline="") as fh:
+        reader = csv.DictReader(fh)
+        script_columns = [c for c in reader.fieldnames or [] if c not in _KNOWN_COLUMNS]
+        rows = list(reader)
+
+    for row in rows:
+        share = float(row["dominant_script_share"])
+        if share < threshold:
+            filename = row["file"]
+            # File's own top script and its percentage
+            file_script = max(script_columns, key=lambda c: float(row.get(c, 0)))
+            file_script_pct = float(row.get(file_script, 0))
+            # Language dominant script: the script whose value matches dominant_script_share
+            lang_script = min(
+                script_columns,
+                key=lambda c: abs(float(row.get(c, 0)) - share),
+            )
+            if file_script == lang_script:
+                # Same script but below threshold (e.g. Japanese Han 30%)
+                ignore[filename] = (
+                    f"lang script {lang_script} only {share:.1f}% in file"
+                    f" (need >= {threshold:.1f}%)"
+                )
+            else:
+                ignore[filename] = (
+                    f"file is {file_script_pct:.1f}% {file_script},"
+                    f" but lang script is {lang_script}"
+                    f" (only {share:.1f}% in file, need >= {threshold:.1f}%)"
+                )
+
+    return ignore
+
+
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
@@ -96,6 +141,18 @@ def _parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
         "--threshold", type=float, default=DEFAULT_THRESHOLD,
         help=f"Share %% above which a file is ignored (default: {DEFAULT_THRESHOLD}).",
     )
+    parser.add_argument(
+        "--script-csv", type=Path, default=SCRIPT_CSV,
+        help=f"Path to script_check.csv (default: {SCRIPT_CSV}).",
+    )
+    parser.add_argument(
+        "--script-threshold", type=float, default=None,
+        help=(
+            f"Dominant-script share below which a file is ignored "
+            f"(default: {DEFAULT_SCRIPT_THRESHOLD}). "
+            f"Pass 0 to disable script checking."
+        ),
+    )
     return parser.parse_args(argv)
 
 
@@ -108,8 +165,29 @@ def main(argv: Optional[list[str]] = None) -> None:
 
     ignore = _build_ignore_set(args.overlap_csv, args.threshold)
 
-    print(f"Threshold: {args.threshold}%")
-    print(f"Files to ignore: {len(ignore)}")
+    print(f"Hapax-overlap threshold: {args.threshold}%")
+    print(f"Files ignored (overlap): {len(ignore)}")
+
+    # Script-check mode
+    script_threshold = (
+        args.script_threshold
+        if args.script_threshold is not None
+        else DEFAULT_SCRIPT_THRESHOLD
+    )
+    if script_threshold > 0 and args.script_csv.exists():
+        script_ignore = _build_script_ignore_set(args.script_csv, script_threshold)
+        # Merge without overwriting existing reasons
+        new_count = 0
+        for fname, reason in script_ignore.items():
+            if fname not in ignore:
+                ignore[fname] = reason
+                new_count += 1
+        print(f"Script-share threshold : {script_threshold}%")
+        print(f"Files ignored (script) : {new_count}")
+    elif script_threshold > 0:
+        print(f"Script CSV not found: {args.script_csv} — skipping script check")
+
+    print(f"Total files to ignore  : {len(ignore)}")
     print(f"{'=' * 60}")
 
     for filename in sorted(ignore):
