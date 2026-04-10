@@ -1,6 +1,7 @@
 import argparse
 import os
 import time
+import urllib.parse
 import urllib.request
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -10,15 +11,16 @@ ALREADY_PATH = os.path.join(SCRIPT_DIR, "already.tsv")
 
 
 def geturl(name):
+    encoded = urllib.parse.quote(name, safe="")
     return (
         f"https://text.wortschatz-leipzig.de/bonito/run.cgi/wordlist?"
-        f"corpname={name}"
+        f"corpname={encoded}"
         f"&results_url=https%3A%2F%2Ftext.wortschatz-leipzig.de%2F%23wordlist"
-        f"%3Fcorpname%3D{name}%26tab%3Dbasic%26include_nonwords%3D1"
+        f"%3Fcorpname%3D{encoded}%26tab%3Dbasic%26include_nonwords%3D1"
         f"%26itemsPerPage%3D50%26cols%3D%255B%2522frq%2522%255D"
         f"%26showtimelines%3D0%26diaattr%3D%26showtimelineabs%3D0"
         f"%26timelinesthreshold%3D5%26showresults%3D1"
-        f"&wlmaxitems=10000000&wlsort=frq&wlattr=lc&wlpat=.*"
+        f"&wlmaxitems=100000000&wlsort=frq&wlattr=lc&wlpat=.*"
         f"&wlminfreq=1&wlicase=1&wlmaxfreq=0&wltype=simple"
         f"&include_nonwords=0&random=0&relfreq=0&freqcls=0"
         f"&reldocf=0&wlpage=1&page=1&format=csv&format=csv"
@@ -57,6 +59,9 @@ def download_file(name, progress):
     print(f"{progress} Downloading {name} ...")
     response = urllib.request.urlopen(url)
 
+    total_size = response.headers.get("Content-Length")
+    total_size = int(total_size) if total_size else None
+
     # Get the filename from Content-Disposition header, fall back to name.csv
     content_disp = response.headers.get("Content-Disposition", "")
     filename = None
@@ -71,11 +76,33 @@ def download_file(name, progress):
         filename = filename[len("wordlist_"):]
 
     dest = os.path.join(RAW_DIR, filename)
-    data = response.read()
+
+    # Download with progress bar
+    downloaded = 0
+    chunk_size = 8192
+    chunks = []
+    while True:
+        chunk = response.read(chunk_size)
+        if not chunk:
+            break
+        chunks.append(chunk)
+        downloaded += len(chunk)
+        if total_size:
+            pct = downloaded / total_size * 100
+            bar_len = 30
+            filled = int(bar_len * downloaded / total_size)
+            bar = "█" * filled + "░" * (bar_len - filled)
+            print(f"\r{progress}   [{bar}] {pct:5.1f}% ({downloaded:,}/{total_size:,} bytes)", end="", flush=True)
+        else:
+            print(f"\r{progress}   Downloaded {downloaded:,} bytes", end="", flush=True)
+
+    data = b"".join(chunks)
+    print()  # newline after progress bar
+
     with open(dest, "wb") as f:
         f.write(data)
 
-    print(f"{progress}   Saved as {filename} ({len(data)} bytes)")
+    print(f"{progress}   Saved as {filename} ({len(data):,} bytes)")
     return True
 
 

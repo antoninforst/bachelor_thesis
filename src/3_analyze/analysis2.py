@@ -8,9 +8,9 @@ import pandas as pd
 import math
 
 ANNOTATED_DIR = Path("data/2_annotated")
-RESULTS_DIR = Path("data/3_results")
-STATISTICS_PATH = RESULTS_DIR / "statistics.csv"
-SHORTCUTS_PATH = Path(__file__).resolve().parent.parent / "0_data_processing" / "leipzig" / "lepzig_shortcuts.csv"
+RESULTS_DIR = Path("results/3_analysis")
+STATISTICS_PATH = Path("results/0_data_processing/statistics.csv")
+SHORTCUTS_PATH = Path(__file__).resolve().parent.parent / "0_data_processing" / "corpora" / "leipzig" / "lepzig_shortcuts.csv"
 
 COLUMNS = ["word", "frequency", "lemma", "separation"]
 

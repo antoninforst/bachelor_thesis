@@ -8,9 +8,9 @@ import pandas as pd
 import math
 
 ANNOTATED_DIR = Path("data/2_annotated")
-RESULTS_DIR = Path("data/3_results")
-STATISTICS_PATH = RESULTS_DIR / "statistics.csv"
-SHORTCUTS_PATH = Path(__file__).resolve().parent.parent / "0_data_processing" / "leipzig" / "lepzig_shortcuts.csv"
+RESULTS_DIR = Path("results/3_analysis")
+STATISTICS_PATH = Path("results/0_data_processing/statistics.csv")
+SHORTCUTS_PATH = Path(__file__).resolve().parent.parent / "0_data_processing" / "corpora" / "leipzig" / "lepzig_shortcuts.csv"
 
 COLUMNS = ["word", "frequency"]
 
@@ -23,19 +23,25 @@ class Frequency:
     def __init__(self):
         self.data = {}
         self.total_count = 0
+        self.record_count = 0
+        self.fhepax_count = 0
         self.hepax_count = 0
 
     def add(self, key, count=1):
         if key in self.data:
-            d = self.data[key]
-            if d == 1:
+            f, c = self.data[key]
+            if f == 1:
+                self.fhepax_count -= 1
+            if c == 1:
                 self.hepax_count -= 1
-            self.data[key] = d + count
+            self.data[key] = (f + count, c + 1)
         else:
-            self.data[key] = count
+            self.data[key] = (count, 1)
             if count == 1:
-                self.hepax_count += 1
+                self.fhepax_count += 1
+            self.hepax_count += 1
         self.total_count += count
+        self.record_count += 1
     
     def add_range(self, keys):
         for key in keys:
@@ -55,7 +61,7 @@ class Frequency:
     
     def get_probability(self, key):
         if key in self.data:
-            return self.data[key] / self.total_count
+            return self.data[key][0] / self.total_count
         return 0
     
     def get_avg(self):
@@ -70,14 +76,21 @@ class Frequency:
         return self.total_count
     
     def get_entropy(self):
-        s = 0
-        for key in self.data:
-            p = self.get_probability(key)
-            s -= p * math.log2(p)
+        total = self.total_count
+        if total == 0:
+            return 0.0
+        s = 0.0
+        log2 = math.log2
+        for f, _ in self.data.values():
+            p = f / total
+            s -= p * log2(p)
         return s
 
     def get_hepax_count(self):
         return self.hepax_count
+    
+    def get_freq_hepax_count(self):
+        return self.fhepax_count
 
     def print(self, n: int):
         sorted_items = sorted(self.data.items(), key=lambda x: x[1], reverse=True)
@@ -93,7 +106,8 @@ def load_shortcuts() -> dict[str, str]:
     mapping: dict[str, str] = {}
     if SHORTCUTS_PATH.exists():
         with open(SHORTCUTS_PATH, encoding="utf-8") as f:
-            for row in csv.DictReader(f):
+            reader = csv.DictReader(f)
+            for row in reader:
                 mapping[row["code"]] = row["language"]
     return mapping
 
@@ -111,13 +125,15 @@ def load_statistics() -> dict[str, dict[str, int]]:
 
 
 def read_csv_rows(path: Path) -> list[Row]:
-    df = pd.read_csv(path, dtype=str, keep_default_na=False)
     rows = []
-    for _, r in df.iterrows():
-        rows.append(Row(
-            word=r["word"],
-            frequency=int(r["frequency"]),
-        ))
+    with open(path, encoding="utf-8", newline="") as f:
+        reader = csv.reader(f)
+        header = next(reader)
+        word_idx = header.index("word")
+        freq_idx = header.index("frequency")
+        for r in reader:
+            if r:
+                rows.append(Row(word=r[word_idx], frequency=int(r[freq_idx])))
     return rows
 
 
@@ -140,11 +156,21 @@ def metric_hapax_ratio(freq: Frequency) -> float:
     unique = freq.get_unique_count()
     return freq.get_hepax_count() / unique if unique else 0.0
 
+def metric_freq_hapax_count(freq: Frequency) -> int:
+    return freq.get_freq_hepax_count()
+
+def metric_freq_hapax_ratio(freq: Frequency) -> float:
+    unique = freq.get_unique_count()
+    return freq.get_freq_hepax_count() / unique if unique else 0.0
+
 def metric_avg_word_len(freq: Frequency) -> float:
-    return safe_mean([len(w) for w in freq.data.keys()])
+    keys = freq.data.keys()
+    if not keys:
+        return float("nan")
+    return sum(len(w) for w in keys) / len(keys)
 
 def metric_avg_word_len_weighted(freq: Frequency) -> float:
-    return sum(len(w) * f for w, f in freq.data.items()) / freq.get_total_count() if freq.get_total_count() else 0.0
+    return sum(len(w) * f for w, (f, _) in freq.data.items()) / freq.get_total_count() if freq.get_total_count() else 0.0
 
 def metric_frequency_entropy(freq: Frequency) -> float:
     return freq.get_entropy()
@@ -225,6 +251,8 @@ METRICS: dict[str, MetricFn] = {
     "ttr": metric_ttr,
     "hapax_count": metric_hapax_count,
     "hapax_ratio": metric_hapax_ratio,
+    "freq_hapax_count": metric_freq_hapax_count,
+    "freq_hapax_ratio": metric_freq_hapax_ratio,
     "avg_length": metric_avg_word_len,
     "avg_length_weighted": metric_avg_word_len_weighted,
     "frequency_entropy": metric_frequency_entropy,

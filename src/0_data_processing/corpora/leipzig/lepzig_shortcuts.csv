@@ -46,6 +46,7 @@ cha,Chamorro
 che,Chechen
 chr,Cherokee
 chv,Chuvash
+cjs,Shor
 ckb,Central Kurdish
 cmn,Mandarin Chinese
 cor,Cornish
@@ -58,7 +59,6 @@ deu,German
 diq,Dimli
 div,Maldivian
 dsb,Lower Sorbian
-edi,German
 ekk,Standard Estonian
 ell,Modern Greek
 eml,Emiliano-Romagnolo
@@ -127,11 +127,13 @@ khk,Halh Mongolian
 khm,Central Khmer
 kin,Kinyarwanda
 kir,Kyrgyz
+kjh,Khakas
 kng,Koongo
 koi,Komi-Permyak
 kom,Komi
 krc,Karachay-Balkar
 ksh,Kölsch
+kum,Kumyk
 kur,Kurdish
 lad,Ladino
 lao,Lao
@@ -227,6 +229,7 @@ sgs,Samogitian
 sin,Sinhalese
 skr,Seraiki
 slk,Slovak
+slr,Salar
 slv,Slovenian
 sme,Northern Sami
 smi,Sami
@@ -269,6 +272,7 @@ udm,Udmurt
 uig,Uyghur
 ukr,Ukrainian
 urd,Urdu
+uum,Urum
 uzb,Uzbek
 uzn,Northern Uzbek
 vec,Venetian
