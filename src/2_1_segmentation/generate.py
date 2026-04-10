@@ -30,6 +30,7 @@ from typing import Dict, List, Optional, Tuple
 from segmentation import (
     MorphSegmenter,
     load_frequency_map,
+    load_affix_map,
     load_segmented_words,
     load_model as load_seg_model,
     save_model as save_seg_model,
@@ -136,6 +137,69 @@ def segment_text_file(
 
 
 # ---------------------------------------------------------------------------
+# Affix map loading (auto-generates if missing)
+# ---------------------------------------------------------------------------
+
+
+def load_affix_maps(
+    lang: str,
+    freq_path: Optional[str],
+    affix_dir: str,
+) -> Tuple[Optional[Dict[str, int]], Optional[Dict[str, int]]]:
+    """Load prefix/suffix affix maps, generating them if needed.
+
+    Returns (prefix_map, suffix_map) or (None, None) if no freq file.
+    """
+    if freq_path is None:
+        return None, None
+
+    prep_path = os.path.join(affix_dir, f"{lang}.prep")
+    post_path = os.path.join(affix_dir, f"{lang}.post")
+
+    if not os.path.isfile(prep_path) or not os.path.isfile(post_path):
+        # Auto-generate
+        import sys
+        gen_script = os.path.join(os.path.dirname(__file__), "..", "1_preprocessing", "generate_affixes.py")
+        if os.path.isfile(gen_script):
+            import subprocess
+            os.makedirs(affix_dir, exist_ok=True)
+            print(f"Generating affix files for {lang} ...")
+            subprocess.run(
+                [sys.executable, gen_script, "-freq", freq_path, "-out_dir", affix_dir],
+                check=True,
+            )
+        else:
+            print(f"  Warning: generate_affixes.py not found, skipping affix features.")
+            return None, None
+
+    prefix_map = load_affix_map(prep_path) if os.path.isfile(prep_path) else None
+    suffix_map = load_affix_map(post_path) if os.path.isfile(post_path) else None
+    if prefix_map is not None:
+        print(f"Loaded affix maps: {len(prefix_map)} prefixes, {len(suffix_map or {})} suffixes")
+    return prefix_map, suffix_map
+    with open(text_path, "r", encoding="utf-8") as f:
+        text = f.read()
+    tokens = re.findall(r"\b\w+\b", text.lower())
+    print(f"Found {len(tokens)} word tokens, segmenting unique words...")
+
+    unique_words = list(set(tokens))
+    cache: Dict[str, str] = {}
+    for i, word in enumerate(unique_words):
+        segmented = seg_model.segment(word)
+        morphs = segmented.split()
+        annotated = root_model.annotate(morphs)
+        cache[word] = annotated
+        if (i + 1) % 5000 == 0:
+            print(f"  {i + 1}/{len(unique_words)} unique words processed")
+    print(f"Processed {len(unique_words)} unique words.")
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        for word in tokens:
+            f.write(cache[word] + "\n")
+    print(f"Written {len(tokens)} tokens → {output_path}")
+
+
+# ---------------------------------------------------------------------------
 # Pipeline (callable from other modules)
 # ---------------------------------------------------------------------------
 
@@ -143,6 +207,7 @@ def segment_text_file(
 def run_pipeline(
     source: str,
     freq: Optional[str] = None,
+    affix_dir: Optional[str] = None,
     folds: int = 5,
     n: int = 20,
     seed: int = 42,
@@ -178,6 +243,12 @@ def run_pipeline(
             freq_map = load_frequency_map(freq)
             print(f"Loaded {len(freq_map)} frequency entries.")
 
+        # Load affix maps
+        prefix_map, suffix_map = None, None
+        lang = os.path.splitext(os.path.basename(source))[0]
+        if affix_dir:
+            prefix_map, suffix_map = load_affix_maps(lang, freq, affix_dir)
+
         all_seg_words = load_segmented_words(source)
         all_root_data = load_words_with_roots(source)
         print(f"Loaded {len(all_seg_words)} annotated words from {source}")
@@ -188,18 +259,18 @@ def run_pipeline(
         # -- K-fold evaluation --
         if folds >= 2:
             print(f"\nSegmentation — {folds}-fold cross-validated evaluation:")
-            seg_metrics = evaluate_seg(all_seg_words, freq_map, n_folds=folds, seed=seed)
+            seg_metrics = evaluate_seg(all_seg_words, freq_map, prefix_map, suffix_map, n_folds=folds, seed=seed)
             print_seg_evaluation(seg_metrics, n_worst=n)
 
             print(f"\nRoot identification — {folds}-fold cross-validated evaluation:")
-            root_metrics = evaluate_root(all_root_data, freq_map, n_folds=folds, seed=seed)
+            root_metrics = evaluate_root(all_root_data, freq_map, prefix_map, suffix_map, n_folds=folds, seed=seed)
             print_root_evaluation(root_metrics, n_worst=n)
 
         if not eval_only:
-            seg_model = train_seg(all_seg_words, freq_map)
+            seg_model = train_seg(all_seg_words, freq_map, prefix_map, suffix_map)
             print(f"\nTrained final segmentation model on all {len(all_seg_words)} words.")
 
-            root_model_trained = train_root(all_root_data, freq_map)
+            root_model_trained = train_root(all_root_data, freq_map, prefix_map, suffix_map)
             print(f"Trained final root identification model on all {len(all_root_data)} words.")
 
             if save_model:
@@ -211,8 +282,6 @@ def run_pipeline(
                 os.makedirs(os.path.dirname(save_root_model), exist_ok=True)
                 _save_root_model(save_root_model, root_model_trained)
                 print(f"Root model saved to {save_root_model}")
-
-    lang = os.path.splitext(os.path.basename(source))[0]
 
     return {
         "lang": lang,
@@ -242,6 +311,7 @@ def main() -> None:
     ap.add_argument("-save_root_model", default=None, help="Save trained root model to this path.")
     ap.add_argument("-text", default=None, help="Segment words from a text file (requires -save_to).")
     ap.add_argument("-save_to", default=None, help="Output path for segmented text.")
+    ap.add_argument("-affix_dir", default=None, help="Directory with .prep/.post affix files (auto-generated if missing).")
     ap.add_argument("-eval_only", action="store_true", help="Only evaluate (K-fold), do not train a final model.")
     args = ap.parse_args()
 
@@ -262,11 +332,19 @@ def main() -> None:
         freq_map = load_frequency_map(args.freq)
         print(f"Loaded {len(freq_map)} frequency entries.")
 
+    # Load affix maps
+    prefix_map, suffix_map = None, None
+    if args.affix_dir and args.source:
+        lang = os.path.splitext(os.path.basename(args.source))[0]
+        prefix_map, suffix_map = load_affix_maps(lang, args.freq, args.affix_dir)
+
     # --- Load or create root model ---
     if args.root_model is not None:
         root_model = load_root_model(args.root_model)
         if freq_map is not None:
             root_model.freq_map = freq_map
+        root_model.prefix_map = prefix_map
+        root_model.suffix_map = suffix_map
         print("Root identification model loaded.")
     else:
         root_model = RootIdentifier()  # untrained placeholder
@@ -276,6 +354,8 @@ def main() -> None:
         seg_model = load_seg_model(args.model)
         if freq_map is not None:
             seg_model.freq_map = freq_map
+        seg_model.prefix_map = prefix_map
+        seg_model.suffix_map = suffix_map
         print("Segmentation model loaded.")
 
         if args.text and args.save_to:
@@ -291,6 +371,7 @@ def main() -> None:
     run_pipeline(
         source=args.source,
         freq=args.freq,
+        affix_dir=args.affix_dir,
         folds=args.folds,
         n=args.n,
         seed=args.seed,

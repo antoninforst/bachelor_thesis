@@ -12,26 +12,72 @@ import csv
 import math
 import pickle
 import re
+import unicodedata
+from functools import lru_cache
 from typing import Dict, List, Optional, Tuple
 
 import numpy as np
+from scipy.sparse import csr_matrix
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import KFold
 
 
 # ---------------------------------------------------------------------------
+# Fast DictVectorizer transform (bypasses sklearn validation overhead)
+# ---------------------------------------------------------------------------
+
+
+def _fast_transform(vec: DictVectorizer, feature_dicts: List[Dict[str, object]]) -> csr_matrix:
+    """Build sparse matrix from feature dicts using vec.vocabulary_ directly.
+
+    ~3-5x faster than vec.transform() for large batches because it skips
+    sklearn's type checks, tag resolution, and Python-level isinstance overhead.
+    """
+    vocab = vec.vocabulary_
+    dtype = vec.dtype
+    n_features = len(vocab)
+    n_samples = len(feature_dicts)
+    data_list: List[float] = []
+    idx_list: List[int] = []
+    indptr = np.empty(n_samples + 1, dtype=np.int32)
+    indptr[0] = 0
+    da = data_list.append
+    ia = idx_list.append
+    vg = vocab.get  # local ref
+
+    for row_i, fd in enumerate(feature_dicts):
+        for key, val in fd.items():
+            if val.__class__ is str:
+                idx = vg(f"{key}={val}")
+                if idx is not None:
+                    da(1.0); ia(idx)
+            elif val.__class__ is bool:
+                idx = vg(f"{key}={val}")
+                if idx is not None:
+                    da(1.0); ia(idx)
+            else:
+                idx = vg(key)
+                if idx is not None:
+                    da(val); ia(idx)
+        indptr[row_i + 1] = len(idx_list)
+
+    return csr_matrix(
+        (np.array(data_list, dtype=dtype),
+         np.array(idx_list, dtype=np.int32),
+         indptr),
+        shape=(n_samples, n_features),
+    )
 # Constants
 # ---------------------------------------------------------------------------
 
-VOWELS = set(
-    # Latin (lower + upper, incl. diacritics)
-    "aeiouyàáâãäåāăąæèéêëēĕėęěìíîïĩīĭįıòóôõöøōŏőœùúûüũūŭůűųýÿ"
-    "AEIOUYÀÁÂÃÄÅĀĂĄÆÈÉÊËĒĔĖĘĚÌÍÎÏĨĪĬĮÒÓÔÕÖØŌŎŐŒÙÚÛÜŨŪŬŮŰŲÝŸ"
+_BASE_VOWELS = set(
+    # Latin base vowels (+ ligatures / special letters that don't decompose)
+    "aeiouyæœı"
     # Greek
-    "αεηιουωάέήίόύώϊϋΐΰΑΕΗΙΟΥΩΆΈΉΊΌΎΏ"
+    "αεηιουω"
     # Cyrillic
-    "аеёиоуыэюяіієїәөүАЕЁИОУЫЭЮЯІЄЇӘӨҮ"
+    "аеиоуыэюяіієәөү"
     # Devanagari (independent vowels + matras)
     "अआइईउऊऋएऐओऔािीुूृेैोौ"
     # Telugu (independent vowels + matras)
@@ -39,10 +85,17 @@ VOWELS = set(
     # Georgian
     "აეიოუ"
     # Armenian
-    "աէըիոԱԷԸԻՈ"
+    "աէըիո"
     # Japanese kana vowels
     "あいうえおアイウエオ"
 )
+
+
+@lru_cache(maxsize=4096)
+def _strip_diacritics(ch: str) -> str:
+    """Remove combining marks from a character, returning the base letter."""
+    return "".join(c for c in unicodedata.normalize("NFD", ch)
+                   if unicodedata.category(c) != "Mn")
 
 # ---------------------------------------------------------------------------
 # Data loading
@@ -78,6 +131,21 @@ def load_frequency_map(path: str) -> Dict[str, int]:
                 except ValueError:
                     continue
     return freq
+
+
+def load_affix_map(path: str) -> Dict[str, int]:
+    """Load a .prep or .post CSV (affix,score). Returns {affix: score}."""
+    result: Dict[str, int] = {}
+    with open(path, "r", encoding="utf-8") as f:
+        reader = csv.reader(f)
+        next(reader, None)  # skip header
+        for row in reader:
+            if len(row) >= 2:
+                try:
+                    result[row[0]] = int(row[1])
+                except ValueError:
+                    continue
+    return result
 
 
 # ---------------------------------------------------------------------------
@@ -123,10 +191,12 @@ def _safe_char(word: str, idx: int) -> str:
     return word[idx]
 
 
+@lru_cache(maxsize=4096)
 def _is_vowel(ch: str) -> bool:
-    return ch in VOWELS
+    return _strip_diacritics(ch).lower() in _BASE_VOWELS
 
 
+@lru_cache(maxsize=4096)
 def _vc_pattern(ch: str) -> str:
     """Return 'V' for vowels, 'C' for consonants, or the char itself for boundary markers."""
     if ch in ("^", "$"):
@@ -138,6 +208,8 @@ def extract_gap_features(
     word: str,
     gap_idx: int,
     freq_map: Optional[Dict[str, int]] = None,
+    prefix_map: Optional[Dict[str, int]] = None,
+    suffix_map: Optional[Dict[str, int]] = None,
 ) -> Dict[str, object]:
     """Extract features for the gap between word[gap_idx] and word[gap_idx+1].
 
@@ -213,11 +285,21 @@ def extract_gap_features(
         feats["log_right_freq"] = math.log1p(right_freq)
         feats["left_in_wordlist"] = left_freq > 0
         feats["right_in_wordlist"] = right_freq > 0
-        # ratio: does splitting improve frequency coverage?
         if whole_freq > 0:
             feats["freq_ratio"] = math.log1p(left_freq + right_freq) / math.log1p(whole_freq)
         else:
             feats["freq_ratio"] = math.log1p(left_freq + right_freq)
+
+    # --- affix score features ---
+    if prefix_map is not None:
+        feats["prefix_score"] = prefix_map.get(prefix.lower(), 0)
+    if suffix_map is not None:
+        feats["suffix_score"] = suffix_map.get(suffix.lower(), 0)
+    if prefix_map is not None and suffix_map is not None:
+        ps = feats["prefix_score"]
+        ss = feats["suffix_score"]
+        feats["affix_sum"] = ps + ss
+        feats["affix_diff"] = ps - ss
 
     return feats
 
@@ -230,6 +312,8 @@ def extract_gap_features(
 def build_examples(
     segmented_words: List[str],
     freq_map: Optional[Dict[str, int]] = None,
+    prefix_map: Optional[Dict[str, int]] = None,
+    suffix_map: Optional[Dict[str, int]] = None,
 ) -> Tuple[List[Dict[str, object]], np.ndarray]:
     """Convert a list of segmented words into (feature_dicts, labels) for all gaps."""
     X: List[Dict[str, object]] = []
@@ -240,7 +324,7 @@ def build_examples(
             continue
         labels = build_boundary_labels(raw, boundaries)
         for gap_idx in range(len(raw) - 1):
-            X.append(extract_gap_features(raw, gap_idx, freq_map))
+            X.append(extract_gap_features(raw, gap_idx, freq_map, prefix_map, suffix_map))
             y.append(labels[gap_idx])
     return X, np.array(y, dtype=int)
 
@@ -252,16 +336,20 @@ def build_examples(
 
 class MorphSegmenter:
     def __init__(self, vec: DictVectorizer, clf: LogisticRegression,
-                 freq_map: Optional[Dict[str, int]] = None):
+                 freq_map: Optional[Dict[str, int]] = None,
+                 prefix_map: Optional[Dict[str, int]] = None,
+                 suffix_map: Optional[Dict[str, int]] = None):
         self.vec = vec
         self.clf = clf
         self.freq_map = freq_map
+        self.prefix_map = prefix_map
+        self.suffix_map = suffix_map
 
     def predict_boundaries(self, word: str) -> List[int]:
         """Return list of gap indices predicted as morph boundaries."""
         if len(word) < 2:
             return []
-        feats = [extract_gap_features(word, i, self.freq_map) for i in range(len(word) - 1)]
+        feats = [extract_gap_features(word, i, self.freq_map, self.prefix_map, self.suffix_map) for i in range(len(word) - 1)]
         X = self.vec.transform(feats)
         preds = self.clf.predict(X)
         return [i for i, flag in enumerate(preds) if flag == 1]
@@ -270,7 +358,7 @@ class MorphSegmenter:
         """Return list of (gap_idx, probability) for all gaps."""
         if len(word) < 2:
             return []
-        feats = [extract_gap_features(word, i, self.freq_map) for i in range(len(word) - 1)]
+        feats = [extract_gap_features(word, i, self.freq_map, self.prefix_map, self.suffix_map) for i in range(len(word) - 1)]
         X = self.vec.transform(feats)
         proba = self.clf.predict_proba(X)
         # column index for class 1
@@ -288,6 +376,43 @@ class MorphSegmenter:
         parts.append(word[prev:])
         return " ".join(parts)
 
+    def segment_batch(self, words: List[str]) -> List[str]:
+        """Segment a list of words in one vectorize+predict call."""
+        if not words:
+            return []
+        # Build features for all gaps of all words, track word boundaries
+        all_feats: List[Dict[str, object]] = []
+        word_gap_counts: List[int] = []  # how many gaps per word
+        for word in words:
+            n_gaps = max(len(word) - 1, 0)
+            word_gap_counts.append(n_gaps)
+            for i in range(n_gaps):
+                all_feats.append(extract_gap_features(word, i, self.freq_map, self.prefix_map, self.suffix_map))
+
+        if not all_feats:
+            return list(words)
+
+        X = _fast_transform(self.vec, all_feats)
+        scores = X @ self.clf.coef_.T + self.clf.intercept_
+        all_preds = (scores.ravel() > 0).astype(int) if scores.shape[1] == 1 else np.argmax(scores, axis=1)
+
+        # Split predictions back per word
+        results: List[str] = []
+        offset = 0
+        for word, n_gaps in zip(words, word_gap_counts):
+            if n_gaps == 0:
+                results.append(word)
+            else:
+                preds = all_preds[offset : offset + n_gaps]
+                parts: List[str] = [word[0]]
+                for i, flag in enumerate(preds):
+                    if flag:
+                        parts.append(" ")
+                    parts.append(word[i + 1])
+                results.append("".join(parts))
+            offset += n_gaps
+        return results
+
 
 # ---------------------------------------------------------------------------
 # Training
@@ -297,8 +422,10 @@ class MorphSegmenter:
 def train(
     segmented_words: List[str],
     freq_map: Optional[Dict[str, int]] = None,
+    prefix_map: Optional[Dict[str, int]] = None,
+    suffix_map: Optional[Dict[str, int]] = None,
 ) -> MorphSegmenter:
-    X_dicts, y = build_examples(segmented_words, freq_map)
+    X_dicts, y = build_examples(segmented_words, freq_map, prefix_map, suffix_map)
     vec = DictVectorizer(sparse=True)
     X = vec.fit_transform(X_dicts)
     clf = LogisticRegression(
@@ -308,7 +435,7 @@ def train(
         max_iter=5000,
     )
     clf.fit(X, y)
-    return MorphSegmenter(vec, clf, freq_map)
+    return MorphSegmenter(vec, clf, freq_map, prefix_map, suffix_map)
 
 
 # ---------------------------------------------------------------------------
@@ -350,6 +477,8 @@ def _levenshtein(a: List[int], b: List[int]) -> int:
 def evaluate(
     segmented_words: List[str],
     freq_map: Optional[Dict[str, int]] = None,
+    prefix_map: Optional[Dict[str, int]] = None,
+    suffix_map: Optional[Dict[str, int]] = None,
     n_folds: int = 5,
     seed: int = 42,
 ) -> dict:
@@ -374,7 +503,7 @@ def evaluate(
         train_words = words[train_idx].tolist()
         test_words = words[test_idx].tolist()
 
-        X_dicts, y = build_examples(train_words, freq_map)
+        X_dicts, y = build_examples(train_words, freq_map, prefix_map, suffix_map)
         vec = DictVectorizer(sparse=True)
         X = vec.fit_transform(X_dicts)
         clf = LogisticRegression(
@@ -388,7 +517,7 @@ def evaluate(
             if len(raw) < 2:
                 continue
             true_labels = build_boundary_labels(raw, boundaries)
-            feats = [extract_gap_features(raw, i, freq_map) for i in range(len(raw) - 1)]
+            feats = [extract_gap_features(raw, i, freq_map, prefix_map, suffix_map) for i in range(len(raw) - 1)]
             Xw = vec.transform(feats)
             proba = clf.predict_proba(Xw)
             pred_labels = (proba[:, cls1] >= 0.5).astype(int).tolist()

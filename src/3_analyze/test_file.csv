@@ -1,0 +1,5 @@
+word,frequency
+pref1 @root1 suff1,10
+pref2 @root2 inter1 @root3 suff2 suff3,5
+@root1 suff2,3
+@single,1

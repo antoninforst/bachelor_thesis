@@ -11,21 +11,23 @@ Usage:
 """
 
 import argparse
+import csv
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
-import pandas as pd
-import regex
+import re
+
+csv.field_size_limit(10 * 1024 * 1024)  # 10 MB – some Glot500 rows are very large
 
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
 RAW_DIR = Path("data/0_raw")
 AGGREGATED_DIR = Path("data/1_aggregated")
-CHUNK_SIZE = 500_000  # rows per chunk – keeps memory bounded for 50M+ line files
-LETTER_PATTERN = regex.compile(r"\p{L}")  # matches any Unicode letter
+_HAS_LETTER = re.compile(r"[^\W\d_]").search  # matches any Unicode letter
+_STRIP_PUNCT = re.compile(r'^[.,?!"]+|[.,?!"]+$')  # non-functional punctuation on sides
 
 
 # ---------------------------------------------------------------------------
@@ -41,6 +43,7 @@ class AggregationStats:
     duplicates_merged: int = 0
     words_filtered: int = 0
     words_remaining: int = 0
+    words_after_punct_clean: int = 0
     skipped_header_rows: int = 0
 
     def report(self) -> str:
@@ -50,6 +53,7 @@ class AggregationStats:
             f"  Total rows read   : {self.total_rows_read:,}",
             f"  Header rows skip. : {self.skipped_header_rows:,}",
             f"  Duplicates merged : {self.duplicates_merged:,}",
+            f"  After punct clean : {self.words_after_punct_clean:,}",
             f"  Non-words filtered: {self.words_filtered:,}",
             f"  Words remaining   : {self.words_remaining:,}",
         ]
@@ -62,7 +66,7 @@ class AggregationStats:
 
 def _contains_letter(word: str) -> bool:
     """Return True if *word* contains at least one Unicode letter."""
-    return bool(LETTER_PATTERN.search(str(word)))
+    return bool(_HAS_LETTER(word))
 
 
 def _group_files_by_lang(raw_dir: Path) -> dict[str, list[Path]]:
@@ -74,65 +78,39 @@ def _group_files_by_lang(raw_dir: Path) -> dict[str, list[Path]]:
     return groups
 
 
-def _detect_header_rows(path: Path) -> int:
+def _read_file_into_dict(
+    path: Path,
+    freq_dict: dict[str, int],
+) -> tuple[int, int]:
     """
-    Detect how many metadata rows precede the actual 'Item,Frequency' header.
+    Read a single CSV and merge word frequencies into *freq_dict* in-place.
 
-    Some Leipzig files have two extra lines like:
-        "corpus","ces_mixed_2012"
-        "subcorpus","-"
-    before the real header.
+    Returns (rows_read, skipped_header_rows).
     """
-    with open(path, encoding="utf-8") as fh:
-        for idx, line in enumerate(fh):
-            stripped = line.strip().strip('"').lower()
-            if stripped.startswith("item"):
-                return idx
-            if idx > 10:  # safety – give up after 10 lines
+    skipped_header = 0
+    rows_read = 0
+    with open(path, encoding="utf-8-sig", newline="") as fh:
+        reader = csv.reader(fh)
+        # Skip metadata rows until we find the header (Item/word)
+        for line in reader:
+            if line and line[0].strip().lower() in ("item", "word"):
+                skipped_header = reader.line_num - 1
                 break
-    return 0
-
-
-def _read_file_chunked(path: Path) -> tuple[pd.DataFrame, int, int]:
-    """
-    Read a single CSV in chunks and return (df, total_rows, skipped_header_rows).
-
-    The returned DataFrame has columns ['word', 'frequency'] with frequency
-    already summed per word (handles intra-file duplicates).
-    """
-    skip = _detect_header_rows(path)
-
-    chunks: list[pd.DataFrame] = []
-    total_rows = 0
-
-    reader = pd.read_csv(
-        path,
-        skiprows=skip,
-        names=["word", "frequency"],
-        header=0,
-        dtype={"word": str, "frequency": str},
-        na_filter=False,
-        chunksize=CHUNK_SIZE,
-        quoting=0,  # QUOTE_MINIMAL – handles quoted and unquoted values
-        on_bad_lines="skip",
-    )
-
-    for chunk in reader:
-        total_rows += len(chunk)
-        # Coerce non-numeric frequencies (e.g. "-") to NaN, then drop them
-        chunk["frequency"] = pd.to_numeric(chunk["frequency"], errors="coerce")
-        chunk = chunk.dropna(subset=["frequency"])
-        chunk["frequency"] = chunk["frequency"].astype("int64")
-        # Aggregate within chunk to reduce memory
-        agg = chunk.groupby("word", sort=False)["frequency"].sum().reset_index()
-        chunks.append(agg)
-
-    if not chunks:
-        return pd.DataFrame(columns=["word", "frequency"]), 0, skip
-
-    combined = pd.concat(chunks, ignore_index=True)
-    combined = combined.groupby("word", sort=False)["frequency"].sum().reset_index()
-    return combined, total_rows, skip
+            skipped_header += 1
+        for row in reader:
+            if len(row) < 2:
+                continue
+            word = row[0]
+            try:
+                freq = int(row[1])
+            except (ValueError, IndexError):
+                continue
+            rows_read += 1
+            if word in freq_dict:
+                freq_dict[word] += freq
+            else:
+                freq_dict[word] = freq
+    return rows_read, skipped_header
 
 
 # ---------------------------------------------------------------------------
@@ -150,51 +128,62 @@ class Aggregator:
 
     def run(self) -> AggregationStats:
         """Execute the full aggregation pipeline and write the result."""
-        merged = self._load_and_merge()
-        filtered = self._filter_non_words(merged)
+        freq_dict = self._load_and_merge()
+        cleaned = self._clean_punctuation(freq_dict)
+        filtered = self._filter_non_words(cleaned)
         self._write(filtered)
         return self._stats
 
     # ------------------------------------------------------------------
-    def _load_and_merge(self) -> pd.DataFrame:
-        """Read every file and merge into a single DataFrame."""
-        parts: list[pd.DataFrame] = []
+    def _load_and_merge(self) -> dict[str, int]:
+        """Read every file and merge into a single dict {word: total_freq}."""
+        freq_dict: dict[str, int] = {}
+        total_rows_across_files = 0
 
         for path in self._files:
             print(f"  Reading {path.name} …")
-            df, rows, skipped = _read_file_chunked(path)
+            rows, skipped = _read_file_into_dict(path, freq_dict)
             self._stats.files_processed += 1
             self._stats.total_rows_read += rows
             self._stats.skipped_header_rows += skipped
-            parts.append(df)
+            total_rows_across_files += rows
 
-        if not parts:
-            return pd.DataFrame(columns=["word", "frequency"])
-
-        combined = pd.concat(parts, ignore_index=True)
-        unique_before = len(combined)
-        combined = combined.groupby("word", sort=False)["frequency"].sum().reset_index()
-        self._stats.duplicates_merged = unique_before - len(combined)
-        return combined
+        self._stats.duplicates_merged = total_rows_across_files - len(freq_dict)
+        return freq_dict
 
     # ------------------------------------------------------------------
-    def _filter_non_words(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Remove rows whose word column contains no Unicode letter."""
-        mask = df["word"].map(_contains_letter)
-        removed = (~mask).sum()
-        self._stats.words_filtered = int(removed)
-        result = df.loc[mask].copy()
-        self._stats.words_remaining = len(result)
-        return result
+    def _clean_punctuation(self, freq_dict: dict[str, int]) -> dict[str, int]:
+        """Strip non-functional punctuation (.,?!") from sides and re-merge."""
+        cleaned: dict[str, int] = {}
+        for word, freq in freq_dict.items():
+            stripped = _STRIP_PUNCT.sub("", word)  # strip from both ends
+            if stripped:
+                if stripped in cleaned:
+                    cleaned[stripped] += freq
+                else:
+                    cleaned[stripped] = freq
+        self._stats.words_after_punct_clean = len(cleaned)
+        return cleaned
 
     # ------------------------------------------------------------------
-    def _write(self, df: pd.DataFrame) -> None:
+    def _filter_non_words(self, freq_dict: dict[str, int]) -> dict[str, int]:
+        """Remove entries whose word contains no Unicode letter."""
+        filtered = {w: f for w, f in freq_dict.items() if _contains_letter(w)}
+        self._stats.words_filtered = len(freq_dict) - len(filtered)
+        self._stats.words_remaining = len(filtered)
+        return filtered
+
+    # ------------------------------------------------------------------
+    def _write(self, freq_dict: dict[str, int]) -> None:
         """Sort by frequency descending and write to the aggregated folder."""
-        df = df.sort_values("frequency", ascending=False, ignore_index=True)
+        sorted_items = sorted(freq_dict.items(), key=lambda x: x[1], reverse=True)
         self._output_dir.mkdir(parents=True, exist_ok=True)
         out_path = self._output_dir / f"{self._lang}.csv"
-        df.to_csv(out_path, index=False)
-        print(f"  → Wrote {out_path} ({len(df):,} words)")
+        with open(out_path, "w", encoding="utf-8", newline="") as fh:
+            writer = csv.writer(fh)
+            writer.writerow(["word", "frequency"])
+            writer.writerows(sorted_items)
+        print(f"  → Wrote {out_path} ({len(sorted_items):,} words)")
 
 
 # ---------------------------------------------------------------------------
@@ -223,13 +212,46 @@ def _parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
         default=AGGREGATED_DIR,
         help=f"Output directory (default: {AGGREGATED_DIR}).",
     )
+    parser.add_argument(
+        "--ignore",
+        type=Path,
+        default=None,
+        help="Path to ignored_files.csv to exclude files from aggregation.",
+    )
     return parser.parse_args(argv)
+
+
+def _load_ignore_set(path: Path) -> set[str]:
+    """Load filenames to ignore from a CSV with a 'filename' column."""
+    ignored: set[str] = set()
+    with open(path, encoding="utf-8", newline="") as fh:
+        reader = csv.DictReader(fh)
+        for row in reader:
+            ignored.add(row["filename"])
+    return ignored
 
 
 def main(argv: Optional[list[str]] = None) -> None:
     args = _parse_args(argv)
 
+    # Load ignore list if provided
+    ignored_files: set[str] = set()
+    if args.ignore:
+        if not args.ignore.exists():
+            print(f"Ignore file not found: {args.ignore}")
+            sys.exit(1)
+        ignored_files = _load_ignore_set(args.ignore)
+        print(f"Ignoring {len(ignored_files)} file(s) from {args.ignore}")
+
     all_groups = _group_files_by_lang(args.raw_dir)
+
+    # Filter out ignored files
+    if ignored_files:
+        all_groups = {
+            lang: [f for f in files if f.name not in ignored_files]
+            for lang, files in all_groups.items()
+        }
+        all_groups = {k: v for k, v in all_groups.items() if v}
 
     if not all_groups:
         print(f"No CSV files found in {args.raw_dir}")

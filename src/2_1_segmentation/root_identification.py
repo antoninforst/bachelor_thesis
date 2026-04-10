@@ -15,9 +15,12 @@ position, frequency in a corpus, and character n-grams.
 import math
 import pickle
 import re
+import unicodedata
+from functools import lru_cache
 from typing import Dict, List, Optional, Tuple
 
 import numpy as np
+from scipy.sparse import csr_matrix
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import KFold
@@ -27,14 +30,13 @@ from sklearn.model_selection import KFold
 # Constants
 # ---------------------------------------------------------------------------
 
-VOWELS = set(
-    # Latin (lower + upper, incl. diacritics)
-    "aeiouyàáâãäåāăąæèéêëēĕėęěìíîïĩīĭįıòóôõöøōŏőœùúûüũūŭůűųýÿ"
-    "AEIOUYÀÁÂÃÄÅĀĂĄÆÈÉÊËĒĔĖĘĚÌÍÎÏĨĪĬĮÒÓÔÕÖØŌŎŐŒÙÚÛÜŨŪŬŮŰŲÝŸ"
+_BASE_VOWELS = set(
+    # Latin base vowels (+ ligatures / special letters that don't decompose)
+    "aeiouyæœı"
     # Greek
-    "αεηιουωάέήίόύώϊϋΐΰΑΕΗΙΟΥΩΆΈΉΊΌΎΏ"
+    "αεηιουω"
     # Cyrillic
-    "аеёиоуыэюяіієїәөүАЕЁИОУЫЭЮЯІЄЇӘӨҮ"
+    "аеиоуыэюяіієәөү"
     # Devanagari (independent vowels + matras)
     "अआइईउऊऋएऐओऔािीुूृेैोौ"
     # Telugu (independent vowels + matras)
@@ -42,10 +44,23 @@ VOWELS = set(
     # Georgian
     "აეიოუ"
     # Armenian
-    "աէըիոԱԷԸԻՈ"
+    "աէըիո"
     # Japanese kana vowels
     "あいうえおアイウエオ"
 )
+
+
+@lru_cache(maxsize=4096)
+def _strip_diacritics(ch: str) -> str:
+    """Remove combining marks from a character, returning the base letter."""
+    return "".join(c for c in unicodedata.normalize("NFD", ch)
+                   if unicodedata.category(c) != "Mn")
+
+
+@lru_cache(maxsize=4096)
+def _is_vowel(ch: str) -> bool:
+    """Check whether a character is a vowel, ignoring diacritics."""
+    return _strip_diacritics(ch).lower() in _BASE_VOWELS
 
 
 # ---------------------------------------------------------------------------
@@ -84,6 +99,49 @@ def load_words_with_roots(path: str) -> List[Tuple[List[str], List[bool]]]:
 
 
 # ---------------------------------------------------------------------------
+# Fast DictVectorizer transform
+# ---------------------------------------------------------------------------
+
+
+def _fast_transform(vec: DictVectorizer, feature_dicts: List[Dict[str, object]]) -> csr_matrix:
+    """Build sparse matrix from feature dicts using vec.vocabulary_ directly."""
+    vocab = vec.vocabulary_
+    dtype = vec.dtype
+    n_features = len(vocab)
+    n_samples = len(feature_dicts)
+    data_list: List[float] = []
+    idx_list: List[int] = []
+    indptr = np.empty(n_samples + 1, dtype=np.int32)
+    indptr[0] = 0
+    da = data_list.append
+    ia = idx_list.append
+    vg = vocab.get
+
+    for row_i, fd in enumerate(feature_dicts):
+        for key, val in fd.items():
+            if val.__class__ is str:
+                idx = vg(f"{key}={val}")
+                if idx is not None:
+                    da(1.0); ia(idx)
+            elif val.__class__ is bool:
+                idx = vg(f"{key}={val}")
+                if idx is not None:
+                    da(1.0); ia(idx)
+            else:
+                idx = vg(key)
+                if idx is not None:
+                    da(val); ia(idx)
+        indptr[row_i + 1] = len(idx_list)
+
+    return csr_matrix(
+        (np.array(data_list, dtype=dtype),
+         np.array(idx_list, dtype=np.int32),
+         indptr),
+        shape=(n_samples, n_features),
+    )
+
+
+# ---------------------------------------------------------------------------
 # Feature extraction
 # ---------------------------------------------------------------------------
 
@@ -92,6 +150,8 @@ def extract_morph_features(
     morphs: List[str],
     morph_idx: int,
     freq_map: Optional[Dict[str, int]] = None,
+    prefix_map: Optional[Dict[str, int]] = None,
+    suffix_map: Optional[Dict[str, int]] = None,
 ) -> Dict[str, object]:
     """Extract features for a single morph within a segmented word."""
     morph = morphs[morph_idx]
@@ -123,7 +183,7 @@ def extract_morph_features(
         feats[f"last{k}"] = morph[-k:] if len(morph) >= k else morph
 
     # --- vowel content ---
-    n_vowels = sum(1 for ch in morph if ch in VOWELS)
+    n_vowels = sum(1 for ch in morph if _is_vowel(ch))
     feats["n_vowels"] = n_vowels
     feats["has_vowel"] = n_vowels > 0
     feats["vowel_ratio"] = n_vowels / len(morph) if len(morph) > 0 else 0.0
@@ -164,6 +224,12 @@ def extract_morph_features(
         else:
             feats["freq_per_char"] = 0.0
 
+    # --- affix score features ---
+    if prefix_map is not None:
+        feats["morph_prefix_score"] = prefix_map.get(morph.lower(), 0)
+    if suffix_map is not None:
+        feats["morph_suffix_score"] = suffix_map.get(morph.lower(), 0)
+
     return feats
 
 
@@ -175,13 +241,15 @@ def extract_morph_features(
 def build_examples(
     data: List[Tuple[List[str], List[bool]]],
     freq_map: Optional[Dict[str, int]] = None,
+    prefix_map: Optional[Dict[str, int]] = None,
+    suffix_map: Optional[Dict[str, int]] = None,
 ) -> Tuple[List[Dict[str, object]], np.ndarray]:
     """Convert loaded root data into (feature_dicts, labels) for all morphs."""
     X: List[Dict[str, object]] = []
     y: List[int] = []
     for morphs, is_root in data:
         for idx in range(len(morphs)):
-            X.append(extract_morph_features(morphs, idx, freq_map))
+            X.append(extract_morph_features(morphs, idx, freq_map, prefix_map, suffix_map))
             y.append(1 if is_root[idx] else 0)
     return X, np.array(y, dtype=int)
 
@@ -203,10 +271,14 @@ class RootIdentifier:
         vec: Optional[DictVectorizer] = None,
         clf: Optional[LogisticRegression] = None,
         freq_map: Optional[Dict[str, int]] = None,
+        prefix_map: Optional[Dict[str, int]] = None,
+        suffix_map: Optional[Dict[str, int]] = None,
     ):
         self.vec = vec
         self.clf = clf
         self.freq_map = freq_map
+        self.prefix_map = prefix_map
+        self.suffix_map = suffix_map
 
     @property
     def is_trained(self) -> bool:
@@ -220,7 +292,7 @@ class RootIdentifier:
             # Untrained fallback: mark the longest morph as root
             max_len = max(len(m) for m in morphs)
             return [len(m) == max_len for m in morphs]
-        feats = [extract_morph_features(morphs, i, self.freq_map) for i in range(len(morphs))]
+        feats = [extract_morph_features(morphs, i, self.freq_map, self.prefix_map, self.suffix_map) for i in range(len(morphs))]
         X = self.vec.transform(feats)
         preds = list(self.clf.predict(X))
         # Guarantee at least one root: if none predicted, pick highest-proba morph
@@ -235,7 +307,7 @@ class RootIdentifier:
         """Return list of (morph_idx, probability_of_root) for all morphs."""
         if not self.is_trained or len(morphs) == 0:
             return [(i, 0.0) for i in range(len(morphs))]
-        feats = [extract_morph_features(morphs, i, self.freq_map) for i in range(len(morphs))]
+        feats = [extract_morph_features(morphs, i, self.freq_map, self.prefix_map, self.suffix_map) for i in range(len(morphs))]
         X = self.vec.transform(feats)
         proba = self.clf.predict_proba(X)
         cls1 = list(self.clf.classes_).index(1)
@@ -252,6 +324,47 @@ class RootIdentifier:
                 parts.append(morph)
         return " ".join(parts)
 
+    def annotate_batch(self, morph_lists: List[List[str]]) -> List[str]:
+        """Annotate roots for a batch of already-segmented words in one call."""
+        if not morph_lists:
+            return []
+        if not self.is_trained:
+            return [self.annotate(m) for m in morph_lists]
+
+        # Build features for all morphs of all words
+        all_feats: List[Dict[str, object]] = []
+        word_morph_counts: List[int] = []
+        for morphs in morph_lists:
+            word_morph_counts.append(len(morphs))
+            for i in range(len(morphs)):
+                all_feats.append(extract_morph_features(morphs, i, self.freq_map, self.prefix_map, self.suffix_map))
+
+        if not all_feats:
+            return [" ".join(m) for m in morph_lists]
+
+        X = _fast_transform(self.vec, all_feats)
+        # Direct scoring: scores > 0 means class 1
+        scores = X @ self.clf.coef_.T + self.clf.intercept_
+        raw_scores = scores.ravel() if scores.shape[1] == 1 else scores[:, 1]
+        all_preds = (np.asarray(raw_scores).ravel() > 0).astype(int).tolist()
+
+        # Split predictions back per word
+        results: List[str] = []
+        offset = 0
+        for morphs, n_morphs in zip(morph_lists, word_morph_counts):
+            preds = all_preds[offset : offset + n_morphs]
+            # Guarantee at least one root
+            if not any(p == 1 for p in preds):
+                word_scores = np.asarray(raw_scores[offset : offset + n_morphs]).ravel()
+                best = int(np.argmax(word_scores))
+                preds[best] = 1
+            parts = []
+            for morph, p in zip(morphs, preds):
+                parts.append("@" + morph if p == 1 else morph)
+            results.append(" ".join(parts))
+            offset += n_morphs
+        return results
+
 
 # ---------------------------------------------------------------------------
 # Training
@@ -261,8 +374,10 @@ class RootIdentifier:
 def train(
     data: List[Tuple[List[str], List[bool]]],
     freq_map: Optional[Dict[str, int]] = None,
+    prefix_map: Optional[Dict[str, int]] = None,
+    suffix_map: Optional[Dict[str, int]] = None,
 ) -> RootIdentifier:
-    X_dicts, y = build_examples(data, freq_map)
+    X_dicts, y = build_examples(data, freq_map, prefix_map, suffix_map)
     vec = DictVectorizer(sparse=True)
     X = vec.fit_transform(X_dicts)
     clf = LogisticRegression(
@@ -272,7 +387,7 @@ def train(
         max_iter=5000,
     )
     clf.fit(X, y)
-    return RootIdentifier(vec, clf, freq_map)
+    return RootIdentifier(vec, clf, freq_map, prefix_map, suffix_map)
 
 
 # ---------------------------------------------------------------------------
@@ -309,6 +424,8 @@ def _levenshtein(a: List[int], b: List[int]) -> int:
 def evaluate(
     data: List[Tuple[List[str], List[bool]]],
     freq_map: Optional[Dict[str, int]] = None,
+    prefix_map: Optional[Dict[str, int]] = None,
+    suffix_map: Optional[Dict[str, int]] = None,
     n_folds: int = 5,
     seed: int = 42,
 ) -> dict:
@@ -333,7 +450,7 @@ def evaluate(
         train_data = [data[i] for i in train_idx]
         test_data = [data[i] for i in test_idx]
 
-        X_dicts, y = build_examples(train_data, freq_map)
+        X_dicts, y = build_examples(train_data, freq_map, prefix_map, suffix_map)
         vec = DictVectorizer(sparse=True)
         X = vec.fit_transform(X_dicts)
         clf = LogisticRegression(
@@ -344,7 +461,7 @@ def evaluate(
 
         for morphs, is_root in test_data:
             true_labels = [1 if r else 0 for r in is_root]
-            feats = [extract_morph_features(morphs, i, freq_map) for i in range(len(morphs))]
+            feats = [extract_morph_features(morphs, i, freq_map, prefix_map, suffix_map) for i in range(len(morphs))]
             Xw = vec.transform(feats)
             proba = clf.predict_proba(Xw)
             pred_labels = (proba[:, cls1] >= 0.5).astype(int).tolist()
