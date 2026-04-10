@@ -1,0 +1,261 @@
+file,language,dominant_script,dominant_pct,top_scripts
+abk_glot500_cyrl.csv,abk,Cyrillic,99.9,Cyrillic 99.9%; Latin 0.1%; Greek 0.0%; Arabic 0.0%
+abk_wikipedia_2012_20260404141204.csv,abk,Cyrillic,95.22,Cyrillic 95.2%; Latin 4.5%; Georgian 0.2%; Armenian 0.1%
+abk_wikipedia_2021_20260404141210.csv,abk,Cyrillic,96.56,Cyrillic 96.6%; Latin 3.3%; Greek 0.1%; Hebrew 0.0%
+ace_glot500_latn.csv,ace,Latin,99.42,Latin 99.4%; Arabic 0.4%; Han 0.1%; Cyrillic 0.1%
+ace_wikipedia_2021_20260404141234.csv,ace,Latin,99.39,Latin 99.4%; Arabic 0.4%; Cyrillic 0.1%; Greek 0.0%
+ach_glot500_latn.csv,ach,Latin,100.0,Latin 100.0%
+ach_newscrawl_2011_20260404141239.csv,ach,Latin,100.0,Latin 100.0%
+acm_glot500_arab.csv,acm,Arabic,93.52,Arabic 93.5%; Latin 6.5%; Hangul 0.0%; Cyrillic 0.0%
+acr_glot500_latn.csv,acr,Latin,98.29,Latin 98.3%; Unknown 1.7%
+ada_glot500_latn.csv,ada,Latin,100.0,Latin 100.0%
+afb_glot500_arab.csv,afb,Arabic,89.91,Arabic 89.9%; Latin 10.1%; Hebrew 0.0%; Hangul 0.0%
+afr-na_web_2013_20260404141508.csv,afr,Latin,100.0,Latin 100.0%
+afr-na_web_2019_20260404141514.csv,afr,Latin,100.0,Latin 100.0%; Greek 0.0%
+afr-ud.csv,afr,Latin,100.0,Latin 100.0%
+afr-za_web_2018_1M_20260404141540.csv,afr,Latin,99.93,Latin 99.9%; Greek 0.1%; Cyrillic 0.0%; Hebrew 0.0%
+afr_bible.csv,afr,Latin,100.0,Latin 100.0%
+afr_glot500_latn.csv,afr,Latin,99.76,Latin 99.8%; Cyrillic 0.1%; Greek 0.0%; Han 0.0%
+afr_mixed_2019_20260404141355.csv,afr,Latin,99.79,Latin 99.8%; Greek 0.1%; Cyrillic 0.1%; Han 0.0%
+afr_news_2019_20260404141438.csv,afr,Latin,100.0,Latin 100.0%
+afr_news_2020_20260404141443.csv,afr,Latin,100.0,Latin 100.0%
+afr_wikipedia_2021_20260404141459.csv,afr,Latin,99.68,Latin 99.7%; Cyrillic 0.1%; Greek 0.1%; Han 0.0%
+ahk_glot500_latn.csv,ahk,Latin,90.14,Latin 90.1%; Unknown 9.9%
+aii_wikipedia_2021_20260404142718.csv,aii,Syriac,97.43,Syriac 97.4%; Latin 1.4%; Arabic 0.8%; Greek 0.2%
+ajp_glot500_arab.csv,ajp,Arabic,91.67,Arabic 91.7%; Latin 8.3%
+aka_glot500_latn.csv,aka,Latin,98.97,Latin 99.0%; Cyrillic 0.4%; Greek 0.3%; Unknown 0.3%
+aka_wikipedia_2018_20260404141603.csv,aka,Latin,98.14,Latin 98.1%; Greek 1.4%; Cyrillic 0.3%; Arabic 0.1%
+aln_glot500_latn.csv,aln,Latin,100.0,Latin 100.0%
+als-al_web_2015_20260404184649.csv,als,Latin,99.89,Latin 99.9%; Cyrillic 0.1%; Greek 0.0%; Armenian 0.0%
+als_glot500_latn.csv,als,Latin,99.83,Latin 99.8%; Cyrillic 0.1%; Greek 0.1%; Hebrew 0.0%
+alt_glot500_cyrl.csv,alt,Cyrillic,99.97,Cyrillic 100.0%; Latin 0.0%
+alt_wikipedia_2021_20260404180710.csv,alt,Cyrillic,99.03,Cyrillic 99.0%; Latin 1.0%
+amh-ud.csv,amh,Ethiopic,100.0,Ethiopic 100.0%
+amh_bible.csv,amh,Ethiopic,99.97,Ethiopic 100.0%; Latin 0.0%
+amh_community_2017_20260404141708.csv,amh,Ethiopic,97.07,Ethiopic 97.1%; Latin 2.6%; Greek 0.1%; Arabic 0.1%
+amh_glot500_ethi.csv,amh,Ethiopic,94.52,Ethiopic 94.5%; Latin 5.4%; Arabic 0.1%; Cyrillic 0.0%
+ang-ud.csv,ang,Latin,100.0,Latin 100.0%
+ang_wikipedia_2021_20260405082219.csv,ang,Latin,99.72,Latin 99.7%; Greek 0.1%; Han 0.1%; Runic 0.0%
+anw_community_2017_20260404141735.csv,anw,Latin,99.03,Latin 99.0%; Greek 0.7%; Cyrillic 0.1%; Han 0.1%
+aoj_glot500_latn.csv,aoj,Latin,100.0,Latin 100.0%
+apc_glot500_arab.csv,apc,Arabic,95.78,Arabic 95.8%; Latin 4.2%
+ara-ae_newscrawl-OSIAN_2018_20260404142021.csv,ara,Arabic,98.97,Arabic 99.0%; Latin 1.0%
+ara-ae_web_2019_20260404142030.csv,ara,Arabic,95.62,Arabic 95.6%; Latin 4.4%; Cyrillic 0.0%; Unknown 0.0%
+ara-au_newscrawl-OSIAN_2018_20260404142049.csv,ara,Arabic,98.97,Arabic 99.0%; Latin 1.0%
+ara-ca_newscrawl-OSIAN_2018_20260404142056.csv,ara,Arabic,99.24,Arabic 99.2%; Latin 0.8%
+ara-cn_newscrawl-OSIAN_2018_20260404142102.csv,ara,Arabic,99.86,Arabic 99.9%; Latin 0.1%
+ara-com_newscrawl-OSIAN_2018_20260404142109.csv,ara,Arabic,98.35,Arabic 98.3%; Latin 1.6%
+ara-de_newscrawl-OSIAN_2018_20260404142120.csv,ara,Arabic,98.59,Arabic 98.6%; Latin 1.4%; Cyrillic 0.0%; Greek 0.0%
+ara-dz_newscrawl-OSIAN_2018_20260404142137.csv,ara,Arabic,99.08,Arabic 99.1%; Latin 0.9%
+ara-eg_newscrawl-OSIAN_2018_20260404142201.csv,ara,Arabic,99.17,Arabic 99.2%; Latin 0.8%; Cyrillic 0.0%; Greek 0.0%
+ara-fr_newscrawl-OSIAN_2018_20260404142211.csv,ara,Arabic,99.8,Arabic 99.8%; Latin 0.2%
+ara-international_newscrawl-OSIAN_2018_20260404142223.csv,ara,Arabic,98.11,Arabic 98.1%; Latin 1.9%; Cyrillic 0.0%
+ara-iq_newscrawl-OSIAN_2018_20260404142239.csv,ara,Arabic,99.46,Arabic 99.5%; Latin 0.5%
+ara-ir_newscrawl-OSIAN_2018_20260404142248.csv,ara,Arabic,98.61,Arabic 98.6%; Latin 1.4%; Unknown 0.0%; Cyrillic 0.0%
+ara-jo_newscrawl-OSIAN_2018_20260404142302.csv,ara,Arabic,98.78,Arabic 98.8%; Latin 1.2%
+ara-ma_newscrawl-OSIAN_2018_20260404142311.csv,ara,Arabic,99.36,Arabic 99.4%; Latin 0.6%
+ara-middleeast_newscrawl-OSIAN_2018_20260404142326.csv,ara,Arabic,98.87,Arabic 98.9%; Latin 1.1%; Unknown 0.0%
+ara-ps_newscrawl-OSIAN_2018_20260404142339.csv,ara,Arabic,99.61,Arabic 99.6%; Latin 0.4%
+ara-qa_newscrawl-OSIAN_2018_20260404142346.csv,ara,Arabic,99.77,Arabic 99.8%; Latin 0.2%
+ara-ru_newscrawl-OSIAN_2018_20260404142353.csv,ara,Arabic,96.55,Arabic 96.5%; Latin 3.3%; Cyrillic 0.2%
+ara-sa_newscrawl-OSIAN_2018_20260404142400.csv,ara,Arabic,99.77,Arabic 99.8%; Latin 0.2%
+ara-se_newscrawl-OSIAN_2018_20260404142407.csv,ara,Arabic,94.81,Arabic 94.8%; Latin 5.2%
+ara-sy_newscrawl-OSIAN_2018_20260404142415.csv,ara,Arabic,99.21,Arabic 99.2%; Latin 0.8%
+ara-tn_newscrawl-OSIAN_2018_20260404142426.csv,ara,Arabic,98.62,Arabic 98.6%; Latin 1.4%; Cyrillic 0.0%
+ara-tr_newscrawl-OSIAN_2018_20260404142452.csv,ara,Arabic,99.42,Arabic 99.4%; Latin 0.6%
+ara-ud-padt.csv,ara,Arabic,99.96,Arabic 100.0%; Latin 0.0%
+ara-ud-pud.csv,ara,Arabic,100.0,Arabic 100.0%
+ara-uk_newscrawl-OSIAN_2018_20260404142500.csv,ara,Arabic,99.21,Arabic 99.2%; Latin 0.8%
+ara_bible.csv,ara,Arabic,100.0,Arabic 100.0%
+ara_glot500_arab.csv,ara,Arabic,90.19,Arabic 90.2%; Latin 9.6%; Cyrillic 0.1%; Han 0.0%
+ara_news_2005-2009_20260404141744.csv,ara,Arabic,98.68,Arabic 98.7%; Latin 1.3%; Devanagari 0.0%; Cyrillic 0.0%
+ara_news_2019_20260404141805.csv,ara,Arabic,98.66,Arabic 98.7%; Latin 1.3%; Cyrillic 0.0%; Greek 0.0%
+ara_news_2020_20260404141821.csv,ara,Arabic,97.99,Arabic 98.0%; Latin 2.0%; Cyrillic 0.0%; Ethiopic 0.0%
+ara_news_2022_20260404141842.csv,ara,Arabic,97.56,Arabic 97.6%; Latin 2.4%; Cyrillic 0.0%; Hebrew 0.0%
+ara_newscrawl_2013_1M_20260404141900.csv,ara,Arabic,99.26,Arabic 99.3%; Latin 0.7%; Hebrew 0.0%
+ara_wikipedia_2021_20260404141945.csv,ara,Arabic,90.08,Arabic 90.1%; Latin 9.6%; Han 0.1%; Cyrillic 0.1%
+arb_glot500_arab.csv,arb,Arabic,99.77,Arabic 99.8%; Latin 0.2%
+arg_glot500_latn.csv,arg,Latin,99.42,Latin 99.4%; Greek 0.2%; Cyrillic 0.1%; Arabic 0.1%
+arg_wikipedia_2011_20260404142507.csv,arg,Latin,99.69,Latin 99.7%; Greek 0.1%; Cyrillic 0.1%; Han 0.1%
+arg_wikipedia_2021_20260404142520.csv,arg,Latin,99.62,Latin 99.6%; Greek 0.1%; Arabic 0.1%; Cyrillic 0.1%
+arn_glot500_latn.csv,arn,Latin,100.0,Latin 100.0%
+ary_glot500_arab.csv,ary,Arabic,95.67,Arabic 95.7%; Latin 4.3%; Greek 0.0%; Han 0.0%
+arz_glot500_arab.csv,arz,Arabic,82.26,Arabic 82.3%; Latin 17.6%; Cyrillic 0.1%; Greek 0.0%
+arz_wikipedia_2021_20260404163609.csv,arz,Arabic,79.85,Arabic 79.8%; Latin 20.0%; Greek 0.1%; Hebrew 0.0%
+asm_glot500_beng.csv,asm,Bengali,92.17,Bengali 92.2%; Latin 7.7%; Devanagari 0.0%; Arabic 0.0%
+asm_wikipedia_2021_20260404142704.csv,asm,Bengali,92.25,Bengali 92.2%; Latin 7.7%; Greek 0.0%; Devanagari 0.0%
+ast_glot500_latn.csv,ast,Latin,99.22,Latin 99.2%; Cyrillic 0.2%; Han 0.2%; Greek 0.1%
+ast_wikipedia_2011_20260405072543.csv,ast,Latin,99.53,Latin 99.5%; Han 0.2%; Greek 0.1%; Cyrillic 0.1%
+ast_wikipedia_2021_20260405072559.csv,ast,Latin,99.26,Latin 99.3%; Han 0.2%; Greek 0.1%; Cyrillic 0.1%
+ava_wikipedia_2021_20260404142729.csv,ava,Cyrillic,94.9,Cyrillic 94.9%; Latin 4.8%; Arabic 0.2%; Canadian_Aboriginal 0.0%
+aym_glot500_latn.csv,aym,Latin,99.73,Latin 99.7%; Cyrillic 0.1%; Han 0.1%; Arabic 0.1%
+aym_wikipedia_2021_20260404142742.csv,aym,Latin,99.82,Latin 99.8%; Cyrillic 0.2%
+ayr_glot500_latn.csv,ayr,Latin,100.0,Latin 100.0%
+azb_glot500_arab.csv,azb,Arabic,99.29,Arabic 99.3%; Latin 0.7%; Cyrillic 0.0%
+aze-ud.csv,aze,Latin,100.0,Latin 100.0%
+aze_glot500_arab.csv,aze,Arabic,86.54,Arabic 86.5%; Latin 13.1%; Cyrillic 0.1%; Unknown 0.1%
+aze_glot500_latn.csv,aze,Latin,97.56,Latin 97.6%; Cyrillic 1.4%; Arabic 0.5%; Armenian 0.2%
+aze_news_2019_20260404142748.csv,aze,Latin,99.91,Latin 99.9%; Cyrillic 0.1%; Greek 0.0%
+aze_news_2020_20260404142821.csv,aze,Latin,99.96,Latin 100.0%; Cyrillic 0.0%
+aze_newscrawl_2011_20260404142846.csv,aze,Latin,99.28,Latin 99.3%; Cyrillic 0.7%; Arabic 0.0%
+aze_wikipedia_2021_20260404143108.csv,aze,Latin,98.79,Latin 98.8%; Cyrillic 1.0%; Arabic 0.1%; Greek 0.1%
+azj_glot500_latn.csv,azj,Latin,99.02,Latin 99.0%; Cyrillic 0.8%; Arabic 0.1%; Han 0.0%
+bak_community_2017_20260404143158.csv,bak,Cyrillic,98.14,Cyrillic 98.1%; Latin 1.8%; Arabic 0.0%; Han 0.0%
+bak_glot500_cyrl.csv,bak,Cyrillic,95.22,Cyrillic 95.2%; Latin 4.4%; Arabic 0.1%; Greek 0.1%
+bak_glot500_latn.csv,bak,Latin,93.39,Latin 93.4%; Cyrillic 6.4%; Arabic 0.1%; Han 0.0%
+bak_wikipedia_2021_20260404143220.csv,bak,Cyrillic,96.57,Cyrillic 96.6%; Latin 3.3%; Greek 0.0%; Han 0.0%
+bam-ud.csv,bam,Latin,100.0,Latin 100.0%
+bam_glot500_latn.csv,bam,Latin,99.71,Latin 99.7%; Greek 0.1%; Arabic 0.1%; Cyrillic 0.1%
+bam_wikipedia_2012_20260404143128.csv,bam,Latin,98.99,Latin 99.0%; Arabic 0.6%; Greek 0.4%; Unknown 0.1%
+ban_glot500_latn.csv,ban,Latin,99.92,Latin 99.9%; Balinese 0.0%; Hangul 0.0%; Greek 0.0%
+ban_wikipedia_2021_20260404143123.csv,ban,Latin,99.65,Latin 99.7%; Balinese 0.2%; Hangul 0.1%; Devanagari 0.0%
+bar-ud.csv,bar,Latin,99.84,Latin 99.8%; Katakana 0.1%; Unknown 0.0%
+bar_glot500_latn.csv,bar,Latin,99.57,Latin 99.6%; Cyrillic 0.1%; Greek 0.1%; Hebrew 0.1%
+bar_wikipedia_2021_20260404143318.csv,bar,Latin,99.88,Latin 99.9%; Hebrew 0.0%; Cyrillic 0.0%; Greek 0.0%
+bcl_community_2017_20260404144220.csv,bcl,Latin,99.7,Latin 99.7%; Arabic 0.1%; Han 0.1%; Greek 0.0%
+bcl_glot500_latn.csv,bcl,Latin,99.04,Latin 99.0%; Cyrillic 0.4%; Han 0.2%; Arabic 0.1%
+bel-ud.csv,bel,Cyrillic,92.94,Cyrillic 92.9%; Latin 7.0%; Armenian 0.0%; Unknown 0.0%
+bel_glot500_cyrl.csv,bel,Cyrillic,90.89,Cyrillic 90.9%; Latin 8.9%; Greek 0.1%; Han 0.0%
+bel_news_2019_20260404143325.csv,bel,Cyrillic,97.27,Cyrillic 97.3%; Latin 2.7%; Unknown 0.0%
+bel_news_2020_20260404143334.csv,bel,Cyrillic,97.51,Cyrillic 97.5%; Latin 2.5%; Unknown 0.0%
+bel_newscrawl_2011_20260404143342.csv,bel,Cyrillic,97.42,Cyrillic 97.4%; Latin 2.6%
+bel_wikipedia_2021_20260404143404.csv,bel,Cyrillic,93.09,Cyrillic 93.1%; Latin 6.8%; Greek 0.1%; Han 0.0%
+bem_glot500_latn.csv,bem,Latin,100.0,Latin 100.0%
+ben-in_web_2019_20260404143559.csv,ben,Bengali,96.43,Bengali 96.4%; Latin 3.5%; Devanagari 0.0%; Greek 0.0%
+ben-ud.csv,ben,Bengali,100.0,Bengali 100.0%
+ben_community_2017_20260404143419.csv,ben,Bengali,96.46,Bengali 96.5%; Latin 3.3%; Arabic 0.2%; Greek 0.0%
+ben_news_2019_20260404143439.csv,ben,Bengali,99.67,Bengali 99.7%; Latin 0.3%; Arabic 0.0%
+ben_news_2020_20260404143448.csv,ben,Bengali,99.47,Bengali 99.5%; Latin 0.5%
+ben_newscrawl_2011_20260404143458.csv,ben,Bengali,99.2,Bengali 99.2%; Latin 0.4%; Ethiopic 0.2%; Gujarati 0.1%
+ben_wikipedia_2021_20260404143530.csv,ben,Bengali,93.2,Bengali 93.2%; Latin 6.3%; Arabic 0.2%; Han 0.1%
+ber_glot500_latn.csv,ber,Latin,99.78,Latin 99.8%; Greek 0.2%; Cyrillic 0.0%; Tifinagh 0.0%
+bew_glot500_cyrl.csv,bew,Cyrillic,94.33,Cyrillic 94.3%; Latin 5.6%; Greek 0.0%; Han 0.0%
+bih_glot500_deva.csv,bih,Devanagari,91.69,Devanagari 91.7%; Latin 8.1%; Arabic 0.1%; Greek 0.0%
+bih_wikipedia_2012_20260405092007.csv,bih,Devanagari,94.52,Devanagari 94.5%; Latin 5.4%; Gujarati 0.1%; Bengali 0.0%
+bih_wikipedia_2021_20260405092020.csv,bih,Devanagari,93.13,Devanagari 93.1%; Latin 6.8%; Greek 0.1%
+bik_community_2017_20260404143621.csv,bik,Latin,100.0,Latin 100.0%
+bik_glot500_latn.csv,bik,Latin,99.78,Latin 99.8%; Han 0.1%; Arabic 0.0%; Greek 0.0%
+bik_wikipedia_2021_20260404143638.csv,bik,Latin,99.58,Latin 99.6%; Han 0.1%; Arabic 0.1%; Cyrillic 0.1%
+bis_glot500_latn.csv,bis,Latin,99.06,Latin 99.1%; Cyrillic 0.3%; Arabic 0.1%; Han 0.1%
+bis_wikipedia_2021_20260404143656.csv,bis,Latin,99.37,Latin 99.4%; Arabic 0.6%
+bjn_glot500_latn.csv,bjn,Latin,99.55,Latin 99.5%; Arabic 0.1%; Cyrillic 0.1%; Han 0.1%
+bjn_wikipedia_2021_20260404143151.csv,bjn,Latin,99.59,Latin 99.6%; Han 0.1%; Arabic 0.1%; Devanagari 0.1%
+bod_community_2017_20260404184549.csv,bod,Tibetan,86.08,Tibetan 86.1%; Latin 6.5%; Han 5.7%; Devanagari 0.5%
+bod_glot500_tibt.csv,bod,Tibetan,97.93,Tibetan 97.9%; Latin 1.8%; Han 0.3%; Devanagari 0.0%
+bos_community_2017_20260404143703.csv,bos,Latin,99.36,Latin 99.4%; Cyrillic 0.6%; Hebrew 0.0%; Hiragana 0.0%
+bos_glot500_latn.csv,bos,Latin,99.64,Latin 99.6%; Cyrillic 0.2%; Greek 0.1%; Arabic 0.1%
+bos_news_2019_20260404143713.csv,bos,Latin,99.92,Latin 99.9%; Cyrillic 0.1%; Greek 0.0%
+bos_news_2020_20260404143720.csv,bos,Latin,99.91,Latin 99.9%; Cyrillic 0.1%; Arabic 0.0%
+bos_wikipedia_2021_20260404143737.csv,bos,Latin,99.72,Latin 99.7%; Cyrillic 0.1%; Greek 0.1%; Arabic 0.0%
+bpy_glot500_beng.csv,bpy,Bengali,93.24,Bengali 93.2%; Latin 5.3%; Arabic 0.8%; Thai 0.6%
+bqc_glot500_latn.csv,bqc,Latin,93.91,Latin 93.9%; Unknown 6.1%
+bre-ud.csv,bre,Latin,100.0,Latin 100.0%
+bre_glot500_latn.csv,bre,Latin,98.66,Latin 98.7%; Cyrillic 0.5%; Greek 0.3%; Arabic 0.2%
+bre_wikipedia_2007_20260404143746.csv,bre,Latin,98.3,Latin 98.3%; Greek 0.6%; Cyrillic 0.5%; Han 0.3%
+bre_wikipedia_2021_20260404143759.csv,bre,Latin,99.33,Latin 99.3%; Greek 0.2%; Han 0.1%; Cyrillic 0.1%
+bsb_glot500_latn.csv,bsb,Latin,99.02,Latin 99.0%; Cyrillic 0.5%; Han 0.2%; Arabic 0.1%
+bua_wikipedia_2021_20260404144004.csv,bua,Cyrillic,97.48,Cyrillic 97.5%; Latin 2.2%; Han 0.2%; Greek 0.1%
+bug_wikipedia_2021_20260404143805.csv,bug,Latin,94.88,Latin 94.9%; Buginese 5.1%
+bul-ud.csv,bul,Cyrillic,99.57,Cyrillic 99.6%; Latin 0.4%
+bul_bible.csv,bul,Cyrillic,99.99,Cyrillic 100.0%; Latin 0.0%
+bul_glot500_cyrl.csv,bul,Cyrillic,80.09,Cyrillic 80.1%; Latin 19.4%; Greek 0.4%; Arabic 0.1%
+bul_news_2011_1M_20260404143812.csv,bul,Cyrillic,95.52,Cyrillic 95.5%; Latin 4.5%; Greek 0.0%; Han 0.0%
+bul_news_2019_20260404143822.csv,bul,Cyrillic,95.85,Cyrillic 95.8%; Latin 4.1%; Greek 0.0%; Devanagari 0.0%
+bul_news_2020_20260404143837.csv,bul,Cyrillic,95.22,Cyrillic 95.2%; Latin 4.8%; Greek 0.0%; Arabic 0.0%
+bul_news_2022_20260404143855.csv,bul,Cyrillic,93.48,Cyrillic 93.5%; Latin 6.5%; Greek 0.0%; Han 0.0%
+bul_newscrawl_2011_20260404143908.csv,bul,Cyrillic,91.51,Cyrillic 91.5%; Latin 8.5%; Greek 0.0%; Arabic 0.0%
+bul_wikipedia_2021_20260404143935.csv,bul,Cyrillic,86.28,Cyrillic 86.3%; Latin 13.1%; Greek 0.5%; Han 0.1%
+bzj_glot500_latn.csv,bzj,Latin,100.0,Latin 100.0%
+cab_glot500_latn.csv,cab,Latin,100.0,Latin 100.0%
+cak_glot500_latn.csv,cak,Latin,99.62,Latin 99.6%; Unknown 0.4%
+cat-ud.csv,cat,Latin,100.0,Latin 100.0%
+cat_glot500_latn.csv,cat,Latin,99.18,Latin 99.2%; Cyrillic 0.3%; Greek 0.2%; Han 0.1%
+cat_news_2019_20260404144033.csv,cat,Latin,100.0,Latin 100.0%; Armenian 0.0%; Unknown 0.0%; Cyrillic 0.0%
+cat_news_2020_20260404144041.csv,cat,Latin,99.99,Latin 100.0%; Unknown 0.0%; Greek 0.0%; Han 0.0%
+cat_news_2022_20260404144049.csv,cat,Latin,99.99,Latin 100.0%; Cyrillic 0.0%; Han 0.0%; Greek 0.0%
+cat_newscrawl_2016_20260404144059.csv,cat,Latin,99.87,Latin 99.9%; Han 0.1%; Unknown 0.0%; Greek 0.0%
+cat_web_2004_20260404144114.csv,cat,Latin,100.0,Latin 100.0%
+cat_wikipedia_2021_20260404144133.csv,cat,Latin,98.77,Latin 98.8%; Greek 0.4%; Han 0.3%; Cyrillic 0.2%
+cbk_glot500_latn.csv,cbk,Latin,99.57,Latin 99.6%; Cyrillic 0.1%; Arabic 0.1%; Han 0.1%
+cbk_wikipedia_2021_20260404144309.csv,cbk,Latin,99.79,Latin 99.8%; Han 0.1%; Arabic 0.1%; Thai 0.0%
+cdo_wikipedia_2021_20260405073805.csv,cdo,Latin,87.28,Latin 87.3%; Han 12.6%; Greek 0.1%
+ceb-ud.csv,ceb,Latin,100.0,Latin 100.0%
+ceb_bible.csv,ceb,Latin,100.0,Latin 100.0%
+ceb_community_2017_20260404144149.csv,ceb,Latin,99.94,Latin 99.9%; Arabic 0.0%; Hebrew 0.0%; Greek 0.0%
+ceb_glot500_latn.csv,ceb,Latin,96.29,Latin 96.3%; Cyrillic 1.2%; Arabic 1.1%; Han 0.7%
+ceb_wikipedia_2021_20260404144206.csv,ceb,Latin,99.98,Latin 100.0%; Cyrillic 0.0%; Arabic 0.0%; Greek 0.0%
+ces-cz_web-public_2019_20260404152733.csv,ces,Latin,99.81,Latin 99.8%; Cyrillic 0.1%; Greek 0.0%; Unknown 0.0%
+ces-ud-cac.csv,ces,Latin,100.0,Latin 100.0%
+ces-ud-cltt.csv,ces,Latin,100.0,Latin 100.0%
+ces-ud-fictree.csv,ces,Latin,100.0,Latin 100.0%
+ces-ud-pdtc.csv,ces,Latin,100.0,Latin 100.0%
+ces-ud-poetry.csv,ces,Latin,100.0,Latin 100.0%
+ces-ud-pud.csv,ces,Latin,100.0,Latin 100.0%
+ces_bible.csv,ces,Latin,100.0,Latin 100.0%
+ces_glot500_latn.csv,ces,Latin,99.39,Latin 99.4%; Cyrillic 0.3%; Greek 0.1%; Han 0.1%
+ces_mixed_2012_20260404152353.csv,ces,Latin,99.84,Latin 99.8%; Cyrillic 0.1%; Han 0.0%; Greek 0.0%
+ces_news_2012_1M_20260404152451.csv,ces,Latin,100.0,Latin 100.0%; Cyrillic 0.0%; Greek 0.0%
+ces_news_2019_20260404152502.csv,ces,Latin,99.99,Latin 100.0%; Cyrillic 0.0%; Arabic 0.0%; Unknown 0.0%
+ces_news_2020_20260404152515.csv,ces,Latin,100.0,Latin 100.0%; Greek 0.0%; Unknown 0.0%; Cyrillic 0.0%
+ces_news_2022_20260404152530.csv,ces,Latin,99.99,Latin 100.0%; Cyrillic 0.0%; Greek 0.0%; Hangul 0.0%
+ces_news_2023_20260404152544.csv,ces,Latin,100.0,Latin 100.0%; Cyrillic 0.0%; Greek 0.0%; Unknown 0.0%
+ces_news_2024_20260404152558.csv,ces,Latin,99.99,Latin 100.0%; Cyrillic 0.0%; Greek 0.0%; Unknown 0.0%
+ces_newscrawl_2019_20260404152618.csv,ces,Latin,99.95,Latin 100.0%; Cyrillic 0.0%; Unknown 0.0%; Han 0.0%
+ces_wikipedia_2021_20260404152701.csv,ces,Latin,99.37,Latin 99.4%; Cyrillic 0.3%; Han 0.1%; Hebrew 0.1%
+cha_bible.csv,cha,Latin,100.0,Latin 100.0%
+cha_wikipedia_2021_20260404144258.csv,cha,Latin,99.74,Latin 99.7%; Greek 0.3%
+che_community_2017_20260404144315.csv,che,Cyrillic,97.45,Cyrillic 97.5%; Latin 2.5%; Arabic 0.1%
+che_glot500_cyrl.csv,che,Cyrillic,94.67,Cyrillic 94.7%; Latin 5.2%; Greek 0.0%; Arabic 0.0%
+che_wikipedia_2012_20260404144321.csv,che,Cyrillic,93.9,Cyrillic 93.9%; Latin 5.2%; Arabic 0.9%
+che_wikipedia_2021_20260404144328.csv,che,Cyrillic,90.12,Cyrillic 90.1%; Latin 9.8%; Arabic 0.0%; Greek 0.0%
+chk_glot500_latn.csv,chk,Latin,100.0,Latin 100.0%
+chr_bible.csv,chr,Unknown,94.62,Unknown 94.6%; Cherokee 5.4%
+chv_glot500_cyrl.csv,chv,Cyrillic,93.89,Cyrillic 93.9%; Latin 6.0%; Greek 0.1%; Han 0.0%
+chv_wikipedia_2021_20260404144403.csv,chv,Cyrillic,90.01,Cyrillic 90.0%; Latin 9.8%; Greek 0.1%; Han 0.1%
+cjk_glot500_latn.csv,cjk,Latin,100.0,Latin 100.0%
+ckb_glot500_arab.csv,ckb,Arabic,96.71,Arabic 96.7%; Latin 3.1%; Han 0.1%; Cyrillic 0.0%
+ckb_wikipedia_2021_20260404144250.csv,ckb,Arabic,95.23,Arabic 95.2%; Latin 4.7%; Han 0.0%; Greek 0.0%
+cmn-cn_web_2019_20260405073438.csv,cmn,Han,98.89,Han 98.9%; Latin 1.1%; Cyrillic 0.0%; Unknown 0.0%
+cmn_bible.csv,cmn,Han,100.0,Han 100.0%
+cmn_glot500_hani.csv,cmn,Han,99.06,Han 99.1%; Latin 0.9%; Hiragana 0.0%
+cmn_wikipedia_2012_20260405073408.csv,cmn,Han,93.29,Han 93.3%; Latin 6.5%; Hiragana 0.1%; Arabic 0.0%
+cor_wikipedia_2021_20260404152048.csv,cor,Latin,99.91,Latin 99.9%; Canadian_Aboriginal 0.0%; Arabic 0.0%; Cyrillic 0.0%
+cos_glot500_latn.csv,cos,Latin,99.76,Latin 99.8%; Cyrillic 0.1%; Greek 0.0%; Han 0.0%
+cos_wikipedia_2021_20260404152059.csv,cos,Latin,99.69,Latin 99.7%; Greek 0.2%; Arabic 0.0%; Cyrillic 0.0%
+crh_glot500_cyrl.csv,crh,Cyrillic,98.99,Cyrillic 99.0%; Latin 1.0%
+crh_glot500_latn.csv,crh,Latin,99.32,Latin 99.3%; Cyrillic 0.4%; Arabic 0.1%; Greek 0.0%
+crh_wikipedia_2021_20260404152111.csv,crh,Latin,99.31,Latin 99.3%; Cyrillic 0.6%; Greek 0.1%; Arabic 0.1%
+crs_glot500_latn.csv,crs,Latin,100.0,Latin 100.0%
+csb_glot500_latn.csv,csb,Latin,99.69,Latin 99.7%; Cyrillic 0.1%; Hangul 0.1%; Han 0.1%
+csb_news_2019_20260405072005.csv,csb,Latin,100.0,Latin 100.0%
+csb_wikipedia_2021_20260405072017.csv,csb,Latin,99.73,Latin 99.7%; Cyrillic 0.1%; Han 0.1%; Hangul 0.1%
+csy_glot500_latn.csv,csy,Latin,100.0,Latin 100.0%
+ctu_glot500_latn.csv,ctu,Latin,100.0,Latin 100.0%
+cuk_glot500_latn.csv,cuk,Latin,100.0,Latin 100.0%
+cym-ud.csv,cym,Latin,100.0,Latin 100.0%
+cym_glot500_latn.csv,cym,Latin,99.51,Latin 99.5%; Han 0.2%; Cyrillic 0.1%; Greek 0.1%
+cym_wikipedia_2007_20260405092547.csv,cym,Latin,98.99,Latin 99.0%; Cyrillic 0.4%; Arabic 0.3%; Greek 0.2%
+cym_wikipedia_2021_20260405092555.csv,cym,Latin,99.62,Latin 99.6%; Greek 0.1%; Cyrillic 0.1%; Han 0.1%
+dan-dk_web-public_2019_20260404153648.csv,dan,Latin,99.98,Latin 100.0%; Greek 0.0%; Cyrillic 0.0%; Han 0.0%
+dan-dk_web_2019_20260404153457.csv,dan,Latin,99.98,Latin 100.0%; Cyrillic 0.0%; Greek 0.0%; Han 0.0%
+dan-ud.csv,dan,Latin,100.0,Latin 100.0%
+dan_bible.csv,dan,Latin,100.0,Latin 100.0%
+dan_glot500_latn.csv,dan,Latin,99.72,Latin 99.7%; Cyrillic 0.1%; Greek 0.1%; Han 0.0%
+dan_mixed-freqdic_2018_20260404152912.csv,dan,Latin,99.94,Latin 99.9%; Cyrillic 0.0%; Greek 0.0%; Han 0.0%
+dan_mixed_2012_deu_20260404152824.csv,dan,Latin,99.99,Latin 100.0%; Cyrillic 0.0%; Greek 0.0%; Armenian 0.0%
+dan_news_2012_1M_20260404153205.csv,dan,Latin,100.0,Latin 100.0%; Han 0.0%
+dan_news_2019_20260404153215.csv,dan,Latin,100.0,Latin 100.0%; Armenian 0.0%; Cyrillic 0.0%
+dan_news_2020_20260404153225.csv,dan,Latin,100.0,Latin 100.0%; Armenian 0.0%
+dan_news_2022_20260404153235.csv,dan,Latin,100.0,Latin 100.0%; Han 0.0%
+dan_newscrawl_2023_20260404153319.csv,dan,Latin,99.99,Latin 100.0%; Cyrillic 0.0%; Armenian 0.0%; Greek 0.0%
+dan_wikipedia_2021_20260404153423.csv,dan,Latin,99.78,Latin 99.8%; Han 0.1%; Cyrillic 0.1%; Greek 0.1%
+deu-ud-gsd.csv,deu,Latin,99.98,Latin 100.0%; Cyrillic 0.0%; Greek 0.0%
+deu-ud-hdt.csv,deu,Latin,100.0,Latin 100.0%
+deu-ud-lit.csv,deu,Latin,100.0,Latin 100.0%
+deu-ud-pud.csv,deu,Latin,100.0,Latin 100.0%
+deu_bible.csv,deu,Latin,100.0,Latin 100.0%
+deu_glot500_latn.csv,deu,Latin,99.42,Latin 99.4%; Cyrillic 0.2%; Han 0.1%; Greek 0.1%
+deu_mixed_2011_dan_20260404155447.csv,deu,Latin,99.99,Latin 100.0%; Cyrillic 0.0%; Greek 0.0%
+deu_news-gnd_2010_10K_20260404162055.csv,deu,Latin,100.0,Latin 100.0%
+deu_news_2008_100K_20260404155455.csv,deu,Latin,100.0,Latin 100.0%
+deu_news_2010_1M_20260404155523.csv,deu,Latin,100.0,Latin 100.0%; Greek 0.0%

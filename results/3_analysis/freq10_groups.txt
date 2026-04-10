@@ -1,0 +1,300 @@
+Upper group (freq10_ratio > 0.5): 0 languages
+============================================================
+Code   Language                         Distinct     Freq10    Ratio    AvgFreq
+------------------------------------------------------------
+
+
+Lower group (freq10_ratio <= 0.5): 290 languages
+============================================================
+Code   Language                         Distinct     Freq10    Ratio    AvgFreq
+------------------------------------------------------------
+deu    German                         49,780,613  5,346,398    0.107      200.2
+eng    English                        35,475,715  4,525,639    0.128      761.8
+rus    Russian                        23,488,262  2,608,652    0.111      213.0
+ukr    Ukrainian                      16,916,037  1,921,409    0.114      174.7
+dan    Danish                         16,468,825  1,845,676    0.112      183.3
+hun    Hungarian                      14,417,443  1,554,202    0.108       70.5
+kat    Georgian                       13,264,356  1,812,432    0.137      117.9
+nld    Dutch                          12,827,134  1,388,089    0.108      187.8
+fin    Finnish                        12,761,887  1,244,525    0.098       35.6
+swe    Swedish                        11,666,430  1,225,200    0.105      121.0
+isl    Icelandic                      11,051,685  1,650,539    0.149      217.0
+tur    Turkish                         9,646,216  1,217,395    0.126      132.9
+ind    Indonesian                      7,823,597    818,188    0.105      240.6
+ces    Czech                           7,810,416  1,141,102    0.146      174.3
+ita    Italian                         7,212,588    834,254    0.116      309.3
+spa    Spanish                         6,967,270    909,186    0.130      597.0
+tha    Thai                            6,305,956     97,753    0.016        3.4
+pes    Iranian Persian                 6,085,377    563,365    0.093      132.1
+hrv    Croatian (Croatia)              6,039,449    807,312    0.134      150.0
+fra    French                          5,808,282    751,093    0.129      283.8
+ara    Arabic                          5,710,586    764,062    0.134      101.9
+fas    Persian                         5,314,819    579,979    0.109      177.4
+nob    Norwegian Bokmål                4,817,396    564,042    0.117      119.8
+por    Portuguese                      4,135,351    562,097    0.136      458.3
+pol    Polish                          3,729,892    649,091    0.174      143.2
+cmn    Mandarin Chinese                3,672,466     14,901    0.004        1.4
+kaz    Kazakh                          3,667,931    421,263    0.115       58.1
+heb    Hebrew                          3,595,576    524,931    0.146       87.1
+mkd    Macedonian                      3,376,146    410,763    0.122      144.2
+tam    Tamil                           3,267,102    327,507    0.100       21.9
+vie    Vietnamese                      2,935,678    286,731    0.098      620.4
+afr    Afrikaans                       2,909,314    487,253    0.167      217.4
+ron    Romanian                        2,811,783    384,000    0.137      177.4
+ell    Modern Greek                    2,546,334    379,910    0.149      156.5
+hin    Hindi                           2,535,930    278,327    0.110      165.6
+tat    Tatar                           2,451,920    415,808    0.170      109.5
+cat    Catalan                         2,048,225    289,702    0.141      156.1
+uzn    Northern Uzbek                  1,996,912    247,411    0.124       43.7
+lit    Lithuanian                      1,980,433    297,413    0.150       48.9
+ben    Bengali                         1,874,766    199,604    0.106       39.7
+tel    Telugu                          1,848,188    181,141    0.098       18.1
+est    Estonian                        1,754,569    232,267    0.132       37.7
+urd    Urdu                            1,754,026    159,801    0.091      133.3
+hye    Armenian                        1,691,052    183,770    0.109       27.7
+bul    Bulgarian                       1,621,793    250,013    0.154       99.5
+mar    Marathi                         1,566,979    160,493    0.102       25.2
+mal    Malayalam                       1,550,834    126,904    0.082        9.5
+hbs    Serbo-Croatian                  1,509,346    223,849    0.148       40.3
+slk    Slovak                          1,435,750    253,532    0.177       58.1
+epo    Esperanto                       1,369,139    158,162    0.116       39.0
+aze    Azerbaijani                     1,359,898    168,243    0.124       27.9
+sqi    Albanian                        1,339,636    195,369    0.146      112.9
+nep    Nepali                          1,307,571    169,117    0.129       41.1
+slv    Slovenian                       1,296,498    231,474    0.179       76.0
+kir    Kyrgyz                          1,197,857    155,142    0.130       37.5
+kan    Kannada                         1,175,716    114,325    0.097       12.7
+ceb    Cebuano                         1,172,968     82,423    0.070       45.0
+zul    Zulu                            1,087,996    169,273    0.156       22.7
+tgk    Tajik                           1,067,622    132,822    0.124       56.1
+nor    Norwegian                       1,042,132    103,317    0.099       31.9
+guj    Gujarati                          915,241    113,730    0.124       31.6
+srp    Serbian                           911,441    123,473    0.135       30.7
+ekk    Standard Estonian                 895,873     87,209    0.097       13.1
+gle    Irish                             865,664     69,695    0.081       26.8
+eus    Basque                            810,465     81,299    0.100       19.1
+bel    Belarusian                        794,642    123,306    0.155       33.1
+bos    Bosnian                           780,361    131,018    0.168       41.0
+uzb    Uzbek                             767,129    109,332    0.143       22.4
+glk    Gilaki                            574,469     58,143    0.101       36.4
+mon    Mongolian                         561,522     72,662    0.129       26.8
+ast    Leonese                           547,738     90,542    0.165       58.1
+swh    Swahili                           535,686     67,447    0.126       54.0
+nno    Norwegian Nynorsk                 522,761     49,451    0.095       21.8
+als    Tosk Albanian                     512,687     82,438    0.161       62.0
+msa    Malay (macrolanguage)             509,882     77,850    0.153       78.0
+glg    Galician                          469,769     78,400    0.167       50.3
+tgl    Tagalog                           461,916     89,473    0.194       84.8
+sin    Sinhalese                         459,279     64,381    0.140       24.5
+hsb    Upper Sorbian                     442,456     65,331    0.148       24.3
+lug    Ganda                             432,668     47,349    0.109       18.0
+gsw    Swiss German                      430,082     38,399    0.089       13.7
+bak    Bashkir                           405,651     51,439    0.127       17.4
+pnb    Western Panjabi                   385,261     43,550    0.113       38.2
+war    Waray (Philippines)               380,882     40,345    0.106       31.5
+san    Sanskrit                          374,967     13,457    0.036        3.9
+pan    Punjabi                           359,729     42,801    0.119       47.6
+lat    Latin                             357,308     50,736    0.142       19.2
+pus    Pashto                            345,270     36,263    0.105       23.3
+lav    Latvian                           324,806     57,532    0.177       30.3
+nds    Low Saxon                         321,111     33,723    0.105       21.0
+swa    Swahili (macrolanguage)           308,496     41,479    0.134       36.7
+lvs    Standard Latvian                  284,583     32,557    0.114       13.5
+sna    Shona                             283,869     31,890    0.112       14.1
+xho    Xhosa                             276,854     25,580    0.092        8.1
+bar    Bavarian                          274,091     27,901    0.102       14.4
+div    Maldivian                         268,161     27,639    0.103       11.4
+oci    Occitan (post 1500)               266,787     37,526    0.141       27.8
+fry    Western Frisian                   265,466     29,105    0.110       23.3
+tuk    Turkmen                           243,367     30,818    0.127       21.8
+uig    Uyghur                            236,150     27,799    0.118       10.8
+ckb    Central Kurdish                   235,390     15,863    0.067        7.8
+arz    Egyptian Arabic                   228,009     24,772    0.109       15.9
+som    Somali                            224,126     33,321    0.149       36.1
+kur    Kurdish                           221,783     17,251    0.078        8.1
+lim    Limburgish                        214,868     29,426    0.137       20.8
+ltz    Luxembourgish                     208,287     19,656    0.094       16.2
+asm    Assamese                          204,835     24,198    0.118       14.4
+jav    Javanese                          200,080     30,893    0.154       22.1
+ori    Oriya                             193,112     19,387    0.100       12.2
+bre    Breton                            189,008     23,244    0.123       26.9
+mkw    Kituba (Congo)                    182,368     15,364    0.084        8.6
+amh    Amharic                           181,998     21,342    0.117       10.0
+cym    Welsh                             176,869     23,099    0.131       27.0
+mlt    Maltese                           167,704     21,317    0.127       13.6
+scr    Croatian (Serbia)                 167,116     13,871    0.083        8.6
+mya    Burmese                           162,745      3,828    0.024        2.6
+chv    Chuvash                           141,084     17,895    0.127       13.6
+sah    Yakut                             138,533     14,094    0.102       10.2
+min    Minangkabau                       131,700     22,008    0.167       40.7
+che    Chechen                           126,319      8,783    0.070       10.2
+snd    Sindhi                            124,578     16,075    0.129       19.5
+prs    Dari                              122,762     13,019    0.106       13.9
+kin    Kinyarwanda                       122,284      9,583    0.078        8.5
+mlg    Malagasy                          121,225     10,137    0.084       20.4
+lmo    Lombard                           120,780     11,715    0.097       19.2
+kal    Kalaallisut                       120,769      4,594    0.038        3.8
+xmf    Mingrelian                        119,516      7,401    0.062        6.1
+pap    Papiamento                        111,949     21,348    0.191       74.6
+gom    Goan Konkani                      107,996     12,907    0.120       11.4
+sun    Sundanese                         107,213     16,304    0.152       19.1
+fao    Faroese                           101,474      9,862    0.097       12.4
+arg    Aragonese                         101,103     12,439    0.123       18.0
+ilo    Iloko                              96,271      8,283    0.086       13.6
+vol    Volapük                            95,756      3,235    0.034       38.5
+mwl    Mirandese                          94,057     15,515    0.165       22.7
+vec    Venetian                           90,139      9,275    0.103       12.8
+scn    Sicilian                           87,210      9,730    0.112       13.5
+yid    Yiddish                            86,419     12,364    0.143       23.9
+diq    Dimli                              85,978      9,355    0.109       11.5
+vls    Vlaams                             85,229     12,958    0.152       20.0
+bik    Bikol                              83,196      9,576    0.115       15.0
+roh    Romansh                            80,781     12,277    0.152       22.2
+szl    Silesian                           78,455      4,490    0.057        7.2
+lus    Lushai                             76,271     12,769    0.167       42.6
+ido    Ido                                76,188      7,466    0.098       32.3
+plt    Plateau Malagasy                   74,693      3,605    0.048       20.1
+srd    Sardinian                          70,870      6,226    0.088       10.0
+csb    Kashubian                          70,767      2,999    0.042        4.2
+pms    Piemontese                         69,282      8,216    0.119       25.3
+eml    Emiliano-Romagnolo                 67,751      6,347    0.094       12.5
+hau    Hausa                              67,074      8,885    0.132       28.9
+non    Old Norse                          66,867      8,055    0.120       17.0
+nap    Neapolitan                         66,740      5,279    0.079        8.4
+nan    Min Nan Chinese                    65,232      5,278    0.081       14.4
+new    Newari                             64,903      4,535    0.070       10.9
+wln    Walloon                            61,623      7,462    0.121       17.5
+yor    Yoruba                             58,920      6,844    0.116       16.9
+sgs    Samogitian                         57,657      2,948    0.051        4.5
+mzn    Mazanderani                        56,210      7,215    0.128       17.8
+tyv    Tuvinian                           55,117      3,992    0.072        5.5
+bpy    Bishnupriya                        54,182      3,360    0.062       18.8
+pfl    Pfaelzisch                         53,754      3,232    0.060        6.8
+ina    Interlingua                        52,817      7,582    0.144       16.7
+rue    Rusyn                              52,746      2,237    0.042        3.9
+anw    Anaang                             52,668      3,424    0.065        7.8
+run    Rundi                              50,832      4,009    0.079        6.5
+sco    Scots                              50,459      5,761    0.114       12.7
+oss    Ossetic                            50,328      4,745    0.094        8.2
+lij    Ligurian                           48,885      2,723    0.056        6.9
+gaz    West Central Oromo                 47,999      3,451    0.072        6.3
+mhr    Eastern Mari                       47,715      4,384    0.092        7.2
+mri    Maori                              46,165      6,687    0.145       50.8
+grn    Guarani                            45,654      5,598    0.123       11.2
+tcy    Tulu                               45,206      1,992    0.044        3.1
+bih    unknown                            43,883      5,139    0.117       15.0
+mai    Maithili                           43,547      2,775    0.064        6.3
+ksh    Kölsch                             43,397      3,855    0.089        9.8
+cos    Corsican                           42,166      3,633    0.086        9.6
+bua    Buriat                             40,799      4,180    0.102        7.3
+ext    Extremaduran                       40,704      3,939    0.097        9.5
+smi    Sami                               39,077      3,701    0.095        7.6
+lao    Lao                                38,986      2,079    0.053        6.0
+tsn    Tswana                             38,535      5,688    0.148       25.7
+que    Quechua                            38,421      3,842    0.100       11.7
+ang    Old English                        37,814      2,023    0.053        5.2
+khk    Halh Mongolian                     37,530      4,301    0.115        7.9
+kbd    Kabardian                          37,440      3,303    0.088        6.3
+zea    Zeeuws                             37,339      2,818    0.075        8.1
+pam    Pampanga                           37,073      5,768    0.156       18.3
+myv    Erzya                              37,036      2,138    0.058        4.5
+hat    Haitian Creole                     36,751      5,019    0.137       24.1
+gag    Gagauz                             36,567      2,264    0.062        4.3
+lad    Ladino                             34,671      3,276    0.094        9.8
+ndo    Ndonga                             34,403      3,234    0.094        8.2
+kbp    Kabiyè                             34,065      2,633    0.077        8.7
+vro    Võro                               33,965      1,462    0.043        3.7
+kab    Kabyle                             33,830      2,238    0.066        6.3
+mrj    Western Mari                       33,669      2,972    0.088        7.1
+bjn    Banjar                             33,546      4,821    0.144       11.4
+frr    Northern Frisian                   32,767      2,669    0.081        8.8
+sme    Northern Sami                      32,503      2,021    0.062        5.1
+bcl    Central Bicolano                   32,072      3,964    0.124       13.7
+kom    Komi                               31,944      2,312    0.072        5.1
+orm    Oromo                              31,860      2,225    0.070        5.6
+kaa    Kara-Kalpak                        31,212      2,757    0.088        6.9
+dsb    Lower Sorbian                      31,124      1,952    0.063        5.4
+krc    Karachay-Balkar                    31,051      2,873    0.093        6.4
+tso    Tsonga                             30,338      3,597    0.119       15.2
+ydd    Eastern Yiddish                    29,567      3,777    0.128       15.2
+glv    Manx                               28,452      3,618    0.127       16.2
+roa    Tarantino                          28,111      1,749    0.062        7.8
+sot    Southern Sotho                     27,976      4,306    0.154       22.0
+hif    Fiji Hindi                         27,883      2,655    0.095       13.0
+ibo    Igbo                               27,468      2,822    0.103       13.1
+fur    Friulian                           26,567      2,620    0.099       10.2
+udm    Udmurt                             26,171      2,072    0.079        5.5
+khm    Central Khmer                      26,069        286    0.011        1.6
+ban    Balinese                           25,539      2,162    0.085        7.5
+nso    Sepedi                             25,101      3,596    0.143       20.7
+pcd    Picard                             24,189      1,305    0.054        5.8
+bod    Tibetan                            23,930        114    0.005        2.0
+koi    Komi-Permyak                       23,530      2,391    0.102        7.6
+ava    Avaric                             22,892      1,446    0.063        4.2
+wol    Wolof                              22,661      3,860    0.170       22.5
+nah    Nahuatl                            22,241      1,171    0.053        5.2
+ile    Occidental                         22,025      1,598    0.073        9.0
+abk    Abkhazian                          21,361        920    0.043        3.1
+gla    Scottish Gaelic                    21,172      1,602    0.076        8.3
+lup    Lumbu                              20,874      2,050    0.098        7.8
+chr    Cherokee                           20,723      2,595    0.125       13.0
+crh    Crimean Turkish                    20,477      1,523    0.074        5.5
+cbk    Chavacano                          20,010      2,399    0.120       11.2
+cor    Cornish                            19,819      1,693    0.085        7.8
+skr    Seraiki                            19,241      1,315    0.068        5.5
+nav    Navajo                             17,273      1,582    0.092       19.1
+ltg    Latgalian                          16,102      1,078    0.067        4.7
+mdf    Moksha                             15,963      1,157    0.072        5.0
+aym    Aymara                             15,809        610    0.039        4.5
+ewe    Ewe                                14,619      1,707    0.117       12.9
+gan    Gan Chinese                        14,606        156    0.011        2.4
+ace    Achinese                           13,702        993    0.072        7.3
+tet    Tetum                              13,437      1,170    0.087        7.3
+cdo    Min Dong Chinese                   13,088      1,188    0.091        6.9
+nci    Classical Nahuatl                  13,071        551    0.042        3.8
+ven    Venda                              12,696      1,861    0.147       14.5
+pdc    Pennsylvania German                12,555      1,010    0.080        7.0
+rup    Macedo-Romanian                    12,432        622    0.050        4.1
+lin    Lingala                            12,404      1,075    0.087        6.9
+nov    Novial                             12,237        914    0.075        6.1
+rom    Romany                             12,146        695    0.057        4.6
+gor    Gorontalo                          11,968        849    0.071        5.8
+frp    Francoprovençal                    11,807        446    0.038        4.2
+pag    Pangasinan                         10,696      1,008    0.094       10.9
+aii    Assyrian Neo-Aramaic               10,010        423    0.042        3.3
+xal    Oirat                               9,925        663    0.067        4.5
+hak    Hakka Chinese                       9,916        583    0.059        3.9
+nia    Nias                                9,684        998    0.103        9.2
+tir    Tigrinya                            8,685        357    0.041        3.0
+alt    Southern Altai                      8,321        518    0.062        3.8
+ton    Tonga (Tonga Islands)               7,267        906    0.125       13.6
+inh    Ingush                              6,834        246    0.036        2.7
+pnt    Pontic                              6,545        204    0.031        3.3
+ssw    Swati                               6,135        131    0.021        1.9
+smo    Samoan                              6,081        646    0.106       11.8
+bam    Bambara                             5,889        642    0.109        8.3
+lbe    Lak                                 5,877        379    0.064        4.0
+fij    Fijian                              5,620        543    0.097        9.7
+haw    Hawaiian                            5,200        431    0.083       11.1
+aka    Akan                                3,984        366    0.092        6.1
+kck    Kalanga                             3,673        224    0.061        3.9
+srn    Sranan Tongo                        2,992        143    0.048        4.8
+zha    Zhuang                              2,929         84    0.029        2.5
+ful    Fulah                               2,773        106    0.038        2.9
+bug    Buginese                            2,685         82    0.031        2.4
+kas    Kashmiri                            2,433         54    0.022        2.0
+tpi    Tok Pisin                           2,274        233    0.102        7.1
+tum    Tumbuka                             2,221         94    0.042        2.8
+cha    Chamorro                            1,929        102    0.053        5.3
+bis    Bislama                             1,614         67    0.042        4.0
+ach    Acoli                               1,522         76    0.050        3.3
+mad    Madurese                            1,369         39    0.028        2.5
+nde    North Ndebele                       1,308         26    0.020        1.7
+tlh    tlhIngan-Hol                        1,138         45    0.040        2.6
+azb    South Azerbaijani                     953         13    0.014        1.9
+sag    Sango                                 679         39    0.057        4.2
+kng    Koongo                                577         15    0.026        2.7
+nau    Nauru                                 517         15    0.029        2.5
+tah    Tahitian                              499         27    0.054        3.9
+mah    Marshallese                           126          4    0.032        2.0
+way    Wayana                                 41          4    0.098        2.3

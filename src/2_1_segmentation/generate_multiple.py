@@ -10,7 +10,7 @@ for each language using a process pool, and writes aggregate result CSVs.
 Usage:
     python generate_multiple.py -train_dir ../../data/2_1_segmentation/training_data \
                                 -freq_dir ../../data/1_aggregated \
-                                -result_dir ../../data/3_results
+                                -result_dir ../../results/2_segmentation
 
     python generate_multiple.py                          # uses default paths
     python generate_multiple.py -workers 4 -folds 10     # custom parallelism & folds
@@ -35,6 +35,7 @@ def _run_one(
     lang: str,
     source: str,
     freq: Optional[str],
+    affix_dir: Optional[str],
     folds: int,
     seed: int,
     save_model: Optional[str],
@@ -46,6 +47,7 @@ def _run_one(
         result = run_pipeline(
             source=source,
             freq=freq,
+            affix_dir=affix_dir,
             folds=folds,
             seed=seed,
             save_model=save_model,
@@ -53,6 +55,11 @@ def _run_one(
             eval_only=eval_only,
             quiet=True,
         )
+        # Strip bulky per-word lists — only aggregate numbers are needed
+        for key in ("seg_metrics", "root_metrics"):
+            if result.get(key):
+                result[key].pop("word_results", None)
+        result.pop("log", None)
         return result
     except Exception as e:
         return {"lang": lang, "error": str(e)}
@@ -105,14 +112,16 @@ def main() -> None:
                     help="Directory with frequency CSV files (one per language).")
     ap.add_argument("-model_dir", default="../../data/2_1_segmentation/models",
                     help="Directory to save models into.")
-    ap.add_argument("-result_dir", default="../../data/3_results",
+    ap.add_argument("-result_dir", default="../../results/2_segmentation",
                     help="Directory to write result CSVs into.")
     ap.add_argument("-folds", type=int, default=5, help="K-fold cross-validation folds (default: 5).")
     ap.add_argument("-seed", type=int, default=42, help="Random seed (default: 42).")
-    ap.add_argument("-workers", type=int, default=None,
-                    help="Max parallel workers (default: number of CPUs).")
+    ap.add_argument("-workers", type=int, default=4,
+                    help="Max parallel workers (default: 4).")
     ap.add_argument("-eval_only", action="store_true",
                     help="Only evaluate, do not train/save final models.")
+    ap.add_argument("-affix_dir", default="../../results/1_preprocessing/affixes",
+                    help="Directory with .prep/.post affix files (default: ../../results/1_preprocessing/affixes).")
     args = ap.parse_args()
 
     # Discover languages
@@ -141,6 +150,7 @@ def main() -> None:
             lang=lang,
             source=source,
             freq=freq,
+            affix_dir=args.affix_dir,
             folds=args.folds,
             seed=args.seed,
             save_model=save_model,

@@ -1,0 +1,9 @@
+file_name	lang_code	script1share	script2share	script1	script2
+mon_news_2011_20260405074203.csv	mon	0	99.36	Arabic	Mongolian
+uzn-lat_newscrawl_2011_20260405081807.csv	uzn	0.21	99.79	Cyrillic	Latin
+hbs-rs_wikipedia_2010_20260405090509.csv	hbs	3.75	96.13	Latin	Cyrillic
+bpy_wikipedia_2011_20260404143644.csv	bpy	47.95	47.63	Latin	Bengali
+uzb_community_2017_20260405092215.csv	uzb	54.93	44.58	Latin	Cyrillic
+tha-th_web_2018_20260404184542.csv	tha	58.73	41.03	Thai	Latin
+chr_wikipedia_2012_20260404144335.csv	chr	65.44	34.37	Latin	Cherokee
+azb_wikipedia_2021_20260404180704.csv	azb	65.93	31.77	Latin	Arabic

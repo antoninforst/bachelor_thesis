@@ -6,8 +6,9 @@ LNG      ?= ces
 TRAIN_DIR = $(ROOT)/data/2_1_segmentation/training_data
 MODEL_DIR = $(ROOT)/data/2_1_segmentation/models
 FREQ_DIR  = $(ROOT)/data/1_aggregated
-RESULT_DIR= $(ROOT)/data/3_results
+RESULT_DIR= $(ROOT)/results/2_segmentation
 ANN_DIR   = $(ROOT)/data/2_annotated
+AFFIX_DIR = $(ROOT)/results/1_preprocessing/affixes
 
 # Derived paths
 SOURCE    = $(TRAIN_DIR)/$(LNG).morf
@@ -50,6 +51,7 @@ help:
 # ── Evaluate + train ──────────────────────────────────────
 eval: $(SOURCE)
 	$(PYTHON) generate.py -source $(SOURCE) $(FREQ_FLAG) \
+		-affix_dir $(AFFIX_DIR) \
 		-folds $(FOLDS) -n $(N_WORST) -seed $(SEED) \
 		-save_model $(SEG_MODEL) -save_root_model $(ROOT_MODEL)
 
@@ -64,6 +66,7 @@ eval-all:
 # ── Train only (no evaluation) ────────────────────────────
 train: $(SOURCE) | $(MODEL_DIR)
 	$(PYTHON) generate.py -source $(SOURCE) $(FREQ_FLAG) \
+		-affix_dir $(AFFIX_DIR) \
 		-folds 0 -seed $(SEED) \
 		-save_model $(SEG_MODEL) -save_root_model $(ROOT_MODEL)
 
@@ -93,6 +96,7 @@ batch:
 	$(PYTHON) generate_multiple.py \
 		-train_dir $(TRAIN_DIR) -freq_dir $(FREQ_DIR) \
 		-model_dir $(MODEL_DIR) -result_dir $(RESULT_DIR) \
+		-affix_dir $(AFFIX_DIR) \
 		-folds $(FOLDS) -seed $(SEED) \
 		$(if $(WORKERS),-workers $(WORKERS),)
 
@@ -101,14 +105,34 @@ universal-eval:
 	$(PYTHON) generate_universal.py train-eval \
 		--train-dir $(TRAIN_DIR) --freq-dir $(FREQ_DIR) \
 		--model-dir $(MODEL_DIR) --result-dir $(RESULT_DIR) \
-		--seed $(SEED)
+		--affix-dir $(AFFIX_DIR) --seed $(SEED)
 
 universal-train: | $(MODEL_DIR)
 	$(PYTHON) generate_universal.py train-save \
 		--train-dir $(TRAIN_DIR) --freq-dir $(FREQ_DIR) \
-		--model-dir $(MODEL_DIR) --seed $(SEED)
+		--model-dir $(MODEL_DIR) --affix-dir $(AFFIX_DIR) --seed $(SEED)
 
 universal-segment:
 	$(PYTHON) generate_universal.py segment \
 		--train-dir $(TRAIN_DIR) --freq-dir $(FREQ_DIR) \
-		--model-dir $(MODEL_DIR) --annotated-dir $(ANN_DIR)
+		--model-dir $(MODEL_DIR) --annotated-dir $(ANN_DIR) \
+		--affix-dir $(AFFIX_DIR)
+
+#K-fold evaluate + train final models (LNG=ces FOLDS=5 N_WORST=20)"
+make eval
+#Evaluate all languages (sequential)"
+make eval-all
+#Evaluate all languages in parallel, write result CSVs"
+make batch
+#Train and save models without evaluation (LNG=ces)"
+make train
+#Interactive mode with saved models (LNG=ces)"
+make interactive
+#Segment a text file (LNG=ces TEXT=input.txt OUTPUT=out.morf)"
+make segment
+#Leave-language-out cross-validation" 
+make universal-eval
+#Train and save universal models"
+make universal-train
+#Segment all annotated CSVs with universal model"
+make universal-segment

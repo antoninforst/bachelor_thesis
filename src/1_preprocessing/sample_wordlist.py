@@ -24,7 +24,7 @@ import numpy as np
 import pandas as pd
 
 ANNOTATED_DIR = Path("data/2_annotated")
-SAMPLES_DIR = Path("data/4_samples")
+SAMPLES_DIR = Path("results/1_preprocessing/samples")
 DEFAULT_SIZE = 5000
 
 
@@ -97,7 +97,7 @@ class WordlistSampler:
         return df, sampled, sorted_indices, stats
 
     def _sample_indices(self, n: int, size: int) -> np.ndarray:
-        """Sample *size* indices from 0..n-1 with P(i) ∝ 1/(i+1)."""
+        """Sample *size* indices from 0..n-1 with P(i) ∝ 1/(i+1) (Zipfian)."""
         rng = np.random.default_rng(self._seed)
         ranks = np.arange(1, n + 1, dtype=np.float64)
         probs = 1.0 / ranks

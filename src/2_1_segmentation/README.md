@@ -115,12 +115,12 @@ python generate.py -model ../../data/2_1_segmentation/models/ces_seg.pkl \
 python generate_multiple.py
 ```
 
-Discovers all `.morf` files in the training-data directory, runs evaluation and training for each language **in parallel**, and writes aggregate result CSVs to `data/3_results/`.
+Discovers all `.morf` files in the training-data directory, runs evaluation and training for each language **in parallel**, and writes aggregate result CSVs to `results/2_segmentation/`.
 
 ```bash
 python generate_multiple.py -train_dir ../../data/2_1_segmentation/training_data \
                             -freq_dir ../../data/1_aggregated \
-                            -result_dir ../../data/3_results \
+                            -result_dir ../../results/2_segmentation \
                             -folds 10 -workers 4
 ```
 
@@ -180,7 +180,7 @@ make segment LNG=ces TEXT=in.txt OUTPUT=out.morf
 | `-train_dir` | str | `../../data/2_1_segmentation/training_data` | Directory with `.morf` training files |
 | `-freq_dir` | str | `../../data/1_aggregated` | Directory with frequency CSVs |
 | `-model_dir` | str | `../../data/2_1_segmentation/models` | Directory to save models into |
-| `-result_dir` | str | `../../data/3_results` | Directory to write result CSVs |
+| `-result_dir` | str | `../../results/2_segmentation` | Directory to write result CSVs |
 | `-folds` | int | 5 | K-fold cross-validation folds |
 | `-seed` | int | 42 | Random seed |
 | `-workers` | int | CPU count | Max parallel worker processes |

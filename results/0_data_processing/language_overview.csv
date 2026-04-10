@@ -1,0 +1,289 @@
+used_shortcut,name,alternative_name,ud_name,leipzig_shortcut,ud_shortcut,til_shortcut,wals_shortcut,iso_code,primary_script,primary_script_pct,secondary_script,secondary_script_pct,distinct_words,total_frequency,family,genus,macroarea,latitude,longitude,countries,data_sources
+abk,Abkhazian,Abkhaz,Abkhaz,abk,Abkhaz,,abk,abk,Cyrillic,95.89,Latin,3.91,21361,66806,Northwest Caucasian,Northwest Caucasian,Eurasia,43.0833333333,41.0,Georgia,"glot500, wikipedia"
+ace,Achinese,Acehnese,,ace,,,ace,ace,Latin,99.39,,0.0,13702,100432,Austronesian,Malayo-Sumbawan,Eurasia,5.5,95.5,Indonesia,"glot500, wikipedia"
+ach,Acoli,Acholi,,ach,,,ach,ach,Latin,100.0,,0.0,1522,4952,Eastern Sudanic,Western Nilotic,Africa,3.0,32.6666666667,Uganda; South Sudan,"glot500, newscrawl"
+afr,Afrikaans,,,afr,,,afr,afr,Latin,99.93,,0.0,2763964,321220118,Indo-European,Germanic,Africa,-31.0,22.0,South Africa,"bible, glot500, mixed, news, web, wikipedia"
+aii,Assyrian Neo-Aramaic,Neo-Aramaic (Assyrian),Assyrian,aii,Assyrian,,aii,aii,Syriac,97.43,Latin,1.39,6584,13988,Afro-Asiatic,Semitic,Eurasia,36.0,41.0,Syria,wikipedia
+aka,Akan,,,aka,,,aka,aka,Latin,98.14,Greek,1.42,3814,17315,Niger-Congo,Tano,Africa,6.5,-1.25,Ghana,"glot500, wikipedia"
+als,Tosk Albanian,,,als,,,,als,Latin,99.89,,0.0,512687,31761732,,,,,,,"glot500, web"
+alt,Southern Altai,Altai (Southern),,alt,,alt,alt,alt,Cyrillic,99.03,Latin,0.97,8321,31348,Altaic,Turkic,Eurasia,51.0,87.0,Russia,"glot500, wikipedia"
+amh,Amharic,,,amh,,,amh,amh,Ethiopic,99.01,Latin,0.88,205832,1037561,Afro-Asiatic,Semitic,Africa,10.0,38.0,Ethiopia,"bible, community, glot500, wikipedia"
+ang,Old English,,,ang,,,,ang,Latin,99.86,,0.0,27679,105301,,,,,,,wikipedia
+anw,Anaang,,,anw,,,,anw,Latin,99.03,Greek,0.66,52668,409670,,,,,,,community
+ara,Arabic,,,ara,,,,ara,Arabic,95.71,Latin,1.41,5622059,563649399,,,,,,,"bible, glot500, news, newscrawl, newscrawl-OSIAN, web, wikipedia"
+arg,Aragonese,,,arg,,,,arg,Latin,99.66,,0.0,90799,1236933,,,,,,,"glot500, wikipedia"
+arz,Egyptian Arabic,Arabic (Egyptian),,arz,,,arz,arz,Arabic,79.85,Latin,20.03,216151,3100369,Afro-Asiatic,Semitic,Africa,30.0,31.0,Egypt,"glot500, wikipedia"
+asm,Assamese,,,asm,,,asm,asm,Bengali,92.25,Latin,7.66,167030,1578202,Indo-European,Indic,Eurasia,26.0,93.0,India,"community, glot500, wikipedia"
+ast,Leonese,Asturian,,ast,,,ast,ast,Latin,99.4,,0.0,525760,25763701,Indo-European,Romance,Eurasia,43.25,-6.0,Spain,"glot500, wikipedia"
+ava,Avaric,Avar,,ava,,,ava,ava,Cyrillic,94.9,Latin,4.84,21217,67460,Nakh-Daghestanian,Avar-Andic-Tsezic,Eurasia,42.5,46.5,Azerbaijan; Russia,wikipedia
+aym,Aymara,,,aym,,,,aym,Latin,99.82,,0.0,13961,50448,,,,,,,"glot500, wikipedia"
+aze,Azerbaijani,,,aze,,az,,aze,Latin,99.59,,0.0,1233598,25135920,,,,,,,"glot500, news, newscrawl, wikipedia"
+bak,Bashkir,,,bak,,ba,bak,bak,Cyrillic,97.35,Latin,2.55,395644,5597901,Altaic,Turkic,Eurasia,53.0,58.0,Russia,"community, glot500, wikipedia"
+bam,Bambara,,,bam,,,bam,bam,Latin,99.5,,0.0,5366,26199,Mande,Western Mande,Africa,12.5,-7.5,Mali,"glot500, wikipedia"
+ban,Balinese,,,ban,,,ban,ban,Latin,99.65,,0.0,25539,192302,Austronesian,Malayo-Sumbawan,Papunesia,-8.33333333333,115.25,Indonesia,"glot500, wikipedia"
+bar,Bavarian,German (Upper Austrian),,bar,,,bar,bar,Latin,99.86,,0.0,214936,1576193,Indo-European,Germanic,Eurasia,47.0,14.0,Austria,"glot500, wikipedia"
+bcl,Central Bicolano,Bikol,,bcl,,,bcl,bcl,Latin,99.7,,0.0,31109,272190,Austronesian,Greater Central Philippine,Papunesia,13.3333333333,123.5,Philippines,"community, glot500, wikipedia"
+bel,Belarusian,Belorussian,,bel,,,bel,bel,Cyrillic,95.65,Latin,4.32,753716,22162003,Indo-European,Slavic,Eurasia,54.0,28.0,Belarus,"glot500, news, newscrawl, wikipedia"
+ben,Bengali,,,ben,,,ben,ben,Bengali,97.78,Latin,2.06,1851992,66691165,Indo-European,Indic,Eurasia,24.0,90.0,Bangladesh; India,"community, news, newscrawl, web, wikipedia"
+bih,unknown,,,bih,,,,bih,Devanagari,93.82,Latin,6.09,41761,498616,,,,,,,"glot500, wikipedia"
+bik,Bikol,,,bik,,,,bik,Latin,99.79,,0.0,80506,908079,,,,,,,"community, glot500, wikipedia"
+bis,Bislama,,,bis,,,bis,bis,Latin,99.37,Arabic,0.63,1614,6465,other,Creoles and Pidgins,Papunesia,-16.0,168.0,Vanuatu,"glot500, wikipedia"
+bjn,Banjar,,,bjn,,,,bjn,Latin,99.59,,0.0,30862,208712,,,,,,,"community, glot500, wikipedia"
+bod,Tibetan,Rang Pas,,bod,,,bod,bod,Tibetan,86.08,Latin,6.47,20656,24829,Sino-Tibetan,Bodic,Eurasia,30.3333333333,79.3333333333,Nepal,"community, glot500, wikipedia"
+bos,Bosnian,,,bos,,,bos,bos,Latin,99.73,,0.0,745926,27422684,Indo-European,Slavic,Eurasia,43.0,18.0,Bosnia-Herzegovina,"community, news, wikipedia"
+bre,Breton,,,bre,,,bre,bre,Latin,99.21,,0.0,169804,3376187,Indo-European,Celtic,Eurasia,48.0,-3.0,France,wikipedia
+bua,Buriat,,Buryat,bua,Buryat,,,bua,Cyrillic,97.48,Latin,2.17,35593,148166,,,,,,,wikipedia
+bug,Buginese,Bugis,,bug,,,bug,bug,Latin,94.88,Buginese,5.12,2685,6539,Austronesian,South Sulawesi,Papunesia,-4.0,120.0,Indonesia,wikipedia
+bul,Bulgarian,,,bul,,,bul,bul,Cyrillic,94.68,Latin,5.24,1534044,146349472,Indo-European,Slavic,Eurasia,42.5,25.0,Bulgaria,"bible, news, newscrawl, wikipedia"
+cat,Catalan,,,cat,,,cat,cat,Latin,99.8,,0.0,2048225,319812056,Indo-European,Romance,Eurasia,41.75,2.0,Spain,"news, newscrawl, web, wikipedia"
+cbk,Chavacano,,,cbk,,,cbk,cbk,Latin,99.79,,0.0,16576,112261,other,Creoles and Pidgins,Papunesia,7.0,122.083333333,Philippines,wikipedia
+cdo,Min Dong Chinese,Fuzhou,,cdo,,,cdo,cdo,Latin,87.28,Han,12.61,10481,51375,Sino-Tibetan,Chinese,Eurasia,26.0,119.5,China; Malaysia; Thailand,wikipedia
+ceb,Cebuano,,,ceb,,,ceb,ceb,Latin,99.98,,0.0,1190884,53421815,Austronesian,Greater Central Philippine,Papunesia,10.0,124.0,Philippines,"bible, community, wikipedia"
+ces,Czech,,,ces,,,ces,ces,Latin,99.94,,0.0,7818897,1362193983,Indo-European,Slavic,Eurasia,50.0,15.0,Czech Republic,"bible, mixed, news, newscrawl, web-public, wikipedia"
+cha,Chamorro,,,cha,,,cha,cha,Latin,99.87,,0.0,12777,141875,Austronesian,Chamorro,Papunesia,13.45,144.75,Guam,"bible, wikipedia"
+che,Chechen,,,che,,,che,che,Cyrillic,93.82,Latin,5.82,126319,1293044,Nakh-Daghestanian,Nakh,Eurasia,43.25,45.8333333333,Russia,"community, wikipedia"
+chr,Cherokee,,,chr,,,chr,chr,Latin,27.97,Cherokee,24.57,25703,116610,Iroquoian,Southern Iroquoian,North America,35.5,-83.5,United States,"bible, wikipedia"
+chv,Chuvash,,,chv,,cv,chv,chv,Cyrillic,90.01,Latin,9.78,108676,655236,Altaic,Turkic,Eurasia,55.5,47.5,Russia,"community, wikipedia"
+ckb,Central Kurdish,Kurdish (Central),,ckb,,,ckb,ckb,Latin,52.34,Arabic,47.62,235390,1838565,Indo-European,Iranian,Eurasia,36.0,44.0,Iran; Iraq,wikipedia
+cmn,Mandarin Chinese,Kunming,Chinese,cmn,Chinese,,cmn,cmn,Han,97.39,Latin,2.53,3721381,5574649,Sino-Tibetan,Chinese,Eurasia,25.0,102.75,China,"bible, web, wikipedia"
+cor,Cornish,,,cor,,,cor,cor,Latin,99.91,,0.0,18481,127170,Indo-European,Celtic,Eurasia,50.3333333333,-5.0,United Kingdom,wikipedia
+cos,Corsican,,,cos,,,,cos,Latin,99.69,,0.0,36008,267832,,,,,,,wikipedia
+crh,Crimean Turkish,Crimean Tatar,,crh,,crh,crh,crh,Latin,99.31,Cyrillic,0.56,16327,62089,Altaic,Turkic,Eurasia,45.0,34.0833333333,Uzbekistan,wikipedia
+csb,Kashubian,,,csb,,,csb,csb,Latin,99.87,,0.0,66858,242392,Indo-European,Slavic,Eurasia,54.0,18.0,Poland,"news, wikipedia"
+cym,Welsh,Welsh (Colloquial),,cym,,,cym,cym,Latin,99.54,,0.0,176869,4775156,Indo-European,Celtic,Eurasia,52.75,-3.5833,United Kingdom,wikipedia
+dan,Danish,,,dan,,,dan,dan,Latin,99.97,,0.0,16452781,2818988351,Indo-European,Germanic,Eurasia,56.0,10.0,Denmark,"bible, mixed, mixed-freqdic, news, newscrawl, web, web-public, wikipedia"
+deu,German,German (Berlin),,deu,,,deu,deu,Latin,99.95,,0.0,47743997,8846049483,Indo-European,Germanic,Eurasia,52.5,13.3333333333,Germany,"bible, mixed, news, news-gnd, newscrawl, newscrawl-hyphen, newscrawl-public, typical-mixed, wikipedia, wikipedia-WebCAGe, wikipedia-gnd"
+diq,Dimli,Zazaki,,diq,,,diq,diq,Latin,99.64,,0.0,62480,412342,Indo-European,Iranian,Eurasia,39.0,41.0,Turkey,"community, wikipedia"
+div,Maldivian,Dhivehi,,div,,,div,div,Thaana,99.25,,0.0,268161,3045521,Indo-European,Indic,Eurasia,4.16666666667,73.5,Maldives,"news, newscrawl, wikipedia"
+dsb,Lower Sorbian,Sorbian (Lower),,dsb,,,dsb,dsb,Latin,99.83,,0.0,27981,114144,Indo-European,Slavic,Eurasia,51.75,14.3333333333,Germany,wikipedia
+ekk,Standard Estonian,Estonian,,ekk,,,ekk,ekk,Latin,99.31,,0.0,895873,11691442,Uralic,Finnic,Eurasia,59.0,26.0,Estonia,wikipedia
+ell,Modern Greek,Greek (Cypriot),Greek,ell,Greek,,ell,ell,Greek,88.83,Latin,11.12,2575449,399274592,Indo-European,Greek,Eurasia,34.75,33.0,Cyprus,"bible, news, newscrawl, wikipedia"
+eml,Emiliano-Romagnolo,,,eml,,,,eml,Latin,99.79,,0.0,61869,669110,,,,,,,wikipedia
+eng,English,,,eng,,,eng,eng,Latin,96.54,,0.0,35474437,20952813381,Indo-European,Germanic,Eurasia,52.0,0.0,Ireland; United Kingdom,"bible, news, news-economy, newscrawl-public, private-dikusa-hait, web, web-public, wikipedia"
+epo,Esperanto,,,epo,,,,epo,Latin,99.81,,0.0,1138647,40995848,,,,,,,"bible, mixed, wikipedia"
+est,Estonian,,,est,,,,est,Latin,99.98,,0.0,1759118,66318212,,,,,,,"bible, news"
+eus,Basque,Basque (Bidasoa Valley),,eus,,,eus,eus,Latin,99.95,,0.0,820368,15648603,Basque,Basque,Eurasia,43.0,-3.83333333333,Spain,"bible, news, web, wikipedia"
+ewe,Ewe,Ewe (Anlo),,ewe,,,ewe,ewe,Latin,99.88,,0.0,21194,393052,Niger-Congo,Gbe,Africa,6.0,1.0,Ghana,"bible, community, wikipedia"
+ext,Extremaduran,,,ext,,,,ext,Latin,98.65,Greek,1.13,37171,224401,,,,,,,wikipedia
+fao,Faroese,,,fao,,,fao,fao,Latin,99.97,,0.0,101474,1259749,Indo-European,Germanic,Eurasia,62.0,-7.0,Denmark,"news, newscrawl, wikipedia"
+fas,Persian,,,fas,,,,fas,Arabic,97.08,Latin,2.29,5314819,942728613,,,,,,,"news, newscrawl, web-public"
+fij,Fijian,,,fij,,,fij,fij,Latin,99.91,,0.0,5620,54752,Austronesian,Oceanic,Papunesia,-17.8333333333,178.0,Fiji,"newscrawl, wikipedia"
+fin,Finnish,,,fin,,,fin,fin,Latin,99.97,,0.0,12769864,455300152,Uralic,Finnic,Eurasia,62.0,25.0,Finland,"bible, news, web, wikipedia"
+fra,French,,,fra,,,fra,fra,Latin,99.9,,0.0,5811290,1648882058,Indo-European,Romance,Eurasia,48.0,2.0,Switzerland; France,"bible, mixed, news, newscrawl-public, web, wikipedia"
+frp,Francoprovençal,,,frp,,,,frp,Latin,99.87,,0.0,11807,49319,,,,,,,wikipedia
+frr,Northern Frisian,Frisian (North),,frr,,,frr,frr,Latin,99.84,,0.0,29579,212695,Indo-European,Germanic,Eurasia,54.5,9.0,Germany,wikipedia
+fry,Western Frisian,Frisian,,fry,,,fry,fry,Latin,99.95,,0.0,265466,6179130,Indo-European,Germanic,Eurasia,53.0,5.0,Netherlands; Germany,"news, newscrawl, wikipedia"
+ful,Fulah,,,ful,,,,ful,Latin,99.64,,0.0,2773,7945,,,,,,,wikipedia
+fur,Friulian,,,fur,,,,fur,Latin,99.87,,0.0,24123,183546,,,,,,,wikipedia
+gag,Gagauz,,,gag,,gag,gag,gag,Latin,99.85,,0.0,28095,98139,Altaic,Turkic,Eurasia,46.3333333333,28.6666666667,Moldova,wikipedia
+gan,Gan Chinese,,,gan,,,,gan,Han,78.62,Latin,19.92,14606,35661,,,,,,,"community, wikipedia"
+gaz,West Central Oromo,Oromo (West-Central),,gaz,,,gaz,gaz,Latin,100.0,,0.0,47999,300144,Afro-Asiatic,Lowland East Cushitic,Africa,9.0,37.0,Ethiopia,web
+gla,Scottish Gaelic,Gaelic (Scots),,gla,,,gla,gla,Latin,99.81,,0.0,22217,190623,Indo-European,Celtic,Eurasia,57.0,-4.0,United Kingdom,"bible, wikipedia"
+gle,Irish,Irish (Donegal),,gle,,,gle,gle,Latin,99.89,,0.0,850629,22124839,Indo-European,Celtic,Eurasia,55.0,-8.0,Ireland,"web, wikipedia"
+glg,Galician,,,glg,,,glg,glg,Latin,99.83,,0.0,441850,18996519,Indo-European,Romance,Eurasia,43.0,-8.0,Spain,"community, wikipedia"
+glk,Gilaki,,,glk,,,glk,glk,Arabic,97.67,Latin,2.23,573598,20773152,Indo-European,Iranian,Eurasia,37.3333333333,50.0,Iran,"community, wikipedia"
+glv,Manx,,,glv,,,glv,glv,Latin,99.89,,0.0,27609,352599,Indo-European,Celtic,Eurasia,54.1666666667,-4.5,United Kingdom,"bible, wikipedia"
+gom,Goan Konkani,,,gom,,,,gom,Latin,99.97,,0.0,106592,759116,,,,,,,"community, newscrawl, wikipedia"
+gor,Gorontalo,,,gor,,,gor,gor,Latin,99.47,,0.0,11968,69770,Austronesian,Greater Central Philippine,Papunesia,0.5,122.0,Indonesia,wikipedia
+grn,Guarani,,,grn,,,,grn,Latin,99.96,,0.0,36062,195465,,,,,,,"community, wikipedia"
+gsw,Swiss German,Alsatian,,gsw,,,gsw,gsw,Latin,99.84,,0.0,382972,3682463,Indo-European,Germanic,Eurasia,48.5,7.5,France,wikipedia
+guj,Gujarati,,,guj,,,guj,guj,Gujarati,98.48,Latin,1.46,919218,29134599,Indo-European,Indic,Eurasia,23.0,72.0,India,"bible, news, newscrawl, wikipedia"
+hak,Hakka Chinese,Hakka,,hak,,,hak,hak,Latin,98.24,Han,1.66,9916,38241,Sino-Tibetan,Chinese,Eurasia,25.0,116.0,China,wikipedia
+hat,Haitian Creole,,,hat,,,hat,hat,Latin,99.9,,0.0,29695,407268,other,Creoles and Pidgins,North America,19.0,-72.5,Haiti,"community, wikipedia"
+hau,Hausa,,,hau,,,hau,hau,Latin,94.66,,0.0,66946,1832457,Afro-Asiatic,West Chadic,Africa,12.0,7.0,Nigeria; Niger,"community, newscrawl, wikipedia"
+haw,Hawaiian,,,haw,,,haw,haw,Latin,93.93,,0.0,5200,57535,Austronesian,Oceanic,Papunesia,19.5833333333,-155.5,United States,wikipedia
+hbs,Serbo-Croatian,Serbian-Croatian,,hbs,,,hbs,hbs,Latin,74.49,Cyrillic,25.28,1299491,57278581,Indo-European,Slavic,Eurasia,44.0,19.0,Serbia and Montenegro; Bosnia-Herzegovina; Croatia,"newscrawl, wikipedia"
+heb,Hebrew,Hebrew (Modern Ashkenazic),,heb,,,heb,heb,Hebrew,94.57,Latin,5.19,3610715,313418593,Afro-Asiatic,Semitic,Eurasia,31.75,35.1666666667,Israel,"bible, news, web, wikipedia"
+hif,Fiji Hindi,,,hif,,,,hif,Latin,99.72,,0.0,23645,180557,,,,,,,wikipedia
+hin,Hindi,,,hin,,,hin,hin,Devanagari,92.49,Latin,7.44,2542295,401847054,Indo-European,Indic,Eurasia,25.0,77.0,India,"bible, news, web, wikipedia"
+hrv,Croatian (Croatia),,Croatian,hrv,Croatian,,,hrv,Latin,99.88,,0.0,6042547,906778351,,,,,,,"bible, news, web, wikipedia"
+hsb,Upper Sorbian,Sorbian (Upper),,hsb,,,hsb,hsb,Latin,99.78,,0.0,394996,7656876,Indo-European,Slavic,Eurasia,51.8333333333,14.5,Germany,"mixed, news, wikipedia"
+hun,Hungarian,,,hun,,,hun,hun,Latin,99.96,,0.0,14419929,1017476472,Uralic,Ugric,Eurasia,47.0,20.0,Hungary,"bible, news, newscrawl, web, wikipedia"
+hye,Armenian,Armenian (Eastern),,hye,,,hye,hye,Armenian,97.07,Latin,2.65,1693838,47001589,Indo-European,Armenian,Eurasia,40.0,45.0,Armenia,"bible, community, news, newscrawl, wikipedia"
+ibo,Igbo,,,ibo,,,ibo,ibo,Latin,99.9,,0.0,27468,360541,Niger-Congo,Igboid,Africa,6.0,7.33333333333,Nigeria,"community, wikipedia"
+ido,Ido,,,ido,,,,ido,Latin,99.18,,0.0,76188,2462919,,,,,,,wikipedia
+ile,Occidental,,,ile,,,,ile,Latin,99.78,,0.0,20838,171658,,,,,,,wikipedia
+ilo,Iloko,Ilocano,,ilo,,,ilo,ilo,Latin,99.81,,0.0,89602,930665,Austronesian,Northern Luzon,Papunesia,16.0,121.0,Philippines,"community, web, wikipedia"
+ina,Interlingua,,,ina,,,,ina,Latin,99.67,,0.0,46432,547423,,,,,,,wikipedia
+ind,Indonesian,,,ind,,,ind,ind,Latin,99.76,,0.0,7824806,1882874475,Austronesian,Malayo-Sumbawan,Papunesia,0.0,106.0,Indonesia,"bible, mixed, news, newscrawl, web-public, wikipedia"
+inh,Ingush,,,inh,,,inh,inh,Cyrillic,96.11,Latin,3.67,6834,18641,Nakh-Daghestanian,Nakh,Eurasia,43.1666666667,45.0833333333,Russia,wikipedia
+isl,Icelandic,,,isl,,,isl,isl,Latin,99.98,,0.0,9637177,1186781061,Indo-European,Germanic,Eurasia,65.0,-17.0,Iceland,"bible, mixed, news, newscrawl, web, web-public, wikipedia"
+ita,Italian,Italian (Fiorentino),,ita,,,ita,ita,Latin,99.92,,0.0,7215424,2231863043,Indo-European,Romance,Eurasia,43.75,11.25,Italy,"bible, news, newscrawl, web-public, wikipedia"
+jav,Javanese,,,jav,,,jav,jav,Latin,99.79,,0.0,177551,2586838,Austronesian,Javanese,Papunesia,-7.0,111.0,Indonesia,"community, wikipedia"
+kaa,Kara-Kalpak,Karakalpak,,kaa,,kaa,kaa,kaa,Latin,99.42,,0.0,28778,127681,Altaic,Turkic,Eurasia,43.0,60.0,Uzbekistan,wikipedia
+kab,Kabyle,,,kab,,,kab,kab,Latin,99.85,,0.0,43876,296915,Afro-Asiatic,Berber,Africa,36.5,5.0,Algeria,"bible, wikipedia"
+kal,Kalaallisut,Greenlandic (East),,kal,,,kal,kal,Latin,100.0,,0.0,120769,461538,Eskimo-Aleut,Eskimo,Eurasia,65.0,-40.0,Greenland,"newscrawl, wikipedia"
+kan,Kannada,,,kan,,,kan,kan,Kannada,98.38,Latin,1.56,1150930,9264596,Dravidian,Dravidian,Eurasia,14.0,76.0,India,"bible, community, wikipedia"
+kas,Kashmiri,,,kas,,,kas,kas,Arabic,99.56,,0.0,2433,4939,Indo-European,Indic,Eurasia,34.0,76.0,Pakistan; India,wikipedia
+kat,Georgian,,,kat,,,kat,kat,Georgian,96.83,Latin,2.96,10295967,648694484,Kartvelian,Kartvelian,Eurasia,42.0,44.0,Georgia,"mixed, news, newscrawl, web, wikipedia"
+kaz,Kazakh,,,kaz,,kk,kaz,kaz,Cyrillic,97.33,Latin,2.62,3667931,213213403,Altaic,Turkic,Eurasia,50.0,70.0,Kazakhstan,"news, web, wikipedia"
+kbd,Kabardian,,,kbd,,,kbd,kbd,Cyrillic,96.62,Latin,3.29,30819,89065,Northwest Caucasian,Northwest Caucasian,Eurasia,43.5,43.5,Russia,"community, wikipedia"
+kbp,Kabiyè,Kabiyé,,kbp,,,kbp,kbp,Latin,99.75,,0.0,34065,295374,Niger-Congo,Grusi,Africa,9.66666666667,1.16666666667,Togo,wikipedia
+kck,Kalanga,,,kck,,,kck,kck,Latin,100.0,,0.0,3673,14415,Niger-Congo,Bantu,Africa,-20.5,27.5,Botswana; Zimbabwe,community
+khk,Halh Mongolian,Khalkha,,khk,,,khk,khk,Cyrillic,95.18,Latin,4.8,37530,297485,Altaic,Mongolic,Eurasia,47.0,105.0,Mongolia,community
+khm,Central Khmer,Khmer,,khm,,,khm,khm,Khmer,93.36,Latin,6.61,26069,42361,Austro-Asiatic,Khmer,Eurasia,12.5,105.0,Cambodia,"news, newscrawl, wikipedia"
+kin,Kinyarwanda,,,kin,,,kin,kin,Latin,99.95,,0.0,122284,1034507,Niger-Congo,Bantu,Africa,-2.0,30.0,Rwanda,"community, wikipedia"
+kir,Kyrgyz,Kirghiz (Fu-Yu),,kir,,ky,kir,kir,Cyrillic,98.27,Latin,1.71,1197418,43144423,Altaic,Turkic,Eurasia,47.75,124.416666667,China,"community, news, newscrawl, web, wikipedia"
+kng,Koongo,Fiote,,kng,,,kng,kng,Latin,98.26,Hebrew,1.74,577,1543,Niger-Congo,Bantu,Africa,-5.5,14.0,Democratic Republic of Congo,wikipedia
+koi,Komi-Permyak,,Komi_Permyak,koi,Komi_Permyak,,koi,koi,Cyrillic,96.44,Latin,3.44,19531,78941,Uralic,Permic,Eurasia,59.5,54.5,Russia,wikipedia
+kom,Komi,,Komi_Zyrian,kom,Komi_Zyrian,,,kom,Cyrillic,96.21,Latin,3.68,27457,110138,,,,,,,wikipedia
+krc,Karachay-Balkar,,,krc,,krc,krc,krc,Cyrillic,97.82,Latin,2.06,26733,106639,Altaic,Turkic,Eurasia,43.5,42.0,Russia,"glot500, wikipedia"
+ksh,Kölsch,German (Ripuarian),,ksh,,,ksh,ksh,Latin,99.93,,0.0,37709,216728,Indo-European,Germanic,Eurasia,51.0,7.0,Belgium,wikipedia
+kur,Kurdish,,Northern_Kurdish,kur,Northern_Kurdish,,,kur,Arabic,98.76,Latin,1.22,221783,1794081,,,,,,,"community, newscrawl, wikipedia"
+lad,Ladino,,,lad,,,lad,lad,Latin,99.33,,0.0,28944,213407,Indo-European,Romance,Eurasia,40.0,33.0,Turkey; Israel,wikipedia
+lao,Lao,,,lao,,,lao,lao,Lao,94.74,Latin,5.21,32720,204927,Tai-Kadai,Kam-Tai,Eurasia,18.0,103.0,Laos; Thailand,"community, news, newscrawl, wikipedia"
+lat,Latin,,,lat,,,,lat,Latin,99.49,,0.0,326347,4404350,,,,,,,"bible, wikipedia"
+lav,Latvian,,,lav,,,lav,lav,Latin,99.85,,0.0,328867,9961890,Indo-European,Baltic,Eurasia,57.0,24.0,Latvia,"bible, news, wikipedia"
+lbe,Lak,,,lbe,,,lbe,lbe,Cyrillic,93.84,Latin,4.92,5552,13392,Nakh-Daghestanian,Lak,Eurasia,42.1666666667,47.1666666667,Russia,wikipedia
+lij,Ligurian,Italian (Genoa),,lij,,,lij,lij,Latin,99.81,,0.0,43868,272466,Indo-European,Romance,Eurasia,44.4166666667,8.95,Italy,wikipedia
+lim,Limburgish,,,lim,,,,lim,Latin,99.91,,0.0,188487,2071721,,,,,,,"community, web, wikipedia"
+lin,Lingala,,,lin,,,lin,lin,Latin,99.81,,0.0,9722,46517,Niger-Congo,Bantu,Africa,2.0,18.5,Democratic Republic of Congo,wikipedia
+lit,Lithuanian,,,lit,,,lit,lit,Latin,99.9,,0.0,1994938,97263725,Indo-European,Baltic,Eurasia,55.0,24.0,Lithuania,"bible, news, newscrawl, wikipedia"
+lmo,Lombard,,,lmo,,,,lmo,Latin,99.71,,0.0,96419,1278047,,,,,,,wikipedia
+ltg,Latgalian,,,ltg,,,,ltg,Latin,99.79,,0.0,13687,38863,,,,,,,wikipedia
+ltz,Luxembourgish,Luxemburgeois,,ltz,,,ltz,ltz,Latin,99.78,,0.0,208287,3377019,Indo-European,Germanic,Eurasia,49.8333333333,6.16666666667,Luxembourg,wikipedia
+lug,Ganda,Luganda,,lug,,,lug,lug,Latin,99.98,,0.0,432354,7609079,Niger-Congo,Bantu,Africa,0.5,32.1666666667,Uganda,"community, newscrawl, wikipedia"
+lup,Lumbu,,,lup,,,,lup,Latin,100.0,,0.0,20871,92750,,,,,,,"community, web"
+lus,Lushai,Mizo,,lus,,,lus,lus,Latin,100.0,,0.0,76271,3250731,Sino-Tibetan,Kuki-Chin,Eurasia,23.1666666667,92.8333333333,Bangladesh; India,"news, newscrawl"
+lvs,Standard Latvian,,,lvs,,,,lvs,Latin,99.17,Cyrillic,0.71,284583,3828366,,,,,,,wikipedia
+mad,Madurese,,,mad,,,mad,mad,Latin,100.0,,0.0,1369,3378,Austronesian,Malayo-Sumbawan,Papunesia,-7.0,113.5,Indonesia,wikipedia
+mah,Marshallese,,,mah,,,mah,mah,Latin,100.0,,0.0,126,249,Austronesian,Oceanic,Papunesia,7.11666666667,171.05,Marshall Islands,wikipedia
+mai,Maithili,,,mai,,,mai,mai,Devanagari,98.46,Latin,1.43,43547,273735,Indo-European,Indic,Eurasia,26.0,86.0,India; Nepal,wikipedia
+mal,Malayalam,,,mal,,,mal,mal,Malayalam,98.53,Latin,1.39,1210629,7409779,Dravidian,Dravidian,Eurasia,10.0,76.5,India,"bible, community, newscrawl, wikipedia"
+mar,Marathi,,,mar,,,mar,mar,Devanagari,98.89,Latin,1.09,1589182,40143133,Indo-European,Indic,Eurasia,19.0,76.0,India,"bible, news, web, wikipedia"
+mdf,Moksha,Mordvin (Moksha),,mdf,,,mdf,mdf,Cyrillic,98.6,Latin,1.34,13432,38411,Uralic,Mordvin,Eurasia,54.0,44.0,Russia,wikipedia
+mhr,Eastern Mari,Mari (Meadow),,mhr,,,mhr,mhr,Cyrillic,97.88,Latin,2.06,43546,251195,Uralic,Mari,Eurasia,57.0,48.0,Russia,wikipedia
+min,Minangkabau,,,min,,,min,min,Latin,99.9,,0.0,126554,2129943,Austronesian,Malayo-Sumbawan,Papunesia,-1.0,101.0,Indonesia,"community, wikipedia"
+mkd,Macedonian,,,mkd,,,mkd,mkd,Cyrillic,95.51,Latin,4.44,3269611,466509296,Indo-European,Slavic,Eurasia,41.6666666667,21.75,Macedonia,"community, news, news-sdk, web, wikipedia"
+mkw,Kituba (Congo),,,mkw,,,,mkw,Cyrillic,79.13,Latin,20.47,182368,1577045,,,,,,,community
+mlg,Malagasy,,,mlg,,,,mlg,Latin,99.72,,0.0,121225,2471748,,,,,,,"community, web"
+mlt,Maltese,,,mlt,,,mlt,mlt,Latin,99.89,,0.0,167704,2285490,Afro-Asiatic,Semitic,Eurasia,35.9166666667,14.4166666667,Malta,"news, newscrawl, wikipedia"
+mon,Mongolian,,,mon,,,,mon,Cyrillic,76.44,Mongolian,19.8,438891,11320893,,,,,,,"news, newscrawl, wikipedia"
+mri,Maori,,,mri,,,mri,mri,Latin,98.97,Hebrew,0.97,48627,3323455,Austronesian,Oceanic,Papunesia,-40.0,176.0,New Zealand,"bible, web, wikipedia"
+mrj,Western Mari,Mari (Hill),,mrj,,,mrj,mrj,Cyrillic,92.02,Latin,7.72,28907,127677,Uralic,Mari,Eurasia,57.0,58.0,Russia,wikipedia
+msa,Malay (macrolanguage),,,msa,,,,msa,Latin,99.37,,0.0,428962,22269475,,,,,,,"community, news, newscrawl, web, wikipedia"
+mwl,Mirandese,,,mwl,,,,mwl,Latin,99.4,,0.0,89849,1440246,,,,,,,wikipedia
+mya,Burmese,,,mya,,,mya,mya,Myanmar,94.03,Latin,5.95,297447,713281,Sino-Tibetan,Burmese-Lolo,Eurasia,21.0,96.0,Myanmar,"bible, news, web, wikipedia"
+myv,Erzya,Mordvin (Erzya),,myv,,,myv,myv,Cyrillic,98.9,Latin,1.06,33506,121667,Uralic,Mordvin,Eurasia,53.0,45.5,Kazakhstan; Russia,wikipedia
+mzn,Mazanderani,,,mzn,,,mzn,mzn,Arabic,96.18,Latin,3.56,43314,430190,Indo-European,Iranian,Eurasia,36.5,52.0,Iran,"community, wikipedia"
+nah,Nahuatl,,,nah,,,,nah,Latin,99.62,,0.0,16710,56511,,,,,,,wikipedia
+nan,Min Nan Chinese,,,nan,,,,nan,Latin,96.29,Han,3.13,49635,679952,,,,,,,wikipedia
+nap,Neapolitan,Italian (Napolitanian),,nap,,,nap,nap,Latin,99.84,,0.0,56998,412647,Indo-European,Romance,Eurasia,40.9166666667,14.25,Italy,wikipedia
+nau,Nauru,Nauruan,,nau,,,nau,nau,Latin,100.0,,0.0,517,1281,Austronesian,Oceanic,Papunesia,-0.5,166.916666667,Nauru,wikipedia
+nav,Navajo,,,nav,,,nav,nav,Latin,95.67,,0.0,14267,100512,Na-Dene,Athapaskan,North America,36.1666666667,-108.0,United States,wikipedia
+nci,Classical Nahuatl,,,nci,,,,nci,Latin,99.23,,0.0,13071,49883,,,,,,,wikipedia
+nde,North Ndebele,Ndebele,,nde,,,nde,nde,Latin,100.0,,0.0,1308,2267,Niger-Congo,Bantu,Africa,-25.3333333333,29.0,South Africa,web
+ndo,Ndonga,,,ndo,,,ndo,ndo,Latin,100.0,,0.0,34403,281187,Niger-Congo,Bantu,Africa,-18.0,17.0,Angola; Namibia,"community, wikipedia"
+nds,Low Saxon,Low German,,nds,,,nds,nds,Latin,99.95,,0.0,292635,4129745,Indo-European,Germanic,Eurasia,53.0,10.0,Germany,wikipedia
+nep,Nepali,,,nep,,,,nep,Devanagari,99.17,Latin,0.8,1245231,39074633,,,,,,,"bible, community, news, wikipedia"
+new,Newari,Newari (Kathmandu),,new,,,new,new,Devanagari,94.74,Latin,5.1,52177,342696,Sino-Tibetan,Himalayish,Eurasia,27.6666666667,85.5,Nepal,wikipedia
+nia,Nias,,,nia,,,nia,nia,Latin,99.88,,0.0,9684,89451,Austronesian,Northwest Sumatra-Barrier Islands,Papunesia,1.0,97.75,Indonesia,wikipedia
+nld,Dutch,Dutch (Brabantic),,nld,,,nld,nld,Latin,99.95,,0.0,11601627,1979081111,Indo-European,Germanic,Eurasia,50.75,4.5,Belgium,"bible, news, newscrawl, web, web-public, wikipedia"
+nno,Norwegian Nynorsk,,,nno,,,,nno,Latin,99.39,,0.0,522761,11395139,,,,,,,wikipedia
+nob,Norwegian Bokmål,,,nob,,,,nob,Latin,99.99,,0.0,4817396,576901809,,,,,,,"news, newscrawl, web"
+non,Old Norse,,,non,,,,non,Latin,100.0,,0.0,66867,1138135,,,,,,,web
+nor,Norwegian,,,nor,,,nor,nor,Latin,99.94,,0.0,1049381,33978321,Indo-European,Germanic,Eurasia,61.0,8.0,Norway,"bible, community, news, wikipedia"
+nov,Novial,,,nov,,,,nov,Latin,99.71,,0.0,8732,39655,,,,,,,wikipedia
+nso,Sepedi,Sotho (Northern),,nso,,,nso,nso,Latin,99.98,,0.0,25101,439335,Niger-Congo,Bantu,Africa,-24.0,29.0,South Africa,"mixed, web, wikipedia"
+oci,Occitan (post 1500),Occitan,Occitan,oci,Occitan,,oci,oci,Latin,99.6,,0.0,219629,4265786,Indo-European,Romance,Eurasia,44.0,2.0,France,"community, wikipedia"
+ori,Oriya,,Odia,ori,Odia,,,ori,Oriya,89.32,Latin,10.31,181569,1862559,,,,,,,"community, wikipedia"
+orm,Oromo,,,orm,,,,orm,Latin,99.98,,0.0,29667,155284,,,,,,,wikipedia
+oss,Ossetic,,,oss,,,oss,oss,Cyrillic,89.78,Latin,10.14,39311,202757,Indo-European,Iranian,Eurasia,43.0,44.0,Russia; Georgia,wikipedia
+pag,Pangasinan,,,pag,,,pag,pag,Latin,99.71,,0.0,7572,56226,Austronesian,Northern Luzon,Papunesia,15.9166666667,120.333333333,Philippines,"community, wikipedia"
+pam,Pampanga,Kapampangan,,pam,,,pam,pam,Latin,99.39,,0.0,32733,287248,Austronesian,Central Luzon,Papunesia,15.3333333333,120.5,Philippines,"community, wikipedia"
+pan,Punjabi,Panjabi,,pan,,,pan,pan,Gurmukhi,96.27,Latin,3.27,359729,17134602,Indo-European,Indic,Eurasia,31.0,74.0,Pakistan; India,"newscrawl, wikipedia"
+pap,Papiamento,Papiamentu,,pap,,,pap,pap,Latin,99.9,,0.0,111949,8347010,other,Creoles and Pidgins,North America,12.25,-69.0,Netherlands Antilles,"news, newscrawl, wikipedia"
+pcd,Picard,,,pcd,,,,pcd,Latin,99.59,,0.0,21549,102642,,,,,,,wikipedia
+pdc,Pennsylvania German,,,pdc,,,,pdc,Latin,99.86,,0.0,9573,52635,,,,,,,wikipedia
+pes,Iranian Persian,Persian,,pes,,,pes,pes,Arabic,93.31,Latin,6.6,6100117,804579398,Indo-European,Iranian,Eurasia,32.0,54.0,Iran,"bible, community, web, wikipedia"
+pfl,Pfaelzisch,,,pfl,,,,pfl,Latin,99.96,,0.0,46559,217251,,,,,,,wikipedia
+plt,Plateau Malagasy,Malagasy,,plt,,,plt,plt,Latin,99.53,,0.0,99285,2210508,Austronesian,Barito,Africa,-20.0,47.0,Madagascar,"bible, wikipedia"
+pms,Piemontese,Italian (Turinese),,pms,,,pms,pms,Latin,99.75,,0.0,54433,814035,Indo-European,Romance,Eurasia,45.0,7.66666666667,Italy,wikipedia
+pnb,Western Panjabi,,,pnb,,,,pnb,Arabic,96.2,Latin,3.59,384008,14220569,,,,,,,"community, wikipedia"
+pnt,Pontic,,,pnt,,,,pnt,Greek,93.42,Latin,6.58,6545,21375,,,,,,,wikipedia
+pol,Polish,,,pol,,,pol,pol,Latin,99.9,,0.0,3740982,534776014,Indo-European,Slavic,Eurasia,52.0,20.0,Poland,"bible, news, newscrawl, wikipedia"
+por,Portuguese,,,por,,,por,por,Latin,99.93,,0.0,4138362,1896048414,Indo-European,Romance,Eurasia,39.0,-8.0,Portugal,"bible, news, newscrawl, wikipedia"
+prs,Dari,,,prs,,,prs,prs,Arabic,98.9,Latin,1.1,122762,1703545,Indo-European,Iranian,Eurasia,35.0,66.0,Afghanistan,community
+pus,Pashto,,,pus,,,,pus,Arabic,94.71,Latin,4.74,345270,8057751,,,,,,,"news, newscrawl, wikipedia"
+que,Quechua,,,que,,,,que,Latin,98.93,,0.0,30254,179564,,,,,,,"community, wikipedia"
+roa,Tarantino,,,roa,,,,roa,Latin,99.77,,0.0,28111,220045,,,,,,,wikipedia
+roh,Romansh,Romansch,,roh,,,roh,roh,Latin,99.9,,0.0,80781,1794939,Indo-European,Romance,Eurasia,46.6666666667,9.16666666667,Switzerland,"newscrawl, wikipedia"
+rom,Romany,,,rom,,,,rom,Latin,97.6,Devanagari,2.1,17407,227820,,,,,,,"bible, news, wikipedia"
+ron,Romanian,Moldavian,,ron,,,ron,ron,Latin,92.78,Cyrillic,7.18,2819400,499519720,Indo-European,Romance,Eurasia,47.0,29.0,Moldova,"bible, news, newscrawl, wikipedia"
+rue,Rusyn,,,rue,,,,rue,Cyrillic,95.96,Latin,3.87,49438,176276,,,,,,,wikipedia
+run,Rundi,,,run,,,run,run,Latin,100.0,,0.0,50832,329931,Niger-Congo,Bantu,Africa,-3.5,30.0,Burundi,"community, wikipedia"
+rup,Macedo-Romanian,,,rup,,,,rup,Latin,99.51,,0.0,9581,31471,,,,,,,wikipedia
+rus,Russian,,,rus,,,rus,rus,Cyrillic,92.81,Latin,7.14,23435509,4873917160,Indo-European,Slavic,Eurasia,56.0,38.0,Russia,"bible, mixed, news, newscrawl-public, web, web-public, wikipedia"
+sag,Sango,,,sag,,,sag,sag,Latin,100.0,,0.0,679,2837,Niger-Congo,Ubangi,Africa,5.0,18.0,Central African Republic,wikipedia
+sah,Yakut,,,sah,,sah,sah,sah,Cyrillic,98.61,Latin,1.31,127387,1153200,Altaic,Turkic,Eurasia,62.0,130.0,Russia,wikipedia
+san,Sanskrit,,,san,,,,san,Devanagari,74.3,Latin,25.68,374967,1473411,,,,,,,"newscrawl, wikipedia"
+scn,Sicilian,,,scn,,,,scn,Latin,99.9,,0.0,72512,582831,,,,,,,wikipedia
+sco,Scots,,,sco,,,,sco,Latin,98.92,,0.0,50459,640622,,,,,,,wikipedia
+scr,Croatian (Serbia),,,scr,,,,scr,Latin,99.4,,0.0,167116,1429595,,,,,,,wikipedia
+sgs,Samogitian,,,sgs,,,,sgs,Latin,99.77,,0.0,41292,129647,,,,,,,wikipedia
+sin,Sinhalese,Sinhala,Sinhala,sin,Sinhala,,sin,sin,Sinhala,93.36,Latin,6.56,352694,5440746,Indo-European,Indic,Eurasia,7.0,80.5,Sri Lanka,"community, wikipedia"
+skr,Seraiki,,,skr,,,,skr,Arabic,99.17,Latin,0.83,19241,106389,,,,,,,wikipedia
+slk,Slovak,,,slk,,,slk,slk,Latin,99.94,,0.0,1449804,84048422,Indo-European,Slavic,Eurasia,49.0,20.0,Slovakia,"bible, news, newscrawl, wikipedia"
+slv,Slovenian,Slovene,,slv,,,slv,slv,Latin,99.89,,0.0,1308165,99224881,Indo-European,Slavic,Eurasia,46.0,15.0,Slovenia,"bible, news, newscrawl, wikipedia"
+sme,Northern Sami,Saami (Northern),North_Sami,sme,North_Sami,,sme,sme,Latin,99.87,,0.0,28563,115042,Uralic,Saami,Eurasia,69.0,24.0,Norway; Finland; Sweden,wikipedia
+smi,Sami,,,smi,,,,smi,Latin,99.94,,0.0,39077,296833,,,,,,,"news, newscrawl"
+smo,Samoan,,,smo,,,smo,smo,Latin,98.03,,0.0,5237,55029,Austronesian,Oceanic,Papunesia,-13.9166666667,-171.833333333,American Samoa; Samoa,wikipedia
+sna,Shona,Karanga,,sna,,,sna,sna,Latin,99.99,,0.0,289222,2624424,Niger-Congo,Bantu,Africa,-20.0,31.0,Zimbabwe,"bible, community, newscrawl, web, wikipedia"
+snd,Sindhi,,,snd,,,snd,snd,Arabic,95.61,Latin,4.35,121640,2272873,Indo-European,Indic,Eurasia,26.0,69.0,Pakistan; India,"community, wikipedia"
+som,Somali,,,som,,,som,som,Latin,99.74,,0.0,246963,5975511,Afro-Asiatic,Lowland East Cushitic,Africa,3.0,45.0,Somalia,"bible, community, news, newscrawl, wikipedia"
+sot,Southern Sotho,Sesotho,,sot,,,sot,sot,Latin,99.97,,0.0,26220,467315,Niger-Congo,Bantu,Africa,-28.0,27.0,Lesotho; South Africa,"community, web, wikipedia"
+spa,Spanish,,,spa,,,spa,spa,Latin,99.89,,0.0,6969897,4160457389,Indo-European,Romance,Eurasia,40.0,-4.0,Spain,"bible, news, newscrawl, newscrawl-public, wikipedia"
+sqi,Albanian,,,sqi,,,sqi,sqi,Latin,99.95,,0.0,1235489,136118734,Indo-European,Albanian,Eurasia,41.0,20.0,Serbia and Montenegro; Albania,"bible, community, news, newscrawl, wikipedia"
+srd,Sardinian,,,srd,,,,srd,Latin,99.81,,0.0,66052,560782,,,,,,,wikipedia
+srn,Sranan Tongo,Sranan,,srn,,,srn,srn,Latin,99.94,,0.0,2992,14286,other,Creoles and Pidgins,South America,5.83333333333,-55.3333333333,Suriname,wikipedia
+srp,Serbian,,,srp,,,,srp,Cyrillic,64.76,Latin,35.2,944590,28605504,,,,,,,"bible, news, wikipedia"
+ssw,Swati,,,ssw,,,ssw,ssw,Latin,100.0,,0.0,22644,150749,Niger-Congo,Bantu,Africa,-26.5,31.0,South Africa; Swaziland,"bible, wikipedia"
+sun,Sundanese,,,sun,,,sun,sun,Latin,99.15,,0.0,87661,1004095,Austronesian,Malayo-Sumbawan,Papunesia,-7.0,107.0,Indonesia,"community, wikipedia"
+swa,Swahili (macrolanguage),,,swa,,,,swa,Latin,99.89,,0.0,281511,7204953,,,,,,,"community, news, newscrawl, wikipedia"
+swe,Swedish,,,swe,,,swe,swe,Latin,99.98,,0.0,11669295,1412366107,Indo-European,Germanic,Eurasia,60.0,15.0,Finland; Sweden,"bible, news, newscrawl, web, wikipedia"
+swh,Swahili,,,swh,,,swh,swh,Latin,99.78,,0.0,535686,28922174,Niger-Congo,Bantu,Africa,-6.5,39.0,Tanzania,"web, wikipedia"
+szl,Silesian,,,szl,,,,szl,Latin,99.81,,0.0,68966,484530,,,,,,,wikipedia
+tah,Tahitian,,,tah,,,tah,tah,Latin,100.0,,0.0,499,1939,Austronesian,Oceanic,Papunesia,-17.6666666667,-149.583333333,French Polynesia,wikipedia
+tam,Tamil,,,tam,,,tam,tam,Tamil,97.6,Latin,2.37,3126892,57506497,Dravidian,Dravidian,Eurasia,11.0,78.5,India; Sri Lanka,"community, news, newscrawl, web, wikipedia"
+tat,Tatar,Tatar (Mishar),,tat,,tt,tat,tat,Cyrillic,97.34,Latin,2.59,2448376,232796806,Altaic,Turkic,Eurasia,55.5,49.0,Russia,"community, mixed, news, web, wikipedia"
+tcy,Tulu,,,tcy,,,tcy,tcy,Kannada,97.88,Latin,2.12,45206,139280,Dravidian,Dravidian,Eurasia,12.75,75.3333333333,India,wikipedia
+tel,Telugu,,,tel,,,tel,tel,Telugu,98.32,Latin,1.64,1915706,30422159,Dravidian,Dravidian,Eurasia,16.0,79.0,India,"bible, community, news, newscrawl, web, wikipedia"
+tet,Tetum,Tetun Dili,,tet,,,tet,tet,Latin,99.82,,0.0,12151,70231,Austronesian,Central Malayo-Polynesian,Papunesia,-8.58333333333,125.583333333,East Timor,wikipedia
+tgk,Tajik,,,tgk,,,tgk,tgk,Cyrillic,93.2,Latin,6.69,1067018,56556699,Indo-European,Iranian,Eurasia,38.6666666667,70.0,Tajikistan,"community, newscrawl, web, wikipedia"
+tgl,Tagalog,,,tgl,,,tgl,tgl,Latin,99.94,,0.0,426626,21839838,Austronesian,Greater Central Philippine,Papunesia,15.0,121.0,Philippines,"bible, community, news, newscrawl, wikipedia"
+tha,Thai,,,tha,,,tha,tha,Thai,93.36,Latin,6.57,6300827,15830831,Tai-Kadai,Kam-Tai,Eurasia,16.0,101.0,Thailand,"bible, community, news, newscrawl, web, wikipedia"
+tir,Tigrinya,,,tir,,,tir,tir,Ethiopic,98.41,Latin,1.46,7766,18978,Afro-Asiatic,Semitic,Africa,14.5,38.5,Ethiopia; Eritrea,wikipedia
+tlh,tlhIngan-Hol,,,tlh,,,,tlh,Latin,100.0,,0.0,1138,2912,,,,,,,wikia
+ton,Tonga (Tonga Islands),Tongan,,ton,,,ton,ton,Latin,96.39,,0.0,6242,57690,Austronesian,Oceanic,Papunesia,-21.1666666667,-175.166666667,Tonga,wikipedia
+tpi,Tok Pisin,,,tpi,,,tpi,tpi,Latin,99.86,,0.0,2274,16247,other,Creoles and Pidgins,Papunesia,-9.5,147.166666667,Papua New Guinea,"newscrawl, wikipedia"
+tsn,Tswana,,,tsn,,,tsn,tsn,Latin,100.0,,0.0,37194,883333,Niger-Congo,Bantu,Africa,-24.0,26.0,South Africa; Botswana,"community, web, wikipedia"
+tso,Tsonga,,,tso,,,tso,tso,Latin,99.97,,0.0,30338,461552,Niger-Congo,Bantu,Africa,-24.0,32.0,Mozambique; South Africa,"community, web, wikipedia"
+tuk,Turkmen,,,tuk,,tk,tuk,tuk,Latin,99.62,,0.0,243367,5297831,Altaic,Turkic,Eurasia,40.0,58.0,Turkmenistan,"web, wikipedia"
+tum,Tumbuka,,,tum,,,,tum,Latin,100.0,,0.0,2221,6320,,,,,,,wikipedia
+tur,Turkish,,,tur,,tr,tur,tur,Latin,99.96,,0.0,9661125,1282066356,Altaic,Turkic,Eurasia,39.0,35.0,Turkey,"bible, news, newscrawl, web, wikipedia"
+tyv,Tuvinian,Tuvan,,tyv,,tyv,tyv,tyv,Cyrillic,98.5,Latin,1.44,55117,300920,Altaic,Turkic,Eurasia,52.0,95.0,Russia; Mongolia,wikipedia
+udm,Udmurt,,,udm,,,udm,udm,Cyrillic,97.23,Latin,2.69,21087,78684,Uralic,Permic,Eurasia,57.5,52.5,Russia,wikipedia
+uig,Uyghur,,,uig,,ug,uig,uig,Arabic,99.46,,0.0,221409,1659791,Altaic,Turkic,Eurasia,40.0,80.0,China,"community, newscrawl, wikipedia"
+ukr,Ukrainian,,,ukr,,,ukr,ukr,Cyrillic,95.44,Latin,4.52,16918324,2954780061,Indo-European,Slavic,Eurasia,49.0,33.0,Ukraine,"bible, mixed, news, newscrawl, web, wikipedia"
+urd,Urdu,,,urd,,,urd,urd,Arabic,97.31,Latin,2.64,1754026,233773148,Indo-European,Indic,Eurasia,25.0,67.0,Pakistan,"news, web, wikipedia"
+uzb,Uzbek,,,uzb,,uz,,uzb,Latin,87.59,Cyrillic,9.2,94466,1263737,,,,,,,"community, news, newscrawl, wikipedia"
+uzn,Northern Uzbek,Uzbek (Northern),,uzn,,,uzn,uzn,Cyrillic,64.72,Latin,35.23,1947686,86562774,Altaic,Turkic,Eurasia,40.6666666667,66.5,Uzbekistan,"newscrawl, web"
+vec,Venetian,,,vec,,,,vec,Latin,99.83,,0.0,73780,650369,,,,,,,wikipedia
+ven,Venda,,,ven,,,ven,ven,Latin,99.96,,0.0,12217,159831,Niger-Congo,Bantu,Africa,-22.0,30.0,South Africa; Zimbabwe,"community, wikipedia"
+vie,Vietnamese,,,vie,,,vie,vie,Latin,99.17,,0.0,2943258,1822028425,Austro-Asiatic,Vietic,Eurasia,10.5,106.5,Vietnam,"bible, mixed, news, newscrawl, wikipedia"
+vls,Vlaams,,,vls,,,,vls,Latin,99.83,,0.0,69961,608315,,,,,,,"community, wikipedia"
+vol,Volapük,,,vol,,,,vol,Latin,99.93,,0.0,95756,3689220,,,,,,,wikipedia
+vro,Võro,,,vro,,,,vro,Latin,99.75,,0.0,33965,124346,,,,,,,wikipedia
+war,Waray (Philippines),Waray-Waray,,war,,,war,war,Latin,99.82,,0.0,380126,11848305,Austronesian,Greater Central Philippine,Papunesia,12.0,125.0,Philippines,"community, wikipedia"
+way,Wayana,,,way,,,way,way,Latin,100.0,,0.0,41,94,Cariban,Cariban,South America,3.25,-54.1666666667,French Guiana; Suriname; Brazil,wikipedia
+wln,Walloon,,,wln,,,,wln,Latin,99.7,,0.0,49724,631234,,,,,,,wikipedia
+wol,Wolof,,,wol,,,wol,wol,Latin,99.89,,0.0,22410,392915,Niger-Congo,Wolof,Africa,15.25,-16.0,Gambia; Senegal,"bible, community, wikipedia"
+xal,Oirat,Kalmyk (Issyk-Kul),,xal,,,xal,xal,Cyrillic,97.39,Latin,2.27,8014,23008,Altaic,Mongolic,Eurasia,42.4166666667,78.3333333333,Kyrgyzstan,wikipedia
+xho,Xhosa,,,xho,,,xho,xho,Latin,99.97,,0.0,298274,2368517,Niger-Congo,Bantu,Africa,-32.0,27.0,South Africa,"bible, community, web, wikipedia"
+xmf,Mingrelian,,,xmf,,,xmf,xmf,Georgian,94.33,Latin,5.39,110355,625255,Kartvelian,Kartvelian,Eurasia,42.5,42.0,Georgia,"web, wikipedia"
+ydd,Eastern Yiddish,Yiddish (Bessarabian),,ydd,,,ydd,ydd,Hebrew,99.05,Latin,0.95,29567,450024,Indo-European,Germanic,Eurasia,47.0,28.5,Moldova,community
+yid,Yiddish,,,yid,,,,yid,Hebrew,98.5,Latin,1.41,77243,1202743,,,,,,,wikipedia
+yor,Yoruba,,,yor,,,yor,yor,Latin,99.94,,0.0,40676,405029,Niger-Congo,Defoid,Africa,8.0,4.33333333333,Nigeria; Benin,"community, web, wikipedia"
+zea,Zeeuws,Dutch (Zeeuws),,zea,,,zea,zea,Latin,99.85,,0.0,35218,222859,Indo-European,Germanic,Eurasia,51.5,3.75,Netherlands; Belgium,wikipedia
+zha,Zhuang,,,zha,,,,zha,Latin,98.51,Han,1.03,2929,7204,,,,,,,wikipedia
+zul,Zulu,Zulu (Northern),,zul,,,zul,zul,Latin,99.99,,0.0,1089672,16199975,Niger-Congo,Bantu,Africa,-28.0,31.0,South Africa,"bible, community, mixed, web, wikipedia"

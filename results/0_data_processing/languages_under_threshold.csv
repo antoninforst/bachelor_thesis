@@ -1,0 +1,179 @@
+rank,code,language,total_frequency
+111,plt,Plateau Malagasy,2210508
+112,min,Minangkabau,2129943
+113,lim,Limburgish,2071721
+114,ori,Oriya,1862559
+115,ckb,Central Kurdish,1838565
+116,hau,Hausa,1832457
+117,roh,Romansh,1794939
+118,kur,Kurdish,1794081
+119,prs,Dari,1703545
+120,uig,Uyghur,1659791
+121,asm,Assamese,1578202
+122,mkw,Kituba (Congo),1577045
+123,bar,Bavarian,1576193
+124,san,Sanskrit,1473411
+125,mwl,Mirandese,1440246
+126,scr,Croatian (Serbia),1429595
+127,che,Chechen,1293044
+128,lmo,Lombard,1278047
+129,uzb,Uzbek,1263737
+130,fao,Faroese,1259749
+131,arg,Aragonese,1236933
+132,yid,Yiddish,1202743
+133,sah,Yakut,1153200
+134,non,Old Norse,1138135
+135,amh,Amharic,1037561
+136,kin,Kinyarwanda,1034507
+137,sun,Sundanese,1004095
+138,ilo,Iloko,930665
+139,bik,Bikol,908079
+140,tsn,Tswana,883333
+141,pms,Piemontese,814035
+142,gom,Goan Konkani,759116
+143,mya,Burmese,713281
+144,,Min Nan Chinese,679952
+145,eml,Emiliano-Romagnolo,669110
+146,chv,Chuvash,655236
+147,vec,Venetian,650369
+148,sco,Scots,640622
+149,wln,Walloon,631234
+150,xmf,Mingrelian,625255
+151,vls,Vlaams,608315
+152,scn,Sicilian,582831
+153,srd,Sardinian,560782
+154,ina,Interlingua,547423
+155,bih,unknown,498616
+156,szl,Silesian,484530
+157,sot,Southern Sotho,467315
+158,tso,Tsonga,461552
+159,kal,Kalaallisut,461538
+160,ydd,Eastern Yiddish,450024
+161,nso,Sepedi,439335
+162,mzn,Mazanderani,430190
+163,nap,Neapolitan,412647
+164,diq,Dimli,412342
+165,anw,Anaang,409670
+166,hat,Haitian Creole,407268
+167,yor,Yoruba,405029
+168,ewe,Ewe,393052
+169,wol,Wolof,392915
+170,ibo,Igbo,360541
+171,glv,Manx,352599
+172,new,Newari,342696
+173,run,Rundi,329931
+174,tyv,Tuvinian,300920
+175,gaz,West Central Oromo,300144
+176,khk,Halh Mongolian,297485
+177,kab,Kabyle,296915
+178,smi,Sami,296833
+179,kbp,Kabiyè,295374
+180,pam,Pampanga,287248
+181,ndo,Ndonga,281187
+182,mai,Maithili,273735
+183,lij,Ligurian,272466
+184,bcl,Central Bicolano,272190
+185,cos,Corsican,267832
+186,mhr,Eastern Mari,251195
+187,csb,Kashubian,242392
+188,rom,Romany,227820
+189,ext,Extremaduran,224401
+190,zea,Zeeuws,222859
+191,roa,Tarantino,220045
+192,pfl,Pfaelzisch,217251
+193,ksh,Kölsch,216728
+194,lad,Ladino,213407
+195,frr,Northern Frisian,212695
+196,bjn,Banjar,208712
+197,lao,Lao,204927
+198,oss,Ossetic,202757
+199,grn,Guarani,195465
+200,ban,Balinese,192302
+201,gla,Scottish Gaelic,190623
+202,fur,Friulian,183546
+203,hif,Fiji Hindi,180557
+204,que,Quechua,179564
+205,rue,Rusyn,176276
+206,ile,Occidental,171658
+207,ven,Venda,159831
+208,orm,Oromo,155284
+209,ssw,Swati,150749
+210,bua,Buriat,148166
+211,cha,Chamorro,141875
+212,tcy,Tulu,139280
+213,sgs,Samogitian,129647
+214,kaa,Kara-Kalpak,127681
+215,mrj,Western Mari,127677
+216,cor,Cornish,127170
+217,vro,Võro,124346
+218,myv,Erzya,121667
+219,chr,Cherokee,116610
+220,sme,Northern Sami,115042
+221,dsb,Lower Sorbian,114144
+222,cbk,Chavacano,112261
+223,kom,Komi,110138
+224,krc,Karachay-Balkar,106639
+225,skr,Seraiki,106389
+226,ang,Old English,105301
+227,pcd,Picard,102642
+228,nav,Navajo,100512
+229,ace,Achinese,100432
+230,gag,Gagauz,98139
+231,lup,Lumbu,92750
+232,nia,Nias,89451
+233,kbd,Kabardian,89065
+234,koi,Komi-Permyak,78941
+235,udm,Udmurt,78684
+236,tet,Tetum,70231
+237,gor,Gorontalo,69770
+238,ava,Avaric,67460
+239,abk,Abkhazian,66806
+240,crh,Crimean Turkish,62089
+241,ton,Tonga (Tonga Islands),57690
+242,haw,Hawaiian,57535
+243,nah,Nahuatl,56511
+244,pag,Pangasinan,56226
+245,smo,Samoan,55029
+246,fij,Fijian,54752
+247,pdc,Pennsylvania German,52635
+248,cdo,Min Dong Chinese,51375
+249,aym,Aymara,50448
+250,nci,Classical Nahuatl,49883
+251,frp,Francoprovençal,49319
+252,lin,Lingala,46517
+253,khm,Central Khmer,42361
+254,nov,Novial,39655
+255,ltg,Latgalian,38863
+256,mdf,Moksha,38411
+257,hak,Hakka Chinese,38241
+258,gan,Gan Chinese,35661
+259,rup,Macedo-Romanian,31471
+260,alt,Southern Altai,31348
+261,bam,Bambara,26199
+262,bod,Tibetan,24829
+263,xal,Oirat,23008
+264,pnt,Pontic,21375
+265,tir,Tigrinya,18978
+266,inh,Ingush,18641
+267,aka,Akan,17315
+268,tpi,Tok Pisin,16247
+269,kck,Kalanga,14415
+270,srn,Sranan Tongo,14286
+271,aii,Assyrian Neo-Aramaic,13988
+272,lbe,Lak,13392
+273,ful,Fulah,7945
+274,zha,Zhuang,7204
+275,bug,Buginese,6539
+276,bis,Bislama,6465
+277,tum,Tumbuka,6320
+278,ach,Acoli,4952
+279,kas,Kashmiri,4939
+280,mad,Madurese,3378
+281,tlh,tlhIngan-Hol,2912
+282,sag,Sango,2837
+283,nde,North Ndebele,2267
+284,tah,Tahitian,1939
+285,kng,Koongo,1543
+286,nau,Nauru,1281
+287,mah,Marshallese,249
+288,way,Wayana,94
