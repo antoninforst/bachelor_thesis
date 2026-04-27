@@ -1,0 +1,24 @@
+data_sources:
+  file: data_sources.png
+  source: data_origin.ipynb
+  timestamp: '2026-04-27T09:03:54+00:00'
+dominant_script_share:
+  file: dominant_script_share.png
+  source: filtration.ipynb
+  timestamp: '2026-04-27T09:07:30+00:00'
+elbow:
+  file: elbow.png
+  source: truncation_final.ipynb
+  timestamp: '2026-04-27T04:48:22+00:00'
+freq_rank_three:
+  file: freq_rank_three.png
+  source: data_origin.ipynb
+  timestamp: '2026-04-26T18:15:37+00:00'
+hapax_overlap:
+  file: hapax_overlap.png
+  source: filtration.ipynb
+  timestamp: '2026-04-27T09:06:41+00:00'
+original_vs_truncated:
+  file: original_vs_truncated.png
+  source: truncation_final.ipynb
+  timestamp: '2026-04-27T04:37:00+00:00'
