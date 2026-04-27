@@ -1,3 +1,9 @@
-data
-doc
+data/
+doc/
 zip/
+backup/
+__pycache__/
+*.pyc
+notebooks/scripts/img/*.png
+results/1_preprocessing/affixes/*.prep
+results/1_preprocessing/affixes/*.post
