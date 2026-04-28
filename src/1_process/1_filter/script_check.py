@@ -35,22 +35,13 @@ def _load_scripts(path: Path) -> list[str]:
     """Read script names from scripts.csv (first column)."""
     scripts: list[str] = []
     with open(path, encoding="utf-8", newline="") as fh:
-        reader = csv.reader(fh, delimiter=";")
+        reader = csv.reader(fh)
         for row in reader:
+            if len(row) == 1 and "," in row[0]:
+                row = row[0].split(",")
             if row and row[0].strip():
                 scripts.append(row[0].strip())
     return scripts
-
-
-def _load_script_codes(path: Path) -> dict[str, str]:
-    """Read {script_name: iso_code} from scripts.csv."""
-    mapping: dict[str, str] = {}
-    with open(path, encoding="utf-8", newline="") as fh:
-        reader = csv.reader(fh, delimiter=";")
-        for row in reader:
-            if len(row) >= 2 and row[0].strip():
-                mapping[row[0].strip()] = row[1].strip()
-    return mapping
 
 
 SCRIPTS: list[str] = []  # populated in main()

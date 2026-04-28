@@ -1,8 +1,10 @@
-PYTHON = python
+PYTHON = python -u
 LANGS =
 COVERAGE = 94
 TOP_N =
 TOP_N_ARG = $(if $(TOP_N),--top-n $(TOP_N),)
+WORKERS =
+WORKERS_ARG = $(if $(WORKERS),--jobs $(WORKERS),)
 
 RAW_DIR = data/0_raw
 AGG_DIR = data/1_aggregated
@@ -11,7 +13,7 @@ FILTER_DIR = results/1_process/1_filter
 TRUNCATE_DIR = results/1_process/3_truncate
 ROOT = ../..
 
-.PHONY: all annotated filter filter_hapax filter_script aggregate parse_words statistics truncate language_overview clear_aggregated clear_annotated
+.PHONY: all help annotated filter filter_hapax filter_script aggregate aggregate_continue parse_words statistics truncate language_overview clear_aggregated clear_annotated
 
 all: filter aggregate parse_words statistics truncate
 
@@ -28,7 +30,10 @@ filter_script:
 	$(PYTHON) 1_filter/generate_ignore_list.py --overlap-csv $(ROOT)/$(FILTER_DIR)/hapax_overlap.csv --out-dir $(ROOT)/$(FILTER_DIR) --script-csv $(ROOT)/$(FILTER_DIR)/script_check.csv
 
 aggregate:
-	$(PYTHON) 2_aggregate/aggregate.py $(LANGS) --raw-dir $(ROOT)/$(RAW_DIR) --out-dir $(ROOT)/$(AGG_DIR) --ignore $(ROOT)/$(FILTER_DIR)/ignored_files.csv --scripts-csv $(ROOT)/src/1_process/1_filter/scripts.csv --lang-overview $(ROOT)/results/1_process/2_aggregate/language_overview.csv
+	$(PYTHON) 2_aggregate/aggregate.py $(LANGS) --raw-dir $(ROOT)/$(RAW_DIR) --out-dir $(ROOT)/$(AGG_DIR) --ignore $(ROOT)/$(FILTER_DIR)/ignored_files.csv --scripts-csv $(ROOT)/src/1_process/1_filter/scripts.csv --lang-overview $(ROOT)/results/1_process/2_aggregate/language_overview.csv $(WORKERS_ARG)
+
+aggregate_continue:
+	$(PYTHON) 2_aggregate/aggregate.py $(LANGS) --raw-dir $(ROOT)/$(RAW_DIR) --out-dir $(ROOT)/$(AGG_DIR) --ignore $(ROOT)/$(FILTER_DIR)/ignored_files.csv --scripts-csv $(ROOT)/src/1_process/1_filter/scripts.csv --lang-overview $(ROOT)/results/1_process/2_aggregate/language_overview.csv --skip-existing --no-report $(WORKERS_ARG)
 
 parse_words:
 	$(PYTHON) 2_aggregate/parse_words.py $(LANGS) --agg-dir $(ROOT)/$(AGG_DIR)
@@ -44,3 +49,6 @@ clear_aggregated:
 
 clear_annotated:
 	$(PYTHON) -c "from pathlib import Path; [p.unlink() for p in Path('$(ROOT)/$(ANNOTATED_DIR)').glob('*.csv')]"
+
+help:
+	@echo "annotated filter filter_hapax filter_script aggregate aggregate_continue parse_words statistics truncate language_overview clear_aggregated clear_annotated"
