@@ -26,6 +26,9 @@ csv.field_size_limit(10 * 1024 * 1024)  # 10 MB
 RAW_DIR = Path("data/0_raw")
 AGGREGATED_DIR = Path("data/1_aggregated")
 REPORT_DIR = Path("results/1_process")
+SCRIPTS_CSV = Path("src/1_process/1_filter/scripts.csv")
+LANGUAGE_OVERVIEW_CSV = Path("results/1_process/2_aggregate/language_overview.csv")
+FALLBACK_SCRIPT = "xxxx"
 
 # Any unicode letter
 _HAS_LETTER = re.compile(r"[^\W\d_]").search
@@ -91,6 +94,36 @@ def _group_files_by_lang(raw_dir: Path) -> dict[str, list[Path]]:
     return groups
 
 
+def _load_script_codes(scripts_csv: Path) -> dict[str, str]:
+    """Read {script_name: iso_code} from scripts.csv (e.g. Latin -> Latn)."""
+    mapping: dict[str, str] = {}
+    with open(scripts_csv, encoding="utf-8", newline="") as fh:
+        reader = csv.reader(fh, delimiter=";")
+        for row in reader:
+            if len(row) >= 2 and row[0].strip():
+                mapping[row[0].strip()] = row[1].strip()
+    return mapping
+
+
+def _load_lang_scripts(
+    overview_csv: Path,
+    script_codes: dict[str, str],
+) -> dict[str, str]:
+    """Read language_overview.csv and return {lang: iso_script_code}.
+
+    Maps primary_script name (e.g. "Latin") through script_codes to get
+    the ISO 15924 code (e.g. "Latn").
+    """
+    mapping: dict[str, str] = {}
+    with open(overview_csv, encoding="utf-8", newline="") as fh:
+        reader = csv.DictReader(fh)
+        for row in reader:
+            lang = row["used_shortcut"].strip()
+            script_name = row["primary_script"].strip()
+            mapping[lang] = script_codes.get(script_name, FALLBACK_SCRIPT)
+    return mapping
+
+
 def _read_file_into_dict(
     path: Path,
     freq_dict: dict[str, int],
@@ -133,10 +166,12 @@ def _read_file_into_dict(
 class Aggregator:
     """Aggregates raw frequency files for a single language code."""
 
-    def __init__(self, lang: str, files: list[Path], output_dir: Path):
+    def __init__(self, lang: str, files: list[Path], output_dir: Path,
+                 script_code: str = FALLBACK_SCRIPT):
         self._lang = lang
         self._files = files
         self._output_dir = output_dir
+        self._script_code = script_code
 
     def run(self, on_file_done=None) -> list[FileReport]:
         """Execute the full aggregation pipeline, write result, return per-file reports."""
@@ -193,7 +228,7 @@ class Aggregator:
         """Sort by frequency descending and write to the aggregated folder."""
         sorted_items = sorted(freq_dict.items(), key=lambda x: x[1], reverse=True)
         self._output_dir.mkdir(parents=True, exist_ok=True)
-        out_path = self._output_dir / f"{self._lang}.csv"
+        out_path = self._output_dir / f"{self._lang}_{self._script_code}.csv"
         with open(out_path, "w", encoding="utf-8", newline="") as fh:
             writer = csv.writer(fh)
             writer.writerow(["word", "frequency"])
@@ -231,6 +266,18 @@ def _parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
         type=Path,
         default=None,
         help="Path to ignored_files.csv to exclude files from aggregation.",
+    )
+    parser.add_argument(
+        "--scripts-csv",
+        type=Path,
+        default=SCRIPTS_CSV,
+        help=f"Path to scripts.csv (default: {SCRIPTS_CSV}).",
+    )
+    parser.add_argument(
+        "--lang-overview",
+        type=Path,
+        default=LANGUAGE_OVERVIEW_CSV,
+        help=f"Path to language_overview.csv (default: {LANGUAGE_OVERVIEW_CSV}).",
     )
     parser.add_argument(
         "--repair",
@@ -351,6 +398,18 @@ def main(argv: Optional[list[str]] = None) -> None:
         print(f"No CSV files found in {args.raw_dir}", file=sys.stderr)
         sys.exit(1)
 
+    # Load script mapping for output filenames
+    lang_scripts: dict[str, str] = {}
+    if args.scripts_csv.exists() and args.lang_overview.exists():
+        script_codes = _load_script_codes(args.scripts_csv)
+        lang_scripts = _load_lang_scripts(args.lang_overview, script_codes)
+    elif args.lang_overview.exists():
+        print("Warning: scripts.csv not found, using fallback script codes",
+              file=sys.stderr)
+    else:
+        print("Warning: language_overview.csv not found, using fallback script codes",
+              file=sys.stderr)
+
     # Determine which language codes to process
     if args.langs:
         selected = {l.lower() for l in args.langs}
@@ -378,7 +437,8 @@ def main(argv: Optional[list[str]] = None) -> None:
     all_reports: list[FileReport] = []
     for lang in sorted(groups):
         files = groups[lang]
-        aggregator = Aggregator(lang, files, args.out_dir)
+        script_code = lang_scripts.get(lang, FALLBACK_SCRIPT)
+        aggregator = Aggregator(lang, files, args.out_dir, script_code)
         reports = aggregator.run(on_file_done=on_file)
         all_reports.extend(reports)
 

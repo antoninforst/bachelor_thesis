@@ -237,7 +237,8 @@ LEMMA_METRICS: dict[str, MetricFn] = {
 def compute_metrics_for_file(path: Path, lang_names: dict[str, str], statistics: dict[str, dict[str, int]]) -> dict[str, Any]:
     rows = read_csv_rows(path)
     code = path.stem
-    out: dict[str, Any] = {"language": lang_names.get(code, code)}
+    lang_code = code.split("_")[0]
+    out: dict[str, Any] = {"language": lang_names.get(lang_code, code)}
 
     # join statistics
     if code in statistics:

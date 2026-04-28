@@ -23,27 +23,48 @@ csv.field_size_limit(10 * 1024 * 1024)
 
 RAW_DIR = Path("data/0_raw")
 OUTPUT_DIR = Path("results/1_process/1_filter")
+SCRIPTS_CSV = Path("src/1_process/1_filter/scripts.csv")
 DEFAULT_THRESHOLD = 95.0
 OTHER_THRESHOLD = 20.0
 WORD_STEP = 5
 LETTER_STEP = 3
 MAX_SAMPLED_WORDS = 10_000
 
-SCRIPTS = [
-    "Latin", "Greek", "Cyrillic", "Armenian", "Hebrew", "Arabic", "Syriac",
-    "Thaana", "Devanagari", "Bengali", "Gurmukhi", "Gujarati", "Oriya",
-    "Tamil", "Telugu", "Kannada", "Malayalam", "Sinhala", "Thai", "Lao",
-    "Tibetan", "Myanmar", "Georgian", "Hangul", "Ethiopic", "Cherokee",
-    "Canadian_Aboriginal", "Ogham", "Runic", "Khmer", "Mongolian",
-    "Hiragana", "Katakana", "Han", "Buginese", "Balinese", "Yi", "Tai_Le",
-    "New_Tai_Lue", "Tifinagh", "Vai", "Old_Italic", "Gothic", "Deseret",
-    "Cypriot", "Ol_Chiki",
-]
 
-SCRIPT_PATTERNS = {
-    script: regex.compile(rf"\A\p{{Script={script}}}\Z")
-    for script in SCRIPTS
-}
+def _load_scripts(path: Path) -> list[str]:
+    """Read script names from scripts.csv (first column)."""
+    scripts: list[str] = []
+    with open(path, encoding="utf-8", newline="") as fh:
+        reader = csv.reader(fh, delimiter=";")
+        for row in reader:
+            if row and row[0].strip():
+                scripts.append(row[0].strip())
+    return scripts
+
+
+def _load_script_codes(path: Path) -> dict[str, str]:
+    """Read {script_name: iso_code} from scripts.csv."""
+    mapping: dict[str, str] = {}
+    with open(path, encoding="utf-8", newline="") as fh:
+        reader = csv.reader(fh, delimiter=";")
+        for row in reader:
+            if len(row) >= 2 and row[0].strip():
+                mapping[row[0].strip()] = row[1].strip()
+    return mapping
+
+
+SCRIPTS: list[str] = []  # populated in main()
+SCRIPT_PATTERNS: dict[str, regex.Pattern] = {}  # populated in main()
+
+
+def _init_scripts(scripts_csv: Path) -> None:
+    """Load scripts from CSV and build regex patterns."""
+    global SCRIPTS, SCRIPT_PATTERNS
+    SCRIPTS = _load_scripts(scripts_csv)
+    SCRIPT_PATTERNS = {
+        script: regex.compile(rf"\A\p{{Script={script}}}\Z")
+        for script in SCRIPTS
+    }
 
 
 def _group_files_by_lang(raw_dir: Path) -> dict[str, list[Path]]:
@@ -272,6 +293,10 @@ def _parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
         "--ignore-csv", "--ignore", type=Path, default=None,
         help="Path to ignored_files.csv to exclude files from analysis.",
     )
+    parser.add_argument(
+        "--scripts-csv", type=Path, default=SCRIPTS_CSV,
+        help=f"Path to scripts.csv (default: {SCRIPTS_CSV}).",
+    )
     return parser.parse_args(argv)
 
 
@@ -288,6 +313,12 @@ def _load_ignore_set(path: Path) -> set[str]:
 def main(argv: Optional[list[str]] = None) -> None:
     args = _parse_args(argv)
     threshold = DEFAULT_THRESHOLD
+
+    if not args.scripts_csv.exists():
+        print(f"Scripts CSV not found: {args.scripts_csv}")
+        sys.exit(1)
+    _init_scripts(args.scripts_csv)
+    print(f"Loaded {len(SCRIPTS)} scripts from {args.scripts_csv}")
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
     out_path = args.out_dir / "script_check.csv"

@@ -7,9 +7,9 @@ from typing import Callable, Any
 import pandas as pd
 import math
 
-ANNOTATED_DIR = Path("data/2_annotated")
-RESULTS_DIR = Path("results/3_analysis")
-STATISTICS_PATH = Path("results/0_data_processing/statistics.csv")
+ANNOTATED_DIR = Path("../../data/2_annotated")
+RESULTS_DIR = Path("../../results/3_analysis")
+STATISTICS_PATH = Path("../../results/0_data_processing/statistics.csv")
 SHORTCUTS_PATH = Path(__file__).resolve().parent.parent / "0_data_processing" / "corpora" / "leipzig" / "lepzig_shortcuts.csv"
 
 COLUMNS = ["word", "frequency"]
@@ -141,7 +141,7 @@ def safe_mean(values: list[float]) -> float:
     return float(sum(values) / len(values)) if values else float("nan")
 
 
-# ── Frequency metrics ──────────────────────────────────────
+# Frequency metrics
 
 def metric_num_rows(freq: Frequency) -> int:
     return freq.get_unique_count()
@@ -243,8 +243,6 @@ class MorphStats:
         return out
 
 
-# ── Metric registry ───────────────────────────────────────
-
 METRICS: dict[str, MetricFn] = {
     "count": metric_num_rows,
     "total_frequency": metric_total_frequency,
@@ -276,7 +274,8 @@ def compute_metrics_for_file(path: Path, lang_names: dict[str, str], statistics:
             morphs.add(morph, row.frequency)
         morph_stats.add(row)
     code = path.stem
-    out: dict[str, Any] = {"language": lang_names.get(code, code)}
+    lang_code = code.split("_")[0]
+    out: dict[str, Any] = {"language": lang_names.get(lang_code, code)}
 
     # join statistics
     if code in statistics:

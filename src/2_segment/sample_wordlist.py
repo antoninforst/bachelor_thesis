@@ -193,8 +193,10 @@ def main(argv: Optional[list[str]] = None) -> None:
 
     if args.langs:
         selected = {l.lower() for l in args.langs}
-        files = [f for f in all_files if f.stem in selected]
-        unknown = selected - {f.stem for f in files}
+        files = [f for f in all_files
+                 if f.stem in selected or f.stem.split("_")[0] in selected]
+        matched = {f.stem for f in files}
+        unknown = selected - matched - {f.stem.split("_")[0] for f in files}
         if unknown:
             print(f"Warning: no file for: {', '.join(sorted(unknown))}")
     else:

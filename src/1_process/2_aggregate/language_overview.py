@@ -1,5 +1,5 @@
 """
-Helper script to generate a comprehensive language overview CSV – a single source of truth.
+Generate a comprehensive language overview CSV – a single source of truth.
 
 Combines metadata from Leipzig shortcuts, UD mappings, TIL mappings,
 WALS / lang_families, Glot500, aggregated statistics, and script-check
@@ -181,7 +181,10 @@ def main() -> None:
     raw_sources = _load_raw_sources()
 
     # Enumerate languages from aggregated directory
-    languages = sorted(p.stem for p in AGGREGATED_DIR.glob("*.csv"))
+    # Filenames are {lang}_{Script}.csv; extract the lang code
+    languages = sorted(set(
+        p.stem.split("_")[0] for p in AGGREGATED_DIR.glob("*.csv")
+    ))
 
     columns = [
         "used_shortcut",

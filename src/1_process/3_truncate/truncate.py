@@ -38,7 +38,7 @@ def _load_statistics(path: Path, coverage: str | int | float) -> dict[str, dict[
         if missing:
             raise ValueError(f"Missing column(s) in {path}: {', '.join(sorted(missing))}")
         return {
-            Path(row["file"].strip()).stem.lower(): {
+            Path(row["file"].strip()).stem: {
                 "keep_types": int(row[column]),
                 "total_frequency": int(row["total_frequency"]),
             }
@@ -119,12 +119,24 @@ def _parse_tokens(tokens: list[str]) -> tuple[list[str], int | None]:
         if token.startswith("n="):
             top_n = int(token[2:])
         else:
-            langs.append(token.lower())
+            langs.append(token)
     return langs, top_n
 
 
 def _select_languages(stats: dict[str, dict[str, int]], langs: list[str], top_n: int | None) -> list[str]:
-    selected = set(langs) if langs else set(stats)
+    if langs:
+        # Match full stem (ces_Latn) or language prefix (ces)
+        selected: set[str] = set()
+        for lang in langs:
+            if lang in stats:
+                selected.add(lang)
+            else:
+                # Try matching as a language-code prefix
+                for key in stats:
+                    if key.split("_")[0] == lang:
+                        selected.add(key)
+    else:
+        selected = set(stats)
     if top_n is not None:
         selected &= {
             lang
