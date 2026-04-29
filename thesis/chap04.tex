@@ -1,0 +1,228 @@
+
+\chapter{Methodology and implementation}
+
+\section{Morphology prediction model}
+
+Since it is impossible to have all data morphologically segmented by hand, machine learning was introduced to estimate the morphology annotations. Two types of tasks are computed:
+\begin{itemize}
+    \item Data availability
+    \begin{itemize}
+        \item Languages with hand written annotations
+        \item Languages with only corpus data
+    \end{itemize}
+    \item Task
+    \begin{itemize}
+        \item Morphological segmentation
+        \item Root identification
+    \end{itemize}
+\end{itemize}
+
+The training data are in proprietary \texttt{.morf} format. There is a single word on a row, the morphs are separated by spaces and each root begins with the \texttt{@} symbol.
+
+\subsection{Segmentation}
+
+The task of binary classification of gaps between adjacent characters. For a word of length $n$ there are $n-1$ gaps. The gaps are classified as 1 (morph boundary) or 0 (no boundary).
+
+Root markers are stripped for purpose of this task. These features are extracted for each gap:
+
+\begin{table}[htbp]
+    \centering
+        \begin{tabular}{
+        >{\raggedright\arraybackslash}p{2cm}|
+        >{\raggedright\arraybackslash}p{5.5cm}|
+        >{\raggedright\arraybackslash}p{5.5cm}}
+        \hline
+        \textbf{Category} & \textbf{Features} & \textbf{Description} \\
+        \hline\hline
+        Character window & \texttt{l3}, \texttt{l2}, \texttt{l1}, \texttt{r1}, \texttt{r2}, \texttt{r3} & 3 characters left and 3 right of the gap \\
+        \hline
+        Character n-grams & \texttt{bi\_left}, \texttt{bi\_cross}, \texttt{bi\_right}, \texttt{tri\_center}, \texttt{tri\_left}, \texttt{tri\_wide}, \texttt{tri\_right} & Bigrams and trigrams spanning the gap \\
+        \hline
+        Vowel/ consonant & \texttt{vc\_pattern} (4-char V/C pattern), \texttt{l1\_vowel}, \texttt{r1\_vowel}, \texttt{vc\_transition} & Phonotactic context \\
+        \hline
+        Prefix/suffix n-grams & \texttt{prefix\_last\{1,2,3\}}, \texttt{suffix\_first\{1,2,3\}} & Short edge n-grams of the left/right part \\
+        \hline
+        Length & \texttt{prefix\_len}, \texttt{suffix\_len}, \texttt{word\_len} & Absolute lengths \\
+        \hline
+        Position & \texttt{norm\_pos}, \texttt{at\_start}, \texttt{at\_end}, \texttt{near\_start}, \texttt{near\_end} & Normalized gap position and boundary flags \\
+        \hline
+        Frequency (if available) & \texttt{log\_whole\_freq}, \texttt{log\_left\_freq}, \texttt{log\_right\_freq}, \texttt{left\_in\_wordlist}, \texttt{right\_in\_wordlist}, \texttt{freq\_ratio} & Corpus frequency of the whole word, left part, and right part; whether splitting improves frequency coverage \\
+        \hline
+    \end{tabular}
+    \caption{Feature categories used for gap classification.}
+    \label{tab:gap_features}
+\end{table}
+
+The model was implemented in \texttt{scikit-learn} in Python programming language. \texttt{DictVectorizer} was used for one hot encoding of the features creating a sparse matrix. \texttt{LogisticRegression} was the used model.
+
+The quality of the prediction is measured with Levenshtein distance between gold and predicted boundaries. The Levenstein distance is the count of minimal moves (adding, deleting, shifting by one position) needed to get from the original state to the predicted. Look at the value if one border changes its position from 2nd to 4th. It is one substitution.
+$$
+\text{lev}([2, 6, 8],[4,6,8])=1
+$$
+
+Normalization is then applied, so the evaluation is not dependent on the length of the word and sits between $0$ and $1$. $1$ being correct solution.
+
+$$
+\text{score}=1-\frac{\text{lev}(\text{gold},\text{pred})}{\max(\abs{\text{gold}},\abs{\text{pred}})} 
+$$
+
+\subsection{Root identification}
+
+The input to this model is the already segmented data. The task is again binary classification for each of the morphs. $1$ being root and $0$ non-root. At least one morph is guaranteed to be morph, if the model predicts none, the morph with the highest root probability is selected. The same model is used as for the previous part.
+
+\begin{table}[htbp]
+    \centering
+        \begin{tabular}{
+        >{\raggedright\arraybackslash}p{2cm}|
+        >{\raggedright\arraybackslash}p{5.5cm}|
+        >{\raggedright\arraybackslash}p{5.5cm}}
+        \hline
+        \textbf{Category} & \textbf{Features} & \textbf{Description} \\
+        \hline
+        Morph length & \texttt{morph\_len}, \texttt{morph\_len\_ratio} & Absolute length and ratio to word length \\
+        \hline
+        Position & \texttt{n\_morphs}, \texttt{morph\_idx}, \texttt{norm\_pos}, \texttt{is\_first}, \texttt{is\_last}, \texttt{is\_only}, \texttt{char\_offset}, \texttt{norm\_char\_offset} & Morph index, normalized position, character offset within the word \\
+        \hline
+        Character n-grams & \texttt{first\{1,2,3\}}, \texttt{last\{1,2,3\}} & First/last 1--3 characters of the morph \\
+        \hline
+        Vowel content & \texttt{n\_vowels}, \texttt{has\_vowel}, \texttt{vowel\_ratio} & Number and ratio of vowels in the morph \\
+        \hline
+        Relative size & \texttt{is\_longest}, \texttt{len\_vs\_max} & Whether this is the longest morph; length ratio to the longest morph \\
+        \hline
+        Context & \texttt{prev\_len}, \texttt{longer\_than\_prev}, \texttt{next\_len}, \texttt{longer\_than\_next} & Neighbour morph lengths and comparisons \\
+        \hline
+        Frequency (if available) & \texttt{log\_morph\_freq}, \texttt{morph\_in\_wordlist}, \texttt{log\_word\_freq}, \texttt{freq\_per\_char} & Corpus frequency of the morph as a standalone word and the full word; frequency normalized by morph length (roots tend to be recognizable words) \\
+        \hline
+    \end{tabular}
+    \caption{Feature categories used for morph classification.}
+    \label{tab:morph_features}
+\end{table}
+
+\subsection{Universal model}
+
+\newpage
+
+\section{User manual}
+
+Most of the pipeline is accessible from the \texttt{make} in the root.
+
+Requirements
+
+\subsection{Data download}
+
+\begin{enumerate}
+    \item Navigate to the folder \texttt{src/0\_data\_processing/leipzig}
+    \item Assure that the file \texttt{already.tsv} in the folder is empty,
+    \item All files that you want to download are listed in the file \texttt{to\_download.tsv},
+    \item You can see the full list of downloadable items in \texttt{leipzig\_all.tsv}.
+\end{enumerate}
+
+The downloading process is runnable from the root by those commands:
+
+\begin{lstlisting}[language=bash]
+make download DOWNLOAD_N=100 DOWNLOAD_DELAY=5
+\end{lstlisting}
+
+You can adjust
+\begin{itemize}
+    \item the delay between the individual files (it prevents server overload) by \texttt{DOWNLOAD\_DELAY=5} in seconds,
+    \item the maximum files downloaded in one run of the program
+    by~\texttt{DOWNLOAD\_N=100}. 
+\end{itemize}
+
+The files will be downloaded to the folder \texttt{data/0\_raw}.
+
+\subsection{Aggregation}
+
+Aggregation of multiple files for one language from the folder \texttt{data/0\_raw} to the folder \texttt{data/1\_aggregated}. First three letters determine the resulting file which will have form of those three letter \texttt{.csv}. Aggregation will sum the frequencies for the same word-types. It can be run by this command:
+
+\begin{lstlisting}[language=bash]
+make aggregate
+\end{lstlisting}
+
+If only subset of languages should be processed, please use direct python command:
+
+\begin{lstlisting}[language=bash]
+python src/0_data_processing/aggregate.py ces eng
+\end{lstlisting}
+
+\subsection{Preprocessing}
+
+This script truncates the files from \texttt{data/1\_aggregated} at a given frequency coverage and copies it to the \texttt{data/2\_annotated}. You can run this phase by:
+
+\begin{lstlisting}[language=bash]
+make preprocess CUTOFF=0.95
+\end{lstlisting}
+
+The parameter is optional with the default value of $95 \%$.
+
+The truncation statistics can be achieved by running the appropriate script. This program will produce a \texttt{data/3\_results/statistics.csv} file with various truncation statistics from different truncation methods for every language. 
+
+\begin{lstlisting}[language=bash]
+make data-statistics
+\end{lstlisting}
+
+\subsection{Segmentation}
+
+The hand segmented data are required to be in \texttt{2\_1\_segmentation/folder/ training\_data}. The files are called with three letter code of the language and \texttt{.morf} and they are in following format: There is a single word on a row, the morphs are separated by spaces and each root begins with the \texttt{@} symbol. See the following example:
+
+\begin{lstlisting}[]
+@voice
+@sel dom
+pre @mature
+@tens ion s
+in @differ ence
+re @cit al s
+@tele @scope
+\end{lstlisting}
+
+For training the universal model for segmentation and root detection use following command:
+
+\begin{lstlisting}[language=bash]
+make train-universal
+\end{lstlisting}
+
+The segmentation then works in place in the \texttt{data/2\_annotated} folder and you can run it with this command:
+
+\begin{lstlisting}[language=bash]
+make segment
+\end{lstlisting}
+
+\subsubsection{Sampling}
+
+For creating new sample word lists, use this command
+
+\begin{lstlisting}[language=bash]
+make sample SAMPLE_SIZE=200
+\end{lstlisting}
+
+to create in the folder \texttt{data/4\_samples} file with sample words, those can be annotated and added to the \texttt{2\_1\_segmentation/folder/training\_data} folder. The file from \texttt{2\_annotated} will be used, so it will be taken from the truncated file and annotations may be already present there from the automatic runs. The method of obtaining words is described in chapter~\ref{preprocess_segmentation}.
+
+\subsubsection{Training language-specific models}
+
+For accessing the models navigate to the \texttt{src/2\_1\_segmentation} folder. There is a second \texttt{makefile} with specific commands for training the models.
+
+\begin{lstlisting}[language=bash]
+#K-fold evaluate + train final models (LNG=ces FOLDS=5 N_WORST=20)"
+make eval
+#Evaluate all languages (sequential)"
+make eval-all
+#Evaluate all languages in parallel, write result CSVs"
+make batch
+#Train and save models without evaluation (LNG=ces)"
+make train
+#Interactive mode with saved models (LNG=ces)"
+make interactive
+#Segment a text file (LNG=ces TEXT=input.txt OUTPUT=out.morf)"
+make segment
+#Leave-language-out cross-validation" 
+make universal-eval
+#Train and save universal models"
+make universal-train
+#Segment all annotated CSVs with universal model"
+make universal-segment
+\end{lstlisting}
+
+For improving the specific models, use the interactive mode. The interactive mode 
+
+\subsection{Analysis}

@@ -1,0 +1,329 @@
+\chapter{Data sources and preprocessing}
+
+Different papers on this topic have different approaches to obtaining source data. One common method is to use parallel texts translated into a broad variety of languages, mainly the Parallel Bible Corpus (used by \textcite{Ehret2023}). Other papers rely on annotated treebank, such as the Parallel Bible Corpus (used by \textcite{Coltekin2022}). This paper aims to use as broadly multilingual data as possible and therefore uses raw corpus frequency data.
+
+For the purposes of this paper, three types of data are needed:
+\begin{itemize}
+    \item corpus data and frequencies,
+    \item morphological segmentation,
+    \item language specific information.
+\end{itemize}
+The rest of this chapter describes how each of these data types was obtained.
+
+\section{Corpus data}
+\subsection{Raw data and aggregation}
+This paper uses two main and two supplementary sources. The share of tokens contributed by each source is shown in Figure~\ref{fig:data_sources}.
+\begin{itemize}
+
+    \item Lepzig Wordschatz by \textcite{Leipzig} as the main source of corpus data. Leipzig Wordschatz contains corpus data for 290 languages. Most of the data come from news corpora, but Wikipedia and scraped web data are also included. The exact split is shown on the right-hand side of Figure~\ref{fig:data_sources}. The downloaded files are already frequency lists, meaning that each word type appears only once together with its token count. The data were downloaded in March 2026.
+    \item Glot500 by \textcite{imanigooghari-etal-2023-glot500} is the second largest dataset. It contains data from 412 languages. The datasets share together $236$ languages and $154$ languages are unique for the second corpus. However, these corpora are usually smaller and of lower quality. They contain more noise in the low-frequency parts of the corpus, such as webpages, emojis, hashes, and similar artifacts.
+    \item The data were further expanded using the Bible parallel corpus:
+    
+    \textcite{BibleCorpus}.
+    \item Last source is Universal Dependencies datasets. This datasets are annotated, controlled, but very small. 
+\end{itemize}
+
+Basic statistics of each preprocessing phase are shown in table~\ref{tab:dataCorpusDataSizes}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{img/auto/data_sources.png}
+    \caption{Sources of corpus data}
+    \label{fig:data_sources}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|r|r|r}
+        Phase & Files & Total rows & Size \\
+        \hline\hline
+        Raw frequency data & 1 709 & 751 483 516 & 33,0 GB \\
+        \hline
+        Filtered data & 1 409 &  & 30,7 GB \\
+        \hline
+        Aggregated data & 443 & 404 637 827 & 19,7 GB \\
+        \hline
+        Truncated & 199 & 28 211 650 & 1,08 GB \\
+        \hline
+    \end{tabular}
+    \caption{Size of corpus data based on data size}
+    \label{tab:dataCorpusDataSizes}
+\end{table}
+
+The data were then \textbf{aggregated} into one file per language. Token counts of word types occurring in multiple files were summed. The distribution of token counts per language are shown in Figure~\ref{fig:dist_of_total_freq}. The graph shows that half from the 443 languages contain fewer than one million tokens. The Glot500 corpus introduced many very small corpora: 13 languages contain fewer than 100 tokens. One half of the languages lie between 162 thousand tokens and 28 million tokens. On the other hand, 20 languages contain more than 1 billion tokens. All these statistics were calculated after the filtration described in Section~\ref{sec:filtration}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{img/auto/dist_of_total_freq.png}
+    \caption{Distribution of languages in regard of their token count (log scale)}
+    \label{fig:dist_of_total_freq}
+\end{figure}
+
+Data of some languages are corrupted or suboptimal for this use. In particular:
+\begin{itemize}
+    \item Some languages, such as Thai and Chinese, contain whole sentences.
+    \item Some languages, such as Espeanto, have broken encoding. For Esperanto, an attempt was made to fix the data manually. However, broken encoding also appears in other sources, although it does not form a substantial part of the data and can therefore be neglected. For example, in the Czech data there are 18 occurrences of the word \textit{ètyøkoalice}, which should be \textit{čtyřkoalice}, with total frequency 1339.
+\end{itemize}
+
+\subsection{Word segmentation}
+
+In two scripts
+
+\subsection{Filtration}
+\label{sec:filtration}
+
+Several automatic measures were implemented to assess the data quality. Files that was not considered sufficiently reliable were filtered out and excluded from the further processing.
+
+\subsubsection{Corpus overlap}
+
+Some corpora may overlap. This property was measured by the share of hapax legomena in both directions. As explained earlier, words with very low frequencies are usually so unique that the probability of many of them occurring in multiple corpora purely by coincidence is quite small. A typical example in the Leipzig corpus is the pair of Wikipedia corpora from different years. For each file, the maximal hapax overlap with any other file was computed. A histogram of these values is shown in Figure~\ref{fig:hapax_overlap}. It is visible that most files have an overlap of about $10$ to $15 \%$, which may be considered natural. Around $50 \%$ there is a local maximum representing the overlapping files. The threshold should therefore be set at the local minimum between these two regions, that is around $30-35\%$. It is reasonable to set it to exactly one third. Thus, if more than one third of hapaxes are shared with another file, the file is considered not useful for further analysis. After removing such files, the resulting distribution is shown by the red dashed line in Figure~\ref{fig:hapax_overlap}. These files account for $2.17 GB$, which is about $6.5\%$ of the data.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/auto/hapax_overlap.png}
+    \caption{Distribution of maximal hapax overlap with another file over all files. With red dashed line, it is represented how does this graph look after filtration}
+    \label{fig:hapax_overlap}
+\end{figure}
+
+\subsubsection{Script unification}
+
+Another automatic test was introduced to ensure that corpora do not mix scripts, both within a single corpus and across corpora of the same language, since some languages are commonly written in more than one script. For each file, the script distribution was calculated. Scripts were identified using Regex library, that recognize the script from Unicode information.  For efficiency reasons, only every fifth word and every third character within each sampled word up to $10\ 000$ sampled words were considered. There were only two files where "Unknown script" has higher share than $20\%$: Akha and Lahu, where the anomaly was caused by the accents.
+
+The most frequent script for a given language was taken to be the dominant one. Forty-four files were found in which the dominant script of the language covered less than 75~\% of the characters. In the remaining files, Latin is often present as a secondary script, but the majority of words are still written in the main script of the language. There is also a gap of about 15~\% between these 44 files and the rest. See Figure~\ref{fig:dominant_script}. Those 44 files were not used in further analysis.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/auto/dominant_script_share.png}
+    \caption{Share of language-dominant script in the files (histogram)}
+    \label{fig:dominant_script}
+\end{figure}
+
+\newpage
+\subsection{Truncation}
+The objective of this preprocessing phase is to create datasets for individual languages that are comparable regardless of their original token counts. To preserve as much information as possible, it was decided to truncate the files.
+
+It is possible to remove words with low frequencies. Word types with very low frequencies can be still interesting, because they represent highly specific words that may not be even listed in dictionaries but are nevertheless understandable to speakers of the language. Let \textit{obviousity} (meaning the quality of being obvious) serve as an the example. This word is not listed in dictionaries, but its formation is clear enough that it could plausibly be used in a formal text. Even frequent spelling mistakes can be linguistically interesting source of information.
+
+However, in automatically collected corpora of the kind used in this analysis, most of these words with very low frequencies are tokens mistaken for words (as URLS, hashes, emojis), or words from different languages. It is reasonable to assume that even correct low-frequency words are too rare for their relevance to outweigh the larger file size and additional noise caused by including them. Another important consideration is that larger datasets contain disproportionally more such items and the goal is to make the resulting datasets as independent as possible of the original corpus size. There are several possible ways to approach the removal of rare words.
+\begin{itemize}
+    \item Frequency: Stop at specific frequency (token count per word type) threshold, for example 10.
+    \begin{itemize}
+        \item This approach does not reflect the token count of the original file. In some languages, the available data may be so limited, that even important words would fall under this threshold.
+    \end{itemize}
+    \item Share of words: Stop at, for example, $30\%$ of all words
+    \begin{itemize}
+        \item This approach does not reflect the fact that different languages require different numbers of relevant words. For example, languages with rich inflection need many more word types to cover even basic communication, because the same lemma appear in multiple forms.
+    \end{itemize}
+    \item Top $n$ words: Stop at, for example, the 100th word.
+    \begin{itemize}
+        \item This approach does not reflect the original data size at all, which could also be misleading. At the same rank, a small dataset may already contain very rare words, while a large dataset may still be truncating quite frequent ones. The smallest datasets may not even contain enough words. This method also does not reflect the structure of the language.
+        \item This method was used by \textcite{Coltekin2022}, where 20~000 tokens from particular languages were sampled over treebanks. This approach was repeated 100 times to ensure universality.
+    \end{itemize}
+    \item Coverage: Stop when the cumulative frequency of included words reaches $95 \%$ of the total frequency.
+    \begin{itemize}
+        \item This metric is the least dependent on the original data size. It was therefore selected, the justification is given at the end of this chapter.
+    \end{itemize}
+\end{itemize}
+Figure~\ref{fig:freq_rank_three} illustrates these thresholds for German, Afrikaans and Javanese and shows how differently the same truncation methods behave across languages. See also the frequencies comparison in Table~\ref{tab:threeLangCoparation}. German represents one of the largest data sources, Afrikaans is approximately 10-times smaller (germanic languages were used intentionally to be more comparable) and Javanese represents the smallest usable examples. All three graphs are following the Zipf law see Section~\ref{sec:preprocess_segmentation}.
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l|r|r|r}
+        Language & Token count & 95\% cov. & 99\% cov. \\
+        \hline\hline
+        Spanish & 8 902 559 748 & 0.38 \% & 7.22 \% \\
+        \hline
+        Afrikaans & 632 511 857 & 1.27 \% & 19.68 \% \\
+        \hline
+        Javanese & 10 106 707 & 32.00 \% & 84.3 \% \\
+        \hline
+    \end{tabular}
+    \caption{Frequencies of selected languages. Last two columns represent the percentage of the types that create 95 \% and 99 \% coverage, respectively.}
+    \label{tab:threeLangCoparation}
+\end{table}
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=0.75\linewidth]{img/auto/freq_rank.png}
+    \caption{Word frequency vs rank for selected languages}
+    \label{fig:freq_rank_three}
+\end{figure}
+
+
+In conclusion, the objective of this chapter is to obtain, for each language, approximately comparable dataset. Here, "comparable" means that the size of the resulting data set (number of included words) should depend as little as possible on the original data size and as much as possible on the structure of the language itself. The graphs in Figure~\ref{fig:original_vs_truncated} show relationship between original size and truncated size for all language under the three truncation metrics. From these graphs, coverage appears to be the most suitable truncation criterion. This is also supported by Table~\ref{tab:trucation_technique_correlation}, which shows correlation between these quantities across all languages. For $95 \%$ coverage, the correlation is $0.75$, which is the lowest value.
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l|r|r}
+        Truncation & Light & Strict \\
+        \hline\hline
+        Coverage $95/99$ & $0.83$ & $0.96$ \\
+        \hline
+        Top $5/30$ & $1.00$ & $1.00$\\
+        \hline
+        Frequency $100/10$ & $0.97$ & $0.98$\\
+        \hline
+    \end{tabular}
+    \caption{Correlation between original word types and truncated token count with respect to different truncation metrics}
+    \label{tab:trucation_technique_correlation}
+\end{table}
+
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=0.75\linewidth]{img/auto/original_vs_truncated.png}
+    \caption{Original vs. truncated word counts with respect to different truncation methods.}
+    \label{fig:original_vs_truncated}
+\end{figure}
+
+This metric has a property that the correlation is stronger for smaller datasets, where most of the words have to be included, while for larger datasets the variability is greater and depends more on the language itself. The question is whether there is a structural breakpoint on the $x$-axes (original number of word types). Statistics for all languages with coverage levels were calculated. The coverage levels are presented in Table~\ref{tab:coverage_lvls_used} were used. The steps are getting smaller towards $100 \%$, because there was the more relevant data expected.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|r}
+        Range & Step \\
+        \hline\hline
+        $50-70$ & $5$ \\
+        \hline
+        $72-80$ & $2$ \\
+        \hline
+        $81-90$ & $1$ \\
+        \hline
+        $91.5-100$ & $0.5$ \\
+        \hline
+    \end{tabular}
+    \caption{Coverage levels used for analysis}
+    \label{tab:coverage_lvls_used}
+\end{table}
+
+For each coverage level $c$, it was found a point where languages with larger datasets than the point have in total zero correlation between the original word types count and truncated token count.
+
+The model swept the candidate breakpoints $b$ (equivalent to every language) left to right on $x$ axes in logarithmic space and fit a linear regression on the right segment ($\log_{10} x > b$). The right-side slope $\beta_R(b)$ starts positive for smaller corpora and ends negative, see the Figure~\ref{fig:original_vs_truncated}. The first sign change $\beta_R(b_i) \cdot \beta_R(b_{i+1}) < 0$ is detected. Between those two points, the precise breakpoint with zero slope on the right side is located with binary search.
+
+Graph~\ref{fig:elbow} represents the location of such a point. The gray bars show the number of languages, that would be included with this coverage threshold.
+
+The relationship between original word-type count and truncated token count was selected, although those metrics might seem unrelated. However, if it same metric is used, there is always relationship between original and truncated counts sourcing from the language. By using different metrics, it is possible to ensure, that the original collected word-types does not influence the remaining token counts.
+
+In the end the elbow method was used to determine, where is the point, where the breakpoint is starting to move rapidly towards high frequencies. The elbow method calculates the mean square error of the regression line for left $\hat y_L(c)$ and right points $\hat y_R(c)$ from the breakpoint. And seeks for the smallest deviation from those:
+
+Let $b^*(c)$ be the optimal breakpoint for coverage level $c$. For every candidate split $c^*$ we compute the total sum of squared errors for higher va:
+
+$$
+\text{SSE}(c^*) = \sum_{c \le c^*} \bigl(\log_{10} b^*(c) - \hat{y}_L(c)\bigr)^2 + \sum_{c > c^*} \bigl(\log_{10} b^*(c) - \hat{y}_R(c)\bigr)^2
+$$
+
+The minimum of $\text{SSE}(c^*)$ is considered the elbow point. The minimum mean square error was found for $c=0.94$. The regression lines are plotted in green on the Figure~\ref{fig:elbow}. The coverage of $94 \%$ is also plotted on Figure\ref{fig:original_vs_truncated}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\linewidth]{img/auto/elbow.png}
+    \caption{Coverage level}
+    \label{fig:elbow}
+\end{figure}
+
+It was therefore decided, that the data would be truncated at $94 \%$ of coverage. This means, that we include languages with equal or more than $2\ 197\ 659$ token counts, which is fulfilled by 184 languages. Those 184 has almost zero correlation between the original word type count and token count after truncation.
+
+In case of truncation needs to happen on a particular frequency where more words share the same value. The words are chosen at random. For example, when there is room only for one more word type in the dataset, but $5$ words types has the same frequency of $10$, the word is chosen randomly.
+
+\subsubsection{Published data}
+
+Data obtained from this method was published on Lindat. 200 languages languages with highest token count were used. There are three datasets of coverages: $90$, $94$ and $98$ to satisfy different usages of the data. The author then can voluntarily use the same method for choosing the number of languages. The breakpoints for this values are listed in the Table~\ref{tab:breakpoints_for_export}.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r|r|l}
+        Coverage & Min. tokens & Recommended language count \\
+        \hline\hline
+        $90$ & $1\ 540\ 418$ & $199$ \\
+        \hline
+        $94$ & $2\ 197\ 658$ & $184$ \\
+        \hline
+        $98$ & $9\ 468\ 592$ & $143$ \\
+        \hline
+    \end{tabular}
+    \caption{Recommended values for exported Lindat datasets}
+    \label{tab:breakpoints_for_export}
+\end{table}
+
+
+\newpage
+\section{Morphological segmentation data}
+
+Some of the metrics, that should be objectives of this paper are morphs based metrics. However, high-quality morphologically segmented data are not available for all languages.
+
+It was decided to prepare the segmented data with machine learning based on training data and all words from the current language.
+
+\subsection{Segmentation data}\label{sec:preprocess_segmentation}
+
+As it was shown in the previous chapter, on the frequency vs. rank graph~\ref{fig:freq_rank_three} with logarithmic axes the results are ordered in a approximatly straight line with slope -1 across all languages. This phenomenon is called Zipf law and the words are following the Zipfian distribution. This fact is used for generating a random sample of 200 words for each language. Naive uniform random sample draws each word with probability
+
+$$
+P_{\text{uniform}}(i) = \frac{1}{N}
+$$
+
+The majority of the drawn words would have very low frequencies. That is why a different probability is used for element $r$ of $N$ words:
+
+$$
+P(r) = \frac{1/r}{\sum_{k=1}^{N} 1/k}
+$$
+
+This approach is also how \texttt{scipy} function \texttt{zipfian.pmf(k, a, n, loc)} works. On the figure~\ref{fig:finnish_sampled} it is possible to visually confirm, that this approach is "fair" to low and high frequent words. First 10 words are almost always drawn and they are usually very short function words (also called stop words), so they can be omitted. Usually, the created sampled list ordered by frequency descendently, the words grow in complexity and length.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\linewidth]{img/finish_sample200.png}
+    \caption{Finnish frequency vs. rank graph with 200 sampled words}
+    \label{fig:finnish_sampled}
+\end{figure}
+
+The following table~\ref{tab:morph_segmentation_data_sources} lists all sample segmentation datasets. Most of the languages were segmented for prof. Zdeněk Žabokrtský, who provided the data for this paper.
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l|l|l}
+        Language & Size & Author \\
+        \hline\hline
+        Czech & 532 & Šárka Dohnalová, Antonín Forst \\
+        \hline
+        German & 198 & Anja Nedoluzhko \\
+        \hline
+        Greek & 206 & \\
+        \hline
+        English & 199 & Zdeněk Žabokrtský \\
+        \hline
+        Esperanto & 195 & Antonín Forst \\
+        \hline
+        French & 199 & Vojtěch John \\
+        \hline
+        Hindi & 199 & Abishek Stephen \\
+        \hline
+        Japanese & 199 & Tomáš Kalous \\
+        \hline
+        Latin & 190 & Benjamin Reeves \\
+        \hline
+        Marathi & 200 & Isha Thombre \\
+        \hline
+        Russian & 198 & Anna Nedoluzhko \\
+        \hline
+        Spanish & 199 & Aleš Manuel Papáček \\
+        \hline
+        Telugu & 199 & Abishek Stephen \\
+        \hline
+    \end{tabular}
+    \caption{Training data for segmentation}
+    \label{tab:morph_segmentation_data_sources}
+\end{table}
+
+\subsection{Root detection data}
+
+The segmented data were then annotated with the information about roots. The longest morph was annotated automatically and later all words were manually fixed, by the author, with help of large language model translating the individual morphs.
+
+\subsection{Consistency verification}
+
+Maintaining consistency even for a single annotator working with 500 words in their native language was proven challenging. To mitigate this and find annotators' mistakes, all the data were processed by the prediction model described in Chapter~\ref{}. During $k$-fold cross validation each word is held out of the training and evaluated. For each decision point (a character gap for segmentation, and morph for root detection), the model predicted probability $p_i$ for the annotated label $y_i$. The average cross entropy loss per word
+$$
+\bar{\ell}=-\frac{1}{n}\sum^n_{i=1} \log p(y_i)
+$$
+measures how much the model "disagrees" with the annotation. Words were sorted in descending order by $\ell$ and those with highest values were manually re-examined.
+\subsection{Language specific data}
+For the findings at the end of the paper, language specific data as family and genus were obtained from WALS database.
