@@ -32,7 +32,6 @@ SHORTCUTS_CSV = Path("src/1_process/0_download/leipzig/lepzig_shortcuts.csv")
 
 _HAS_LETTER = re.compile(r"[^\W\d_]").search
 
-# ISO 639-2/B (bibliographic) → ISO 639-3/T codes used in Leipzig shortcuts
 _ISO_ALIAS: dict[str, str] = {
     "alb": "sqi",   # Albanian
     "arm": "hye",   # Armenian
@@ -41,7 +40,6 @@ _ISO_ALIAS: dict[str, str] = {
     "cze": "ces",   # Czech
     "gre": "ell",   # Greek
     "jap": "jpn",   # Japanese
-    "kor": "kor",   # Korean (same)
     "mao": "mri",   # Maori
     "rum": "ron",   # Romanian
 }
@@ -129,6 +127,90 @@ def _parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
+def _group_by_language(
+    xml_files: list[Path], valid_codes: set[str]
+) -> tuple[dict[str, list[Path]], list[tuple[str, str, str]]]:
+    """Classify XML files into matched (by language code) and skipped.
+
+    Returns a mapping {code: [xml_paths]} and a list of skipped entries
+    as (filename, iso_code, language_name).
+    """
+    matched: dict[str, list[Path]] = {}
+    skipped: list[tuple[str, str, str]] = []
+
+    for xml_path in xml_files:
+        iso, lang_name = _get_iso639_and_name(xml_path)
+        if iso and iso in valid_codes:
+            matched.setdefault(iso, []).append(xml_path)
+        else:
+            skipped.append((xml_path.name, iso or "?", lang_name))
+
+    return matched, skipped
+
+
+def _pick_best_bible(xml_paths: list[Path]) -> tuple[Counter, str]:
+    """Among candidate XMLs for one language, return the richest frequency list.
+
+    When several Bible translations exist for a single code, we keep the one
+    that produces the most unique word types.
+    """
+    best_freq: Counter = Counter()
+    best_name = ""
+
+    for xml_path in xml_paths:
+        freq = _extract_frequencies(xml_path)
+        if len(freq) > len(best_freq):
+            best_freq = freq
+            best_name = xml_path.name
+
+    return best_freq, best_name
+
+
+def _export_frequencies(
+    code_to_xmls: dict[str, list[Path]],
+    out_dir: Path,
+    dry_run: bool = False,
+) -> int:
+    """Build and write frequency CSVs for every matched language code.
+
+    Returns the number of files written (or that would be written in dry-run).
+    """
+    written = 0
+    for code in sorted(code_to_xmls):
+        best_freq, best_name = _pick_best_bible(code_to_xmls[code])
+
+        out_path = out_dir / f"{code}_bible.csv"
+        note = f" (from {best_name})" if len(code_to_xmls[code]) > 1 else ""
+
+        if dry_run:
+            print(f"  {code}: {len(best_freq):,} words{note} [DRY RUN]")
+        else:
+            out_dir.mkdir(parents=True, exist_ok=True)
+            _write_csv(out_path, best_freq)
+            print(f"  {code}: {len(best_freq):,} words{note} -> {out_path.name}")
+        written += 1
+
+    return written
+
+
+def _print_summary(
+    xml_files: list[Path],
+    valid_codes: set[str],
+    matched: dict[str, list[Path]],
+    skipped: list[tuple[str, str, str]],
+) -> None:
+    """Print a human-readable summary of the grouping step."""
+    print(f"Found {len(xml_files)} Bible XML files")
+    print(f"Valid language codes: {len(valid_codes)}")
+    print(f"{'=' * 60}")
+    print(f"Matched: {sum(len(v) for v in matched.values())} files "
+          f"-> {len(matched)} codes")
+    print(f"Skipped: {len(skipped)} files (no matching code)")
+
+    for name, iso, lang_name in skipped:
+        print(f"  SKIP {name} (iso639={iso}, {lang_name})")
+
+
 def main(argv: Optional[list[str]] = None) -> None:
     args = _parse_args(argv)
 
@@ -139,53 +221,10 @@ def main(argv: Optional[list[str]] = None) -> None:
         print(f"No XML files found in {args.bible_dir}")
         sys.exit(1)
 
-    print(f"Found {len(xml_files)} Bible XML files")
-    print(f"Valid language codes: {len(valid_codes)}")
-    print(f"{'=' * 60}")
+    matched, skipped = _group_by_language(xml_files, valid_codes)
+    _print_summary(xml_files, valid_codes, matched, skipped)
 
-    # Group XML files by matching code
-    # {code: [(xml_path, iso), ...]}
-    code_to_xmls: dict[str, list[Path]] = {}
-    skipped = []
-
-    for xml_path in xml_files:
-        iso, lang_name = _get_iso639_and_name(xml_path)
-        if iso and iso in valid_codes:
-            code_to_xmls.setdefault(iso, []).append(xml_path)
-        else:
-            skipped.append((xml_path.name, iso or "?", lang_name))
-
-    print(f"Matched: {sum(len(v) for v in code_to_xmls.values())} files "
-          f"-> {len(code_to_xmls)} codes")
-    print(f"Skipped: {len(skipped)} files (no matching code)")
-
-    if skipped:
-        for name, iso, lang_name in skipped:
-            print(f"  SKIP {name} (iso639={iso}, {lang_name})")
-
-    # Process each code -- if multiple XMLs, pick the one with most word types
-    written = 0
-    for code in sorted(code_to_xmls):
-        xmls = code_to_xmls[code]
-        best_freq: Counter = Counter()
-        best_name = ""
-
-        for xml_path in xmls:
-            freq = _extract_frequencies(xml_path)
-            if len(freq) > len(best_freq):
-                best_freq = freq
-                best_name = xml_path.name
-
-        out_path = args.out_dir / f"{code}_bible.csv"
-        extra = f" (from {best_name})" if len(xmls) > 1 else ""
-        if args.dry_run:
-            print(f"  {code}: {len(best_freq):,} words{extra} [DRY RUN]")
-        else:
-            args.out_dir.mkdir(parents=True, exist_ok=True)
-            _write_csv(out_path, best_freq)
-            print(f"  {code}: {len(best_freq):,} words{extra} -> {out_path.name}")
-        written += 1
-
+    written = _export_frequencies(matched, args.out_dir, dry_run=args.dry_run)
     print(f"Done. Wrote {written} frequency files.")
 
 

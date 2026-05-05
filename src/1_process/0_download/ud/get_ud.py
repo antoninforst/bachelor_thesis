@@ -9,23 +9,12 @@ from tqdm import tqdm
 
 
 def is_ud_word_id(token_id: str) -> bool:
-    """
-    UD word rows have integer IDs: 1, 2, 3, ...
-    Skip:
-      - multiword token ranges like 1-2
-      - empty nodes like 5.1
-    """
+    """True for regular word IDs (1, 2, 3...), skips ranges (1-2) and empty nodes (5.1)."""
     return token_id.isdigit()
 
 
 def count_conllu_stream(stream, field: str = "FORM") -> Counter[str]:
-    """
-    Count frequencies from a CoNLL-U byte stream.
-
-    field:
-      - "FORM"  -> surface word forms
-      - "LEMMA" -> lemmas
-    """
+    """Count word frequencies from a CoNLL-U byte stream (FORM or LEMMA column)."""
     field_index = {"FORM": 1, "LEMMA": 2}[field]
     counter: Counter[str] = Counter()
 
@@ -61,7 +50,7 @@ def write_frequency_csv(counter: Counter[str], out_path: Path) -> None:
 
 
 def load_language_mapping(shortcuts_path: Path) -> dict[str, str]:
-    """Load Leipzig shortcuts CSV and return {normalized_language_name: code}."""
+    """Read Leipzig shortcuts CSV -> {normalized_language_name: iso_code}."""
     mapping: dict[str, str] = {}
     with shortcuts_path.open(encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -72,7 +61,7 @@ def load_language_mapping(shortcuts_path: Path) -> dict[str, str]:
 
 
 def load_ud_language_mapping(ud_mapping_path: Path) -> dict[str, str]:
-    """Load UD-specific language mapping CSV and return {normalized_ud_name: code}."""
+    """Read UD-specific name overrides -> {normalized_ud_name: iso_code}."""
     mapping: dict[str, str] = {}
     with ud_mapping_path.open(encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -83,10 +72,7 @@ def load_ud_language_mapping(ud_mapping_path: Path) -> dict[str, str]:
 
 
 def parse_ud_treebank_name(name: str) -> tuple[str, str | None]:
-    """
-    Parse 'UD_Czech-CAC' -> ('Czech', 'CAC').
-    Parse 'UD_Czech'      -> ('Czech', None).
-    """
+    """'UD_Czech-CAC' -> ('Czech', 'CAC'), 'UD_Czech' -> ('Czech', None)."""
     rest = name[3:]  # strip 'UD_'
     if "-" in rest:
         lang, variant = rest.split("-", 1)
@@ -94,23 +80,10 @@ def parse_ud_treebank_name(name: str) -> tuple[str, str | None]:
     return rest, None
 
 
-def process_ud_release_archive(
-    archive_path: str | Path,
-    output_dir: str | Path,
-    shortcuts_path: str | Path,
-    ud_mapping_path: str | Path,
-    field: str = "FORM",
-) -> None:
-    archive_path = Path(archive_path)
-    output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
-    shortcuts_path = Path(shortcuts_path)
-    ud_mapping_path = Path(ud_mapping_path)
-
-    lang_to_code = load_language_mapping(shortcuts_path)
-    ud_overrides = load_ud_language_mapping(ud_mapping_path)
-
-    # Collect word counts per treebank (merging train/dev/test)
+def _collect_treebank_counts(
+    archive_path: Path, field: str
+) -> dict[str, Counter[str]]:
+    """Read all .conllu files from the tar.gz and aggregate counts per treebank."""
     treebank_counters: dict[str, Counter[str]] = defaultdict(Counter)
 
     with tarfile.open(archive_path, "r:gz") as tar:
@@ -120,9 +93,8 @@ def process_ud_release_archive(
             if len(path_parts) < 2:
                 continue
 
-            filename = path_parts[-1]
             parent_dir = path_parts[-2]
-
+            filename = path_parts[-1]
             treebank_name = parent_dir if parent_dir.startswith("UD_") else filename.replace(".conllu", "")
 
             extracted = tar.extractfile(member)
@@ -132,15 +104,29 @@ def process_ud_release_archive(
             counts = count_conllu_stream(extracted, field=field)
             treebank_counters[treebank_name].update(counts)
 
-    # Group treebanks by language name
+    return dict(treebank_counters)
+
+
+def _group_by_language(
+    treebank_counters: dict[str, Counter[str]]
+) -> dict[str, list[tuple[str | None, Counter[str]]]]:
+    """Group treebank counters by their language name."""
     lang_treebanks: dict[str, list[tuple[str | None, Counter[str]]]] = defaultdict(list)
     for tb_name, counter in treebank_counters.items():
         if not tb_name.startswith("UD_"):
             continue
         lang, variant = parse_ud_treebank_name(tb_name)
         lang_treebanks[lang].append((variant, counter))
+    return dict(lang_treebanks)
 
-    # Map to codes and write
+
+def _write_all(
+    lang_treebanks: dict[str, list[tuple[str | None, Counter[str]]]],
+    output_dir: Path,
+    lang_to_code: dict[str, str],
+    ud_overrides: dict[str, str],
+) -> list[str]:
+    """Write frequency CSVs for each language. Returns list of unmatched languages."""
     unmatched: list[str] = []
     written = 0
 
@@ -163,6 +149,29 @@ def process_ud_release_archive(
                 written += 1
 
     print(f"Done. Wrote {written} frequency files to {output_dir}")
+    return unmatched
+
+
+def process_ud_release_archive(
+    archive_path: str | Path,
+    output_dir: str | Path,
+    shortcuts_path: str | Path,
+    ud_mapping_path: str | Path,
+    field: str = "FORM",
+) -> None:
+    """Top-level: extract UD archive, count words, write frequency CSVs."""
+    archive_path = Path(archive_path)
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    shortcuts_path = Path(shortcuts_path)
+    ud_mapping_path = Path(ud_mapping_path)
+
+    lang_to_code = load_language_mapping(shortcuts_path)
+    ud_overrides = load_ud_language_mapping(ud_mapping_path)
+
+    treebank_counters = _collect_treebank_counts(archive_path, field)
+    lang_treebanks = _group_by_language(treebank_counters)
+    unmatched = _write_all(lang_treebanks, output_dir, lang_to_code, ud_overrides)
 
     if unmatched:
         print(f"\nUnmatched UD languages ({len(unmatched)}):")

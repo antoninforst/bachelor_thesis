@@ -10,7 +10,8 @@ TO_DOWNLOAD_PATH = os.path.join(SCRIPT_DIR, "to_download.tsv")
 ALREADY_PATH = os.path.join(SCRIPT_DIR, "already.tsv")
 
 
-def geturl(name):
+def _build_url(name: str) -> str:
+    """Build the Leipzig wordlist download URL for a corpus name."""
     encoded = urllib.parse.quote(name, safe="")
     return (
         f"https://text.wortschatz-leipzig.de/bonito/run.cgi/wordlist?"
@@ -27,14 +28,16 @@ def geturl(name):
     )
 
 
-def load_already():
+def _load_already() -> set[str]:
+    """Load the set of corpus names we already downloaded."""
     if not os.path.exists(ALREADY_PATH):
         return set()
     with open(ALREADY_PATH, "r", encoding="utf-8") as f:
         return {line.strip() for line in f if line.strip()}
 
 
-def load_to_download():
+def _load_to_download() -> list[str]:
+    """Read corpus names from the to_download.tsv (second column)."""
     names = []
     with open(TO_DOWNLOAD_PATH, "r", encoding="utf-8") as f:
         for line in f:
@@ -44,69 +47,73 @@ def load_to_download():
     return names
 
 
-def record_already(name):
-    # Read existing entries, add new one, write everything back
-    # (protects against VS Code overwriting the file with a stale buffer)
-    existing = load_already()
+def _record_already(name: str) -> None:
+    """Mark a corpus as downloaded (rewrites the file to stay in sync)."""
+    existing = _load_already()
     existing.add(name)
     with open(ALREADY_PATH, "w", encoding="utf-8") as f:
         for entry in sorted(existing):
             f.write(entry + "\n")
 
 
-def download_file(name, progress):
-    url = geturl(name)
-    print(f"{progress} Downloading {name} ...")
-    response = urllib.request.urlopen(url)
-
-    total_size = response.headers.get("Content-Length")
-    total_size = int(total_size) if total_size else None
-
-    # Get the filename from Content-Disposition header, fall back to name.csv
+def _resolve_filename(response, fallback_name: str) -> str:
+    """Get the output filename from the response header or build a fallback."""
     content_disp = response.headers.get("Content-Disposition", "")
     filename = None
     if "filename=" in content_disp:
         filename = content_disp.split("filename=")[-1].strip().strip('"')
 
     if not filename:
-        filename = f"wordlist_{name}.csv"
+        filename = f"wordlist_{fallback_name}.csv"
 
-    # Remove wordlist_ prefix
+    # strip the "wordlist_" prefix the server adds
     if filename.startswith("wordlist_"):
         filename = filename[len("wordlist_"):]
 
-    dest = os.path.join(RAW_DIR, filename)
+    return filename
 
-    # Download with progress bar
+
+def _download_with_progress(response, progress: str) -> bytes:
+    """Read the response body in chunks and print a progress bar."""
+    total_size = response.headers.get("Content-Length")
+    total_size = int(total_size) if total_size else None
+
     downloaded = 0
-    chunk_size = 8192
     chunks = []
     while True:
-        chunk = response.read(chunk_size)
+        chunk = response.read(8192)
         if not chunk:
             break
         chunks.append(chunk)
         downloaded += len(chunk)
         if total_size:
             pct = downloaded / total_size * 100
-            bar_len = 30
-            filled = int(bar_len * downloaded / total_size)
-            bar = "█" * filled + "░" * (bar_len - filled)
+            filled = int(30 * downloaded / total_size)
+            bar = "█" * filled + "░" * (30 - filled)
             print(f"\r{progress}   [{bar}] {pct:5.1f}% ({downloaded:,}/{total_size:,} bytes)", end="", flush=True)
         else:
             print(f"\r{progress}   Downloaded {downloaded:,} bytes", end="", flush=True)
+    print()
+    return b"".join(chunks)
 
-    data = b"".join(chunks)
-    print()  # newline after progress bar
 
+def _download_file(name: str, progress: str) -> None:
+    """Download one wordlist and save it to RAW_DIR."""
+    url = _build_url(name)
+    print(f"{progress} Downloading {name} ...")
+    response = urllib.request.urlopen(url)
+
+    filename = _resolve_filename(response, name)
+    data = _download_with_progress(response, progress)
+
+    dest = os.path.join(RAW_DIR, filename)
     with open(dest, "wb") as f:
         f.write(data)
 
     print(f"{progress}   Saved as {filename} ({len(data):,} bytes)")
-    return True
 
 
-def main():
+def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Download wordlists from Leipzig Corpora")
     parser.add_argument(
         "-n", type=int, required=True,
@@ -116,36 +123,49 @@ def main():
         "--delay", type=float, default=5.0,
         help="Delay in seconds between downloads (default: 5)",
     )
-    args = parser.parse_args()
+    return parser.parse_args()
 
-    already = load_already()
-    to_download = load_to_download()
 
+def _get_pending_batch(n: int) -> list[str]:
+    """Return up to n corpus names that haven't been downloaded yet."""
+    already = _load_already()
+    to_download = _load_to_download()
     pending = [name for name in to_download if name not in already]
-    batch = pending[: args.n]
-
-    if not batch:
-        print("Nothing to download – all files already downloaded.")
-        return
 
     print(f"Already downloaded: {len(already)} files")
     print(f"Total in to_download: {len(to_download)} files")
-    print(f"Pending: {len(pending)}, downloading {len(batch)} this run.\n")
+    print(f"Pending: {len(pending)}")
 
+    return pending[:n]
+
+
+def _download_batch(batch: list[str], delay: float) -> None:
+    """Download a list of corpora with a delay between requests."""
     total = len(batch)
     for i, name in enumerate(batch, 1):
         progress = f"[{i}/{total}]"
         try:
-            download_file(name, progress)
-            record_already(name)
+            _download_file(name, progress)
+            _record_already(name)
         except Exception as e:
             print(f"{progress}   ERROR downloading {name}: {e}")
             continue
 
         if i < total:
-            print(f"{progress}   Waiting {args.delay}s before next download...\n")
-            time.sleep(args.delay)
+            print(f"{progress}   Waiting {delay}s before next download...\n")
+            time.sleep(delay)
 
+
+def main():
+    args = _parse_args()
+    batch = _get_pending_batch(args.n)
+
+    if not batch:
+        print("Nothing to download – all files already downloaded.")
+        return
+
+    print(f"Downloading {len(batch)} this run.\n")
+    _download_batch(batch, args.delay)
     print("\nDone.")
 
 

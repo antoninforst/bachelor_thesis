@@ -31,31 +31,24 @@ PARQUET_CACHE_DIR = os.path.join(SCRIPT_DIR, "..", "..", "..", "data", "0_3_othe
 
 DATASET = "cis-lmu/Glot500"
 HF_PARQUET_API = f"https://huggingface.co/api/datasets/{DATASET}/parquet"
-HF_ROWS_API = "https://datasets-server.huggingface.co/rows"
 HF_SPLITS_API = "https://datasets-server.huggingface.co/splits"
 
-# How the Glot500 config prefix maps to our ISO 639-3 code.
-# Most are identical; only override the ones that differ or need special handling.
-# If a code is not listed here, we use the Glot500 prefix as-is.
-GLOT_TO_ISO3_OVERRIDES = {
-    # Glot500 uses some macro/alternative codes
-}
-
-
-MAX_RETRIES = 5
+# Seconds to wait between retries
 RETRY_DELAYS = [5, 15, 30, 60, 120]
 
 
 def fetch_json(url: str, timeout: int = 60):
-    for attempt in range(MAX_RETRIES):
+    """GET a URL and parse the JSON response, with retries."""
+    max_attempts = len(RETRY_DELAYS)
+    for attempt in range(max_attempts):
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
             with urllib.request.urlopen(req, timeout=timeout) as resp:
                 return json.loads(resp.read())
         except Exception as e:
-            if attempt < MAX_RETRIES - 1:
+            if attempt < max_attempts - 1:
                 delay = RETRY_DELAYS[attempt]
-                print(f"    [dl] Retry {attempt+1}/{MAX_RETRIES} in {delay}s ({e})")
+                print(f"    [dl] Retry {attempt+1}/{max_attempts} in {delay}s ({e})")
                 time.sleep(delay)
             else:
                 raise
@@ -83,8 +76,9 @@ def validate_parquet(path: str) -> bool:
 
 
 def download_parquet(url: str, dest: str) -> None:
-    """Download a Parquet file to a local path with retries."""
-    for attempt in range(MAX_RETRIES):
+    """Download a parquet file with retries and progress output."""
+    max_attempts = len(RETRY_DELAYS)
+    for attempt in range(max_attempts):
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
             with urllib.request.urlopen(req, timeout=600) as resp:
@@ -107,19 +101,19 @@ def download_parquet(url: str, dest: str) -> None:
             print()
             return
         except Exception as e:
-            # Remove partial file on failure
+            # clean up partial download
             if os.path.exists(dest):
                 os.unlink(dest)
-            if attempt < MAX_RETRIES - 1:
+            if attempt < max_attempts - 1:
                 delay = RETRY_DELAYS[attempt]
-                print(f"\n    [dl] Retry {attempt+1}/{MAX_RETRIES} in {delay}s ({e})")
+                print(f"\n    [dl] Retry {attempt+1}/{max_attempts} in {delay}s ({e})")
                 time.sleep(delay)
             else:
                 raise
 
 
 def ensure_parquet_cached(purl: str, cached_path: str, label: str) -> None:
-    """Download a parquet to cache if not already there and valid."""
+    """Download a parquet into the cache dir (skip if already valid)."""
     if os.path.exists(cached_path):
         if validate_parquet(cached_path):
             print(f"  [dl] {label} cached")
@@ -133,28 +127,20 @@ def ensure_parquet_cached(purl: str, cached_path: str, label: str) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Pipeline: download thread + processor thread communicating via a queue
+# Pipeline: downloader + processor talking through a queue
 # ---------------------------------------------------------------------------
-
-# Message types sent from download thread -> processor thread
-# ("ready", config, iso3, [list of cached parquet paths])
-# ("dl_error", config, iso3, exception)
-# ("done", None, None, None)  -- downloader finished all work
+# Queue messages: ("ready", config, iso3, [parquet_paths])
+#                 ("dl_error", config, iso3, exception)
+#                 ("done", None, None, None)
 
 def download_thread_func(
     jobs: list[tuple[str, str]],  # (config, iso3)
     skip_existing: bool,
     ready_queue: queue.Queue,
 ):
-    """Continuously download parquets for all configs into cache.
-
-    For each config, fetches parquet URLs, downloads all files, then
-    puts a "ready" message on the queue so the processor can handle it.
-    The downloader never waits for the processor -- it keeps going.
-    """
+    """Download parquets for each config and notify the processor via the queue."""
     for config, iso3 in jobs:
-        out_name = f"{iso3}_glot500_{config.split('_')[1].lower()}.csv"
-        out_path = os.path.join(RAW_DIR, out_name)
+        out_path = os.path.join(RAW_DIR, _output_name(config, iso3))
 
         if skip_existing and os.path.exists(out_path):
             ready_queue.put(("skip", config, iso3, None))
@@ -192,15 +178,17 @@ def download_thread_func(
     ready_queue.put(("done", None, None, None))
 
 
+def _output_name(config: str, iso3: str) -> str:
+    """Build the CSV filename for a given config."""
+    script = config.split("_")[1].lower()
+    return f"{iso3}_glot500_{script}.csv"
+
+
 def process_ready_config(
     config: str, iso3: str, cached_paths: list[str], clean_cache: bool
 ) -> bool:
-    """Tokenize cached parquets into a frequency CSV.
-
-    Reads one parquet at a time to keep memory low -- only the Counter
-    and one table are in memory simultaneously.
-    """
-    out_name = f"{iso3}_glot500_{config.split('_')[1].lower()}.csv"
+    """Turn cached parquets into a word-frequency CSV (one parquet at a time to save RAM)."""
+    out_name = _output_name(config, iso3)
     out_path = os.path.join(RAW_DIR, out_name)
 
     counter: Counter[str] = Counter()
@@ -216,7 +204,7 @@ def process_ready_config(
         del texts  # free memory
 
     if not counter:
-        print(f"  [proc] No words found.")
+        print("  [proc] No words found.")
         return False
 
     freqs = sorted(counter.items(), key=lambda x: (-x[1], x[0]))
@@ -239,7 +227,7 @@ def process_ready_config(
     return True
 
 
-def main():
+def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Download Glot500 data as frequency lists")
     parser.add_argument(
         "--langs", nargs="*", default=None,
@@ -270,84 +258,85 @@ def main():
         "--clean-cache", action="store_true",
         help="Delete cached parquet files after successful CSV generation."
     )
-    args = parser.parse_args()
+    return parser.parse_args()
 
-    if args.list_configs:
-        configs = get_all_configs()
-        print(f"Available configs ({len(configs)}):")
-        for c in configs:
-            print(f"  {c}")
-        return
 
-    all_configs = get_all_configs()
-    config_by_lang: dict[str, list[str]] = {}
-    for c in all_configs:
-        lang = c.split("_")[0]
-        config_by_lang.setdefault(lang, []).append(c)
+def _configs_from_under_threshold(
+    path: str, config_by_lang: dict[str, list[str]]
+) -> list[str]:
+    """Read the under-threshold CSV and return configs that match."""
+    configs: list[str] = []
+    with open(path, encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            code = row["code"]
+            if code and code in config_by_lang:
+                configs.extend(config_by_lang[code])
+    return configs
 
-    # Determine which configs to download
+
+def _resolve_configs(
+    args: argparse.Namespace,
+    all_configs: list[str],
+    config_by_lang: dict[str, list[str]],
+) -> list[str]:
+    """Figure out which configs to download from the CLI flags."""
     if args.configs:
-        to_download = args.configs
-        # Validate
-        invalid = [c for c in to_download if c not in all_configs]
+        invalid = [c for c in args.configs if c not in all_configs]
         if invalid:
             print(f"Unknown configs: {', '.join(invalid)}")
             sys.exit(1)
-    elif args.all:
-        to_download = list(all_configs)
-        print(f"Downloading all {len(to_download)} configs")
-    elif args.langs:
-        to_download = []
+        return args.configs
+
+    if args.all:
+        print(f"Downloading all {len(all_configs)} configs")
+        return list(all_configs)
+
+    if args.langs:
+        to_download: list[str] = []
         for lang in args.langs:
-            iso3 = GLOT_TO_ISO3_OVERRIDES.get(lang, lang)
-            if iso3 in config_by_lang:
-                to_download.extend(config_by_lang[iso3])
+            if lang in config_by_lang:
+                to_download.extend(config_by_lang[lang])
             else:
                 print(f"Warning: no Glot500 config for {lang}")
-    elif args.under_threshold:
-        # Read under-threshold file and match
-        to_download = []
-        with open(args.under_threshold, encoding="utf-8") as f:
-            for row in csv.DictReader(f):
-                code = row["code"]
-                if code and code in config_by_lang:
-                    to_download.extend(config_by_lang[code])
-        print(f"Found {len(to_download)} configs for under-threshold languages")
-    else:
-        # Default: use under-threshold file if it exists
-        ut_path = os.path.join(SCRIPT_DIR, "..", "..", "..", "data", "3_results", "languages_under_threshold.csv")
-        if os.path.exists(ut_path):
-            to_download = []
-            with open(ut_path, encoding="utf-8") as f:
-                for row in csv.DictReader(f):
-                    code = row["code"]
-                    if code and code in config_by_lang:
-                        to_download.extend(config_by_lang[code])
-            print(f"Found {len(to_download)} configs for under-threshold languages")
-        else:
-            print("No --langs, --configs, or under-threshold file specified.")
-            print("Use --list-configs to see available options.")
-            sys.exit(1)
+        return to_download
 
-    print(f"Will download {len(to_download)} config(s)")
-    print(f"Output directory: {RAW_DIR}")
-    print(f"Parquet cache:   {PARQUET_CACHE_DIR}")
-    print()
+    if args.under_threshold:
+        configs = _configs_from_under_threshold(args.under_threshold, config_by_lang)
+        print(f"Found {len(configs)} configs for under-threshold languages")
+        return configs
 
-    # Build (config, iso3) job list
+    # Default: use under-threshold file if it exists
+    ut_path = os.path.join(
+        SCRIPT_DIR, "..", "..", "..", "data", "3_results", "languages_under_threshold.csv"
+    )
+    if os.path.exists(ut_path):
+        configs = _configs_from_under_threshold(ut_path, config_by_lang)
+        print(f"Found {len(configs)} configs for under-threshold languages")
+        return configs
+
+    print("No --langs, --configs, or under-threshold file specified.")
+    print("Use --list-configs to see available options.")
+    sys.exit(1)
+
+
+def _build_jobs(configs: list[str]) -> list[tuple[str, str]]:
+    """Turn config names into (config, iso3) pairs for the pipeline."""
     jobs = []
-    for config in sorted(to_download):
-        iso3_prefix = config.split("_")[0]
-        iso3 = GLOT_TO_ISO3_OVERRIDES.get(iso3_prefix, iso3_prefix)
+    for config in sorted(configs):
+        iso3 = config.split("_")[0]  # e.g. "alt_Cyrl" -> "alt"
         jobs.append((config, iso3))
+    return jobs
 
-    # Queue: download thread -> main thread (processor)
-    # Unbounded so the downloader never blocks
+
+def _run_pipeline(
+    jobs: list[tuple[str, str]], skip_existing: bool, clean_cache: bool
+) -> None:
+    """Run the download + process loop and print a summary at the end."""
     ready_q: queue.Queue = queue.Queue()
 
     dl = threading.Thread(
         target=download_thread_func,
-        args=(jobs, args.skip_existing, ready_q),
+        args=(jobs, skip_existing, ready_q),
         daemon=True,
     )
     dl.start()
@@ -380,7 +369,7 @@ def main():
         cached_paths = payload
         print(f"[{idx}/{total}] {config} (-> {iso3}) -- processing {len(cached_paths)} parquet(s)")
         try:
-            ok = process_ready_config(config, iso3, cached_paths, clean_cache=args.clean_cache)
+            ok = process_ready_config(config, iso3, cached_paths, clean_cache=clean_cache)
             if ok:
                 success += 1
             else:
@@ -392,6 +381,33 @@ def main():
     dl.join()
     print()
     print(f"Done: {success} downloaded, {skipped} skipped, {failed} failed")
+
+
+def main():
+    args = _parse_args()
+
+    if args.list_configs:
+        configs = get_all_configs()
+        print(f"Available configs ({len(configs)}):")
+        for c in configs:
+            print(f"  {c}")
+        return
+
+    all_configs = get_all_configs()
+    config_by_lang: dict[str, list[str]] = {}
+    for c in all_configs:
+        lang = c.split("_")[0]
+        config_by_lang.setdefault(lang, []).append(c)
+
+    to_download = _resolve_configs(args, all_configs, config_by_lang)
+
+    print(f"Will download {len(to_download)} config(s)")
+    print(f"Output directory: {RAW_DIR}")
+    print(f"Parquet cache:   {PARQUET_CACHE_DIR}")
+    print()
+
+    jobs = _build_jobs(to_download)
+    _run_pipeline(jobs, args.skip_existing, args.clean_cache)
 
 
 if __name__ == "__main__":
