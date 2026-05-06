@@ -5,9 +5,10 @@ Sources:
   - results/3_analyze/results.csv                       (corpus-level metrics from analyze.py)
   - results/3_analyze/morphs.csv                        (morph-level metrics from morphs.py)
   - results/3_analyze/compress100k.csv                   (compression metrics)
-  - results/1_process/2_aggregate/language_overview.csv  (token counts, dominant script)
+  - results/1_process/3_truncate/statistics.csv          (original token/type counts)
+  - results/1_process/3_truncate/quality.csv             (foreign script percentage)
   - metadata/languages.csv                               (name, family, genus, typology)
-  - data/5_other/script_types.csv                        (script type classification)
+  - metadata/scripts.csv                                 (script type classification)
   - data/2_annotated/*.csv                               (last type frequency per language)
 
 Output:
@@ -23,9 +24,10 @@ ROOT = Path(__file__).resolve().parents[2]
 RESULTS_PATH = ROOT / "results" / "3_analyze" / "results.csv"
 MORPHS_PATH = ROOT / "results" / "3_analyze" / "morphs.csv"
 COMPRESS_PATH = ROOT / "results" / "3_analyze" / "compress100k.csv"
-OVERVIEW_PATH = ROOT / "results" / "1_process" / "2_aggregate" / "language_overview.csv"
+STATISTICS_PATH = ROOT / "results" / "1_process" / "3_truncate" / "statistics.csv"
+QUALITY_PATH = ROOT / "results" / "1_process" / "3_truncate" / "quality.csv"
 LANG_META_PATH = ROOT / "metadata" / "languages.csv"
-SCRIPT_TYPES_PATH = ROOT / "data" / "5_other" / "script_types.csv"
+SCRIPT_TYPES_PATH = ROOT / "metadata" / "scripts.csv"
 ANNOTATED_DIR = ROOT / "data" / "2_annotated"
 
 OUTPUT_PATH = ROOT / "results" / "3_analyze" / "total_results.csv"
@@ -103,19 +105,23 @@ def load_corpus_results() -> pd.DataFrame:
     return res
 
 
-def load_overview() -> pd.DataFrame:
-    """Load language_overview.csv for original token/type counts and dominant script."""
-    overview = pd.read_csv(OVERVIEW_PATH, keep_default_na=False, na_values=[""])
-    overview = overview.drop_duplicates(subset="used_shortcut", keep="first")
-    overview = overview.rename(columns={
-        "used_shortcut": "language_code",
+def load_original_counts() -> pd.DataFrame:
+    """Load statistics.csv for original token/type counts."""
+    stats = pd.read_csv(STATISTICS_PATH)
+    stats = stats.rename(columns={
+        "file": "language_code",
         "distinct_words": "original_type_count",
         "total_frequency": "original_token_count",
-        "primary_script": "dominant_script",
-        "primary_script_pct": "dominant_script_pct",
     })
-    return overview[["language_code", "dominant_script", "dominant_script_pct",
-                      "original_type_count", "original_token_count"]]
+    return stats[["language_code", "original_type_count", "original_token_count"]]
+
+
+def load_quality() -> pd.DataFrame:
+    """Load quality.csv and derive dominant_script_pct from foreign_script_pct."""
+    quality = pd.read_csv(QUALITY_PATH)
+    quality["language_code"] = quality["file"].str.removesuffix(".csv")
+    quality["dominant_script_pct"] = 100.0 - quality["foreign_script_pct"]
+    return quality[["language_code", "dominant_script_pct"]]
 
 
 def load_morphs() -> pd.DataFrame:
@@ -159,21 +165,22 @@ def compute_last_type_frequency(language_codes: list[str]) -> dict[str, int]:
 def main():
     # --- Load all sources ---
     corpus = load_corpus_results()
-    overview = load_overview()
+    original_counts = load_original_counts()
+    quality = load_quality()
     morphs = load_morphs()
     compress = load_compress()
     lang_meta = load_lang_metadata()
     script_types = pd.read_csv(SCRIPT_TYPES_PATH)
 
-    # --- Merge corpus results with overview (original counts + script info) ---
-    # Extract lang and script from language_code first (overview uses short codes)
+    # --- Extract lang and script from language_code (e.g. eng_Latn → eng, Latn) ---
     corpus["lang"] = corpus["language_code"].str.split("_").str[0]
     corpus["script"] = corpus["language_code"].str.split("_").str[1]
 
-    merged = corpus.merge(overview, left_on="lang", right_on="language_code",
-                          how="left", suffixes=("", "_overview"))
-    if "language_code_overview" in merged.columns:
-        merged = merged.drop(columns=["language_code_overview"])
+    # --- Merge original counts from statistics.csv ---
+    merged = corpus.merge(original_counts, on="language_code", how="left")
+
+    # --- Merge dominant_script_pct from quality.csv ---
+    merged = merged.merge(quality, on="language_code", how="left")
 
     # Rename type_count/token_count to current_* (post-truncation counts)
     merged = merged.rename(columns={
@@ -195,9 +202,12 @@ def main():
     )
     merged = merged.rename(columns={"name": "language_name"})
 
-    # --- Merge script types ---
-    merged = merged.merge(script_types, on="script", how="left")
+    # --- Merge script types from metadata/scripts.csv ---
+    merged = merged.merge(
+        script_types[["code", "type"]], left_on="script", right_on="code", how="left",
+    )
     merged = merged.rename(columns={"type": "script_type"})
+    merged = merged.drop(columns=["code"])
 
     # --- Last type frequency ---
     last_freq = compute_last_type_frequency(merged["language_code"].unique().tolist())

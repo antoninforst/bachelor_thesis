@@ -11,4 +11,20 @@ By showing various implications and patterns in the data, this thesis supports b
 
 Thirdly, metrics based on morphological segmentation were proposed and implemented. The results of these metrics are mixed. There are some strong and interesting patterns that were worth exploring, but the data are very limited by the number of languages, by the varying quality of the training data, and by the model that predicts morphological typology, that is, roots and affixes. Once better data becomes available, it is reasonable to believe that the proposed metrics will be able to capture morphological complexity. The codebase is fully prepared to process the next generation of data and to produce the corresponding graphs and tables on complexity.
 
+\section*{Software and engineering contributions}
+
+From the software perspective, a complete and reproducible pipeline was built. The data processing stage is driven by a makefile that chains filtering, aggregation, statistics, and truncation into a single command with configurable parameters. Parallelism is used to make the heaviest phase --- aggregation of hundreds of millions of tokens --- finish in practical time. The analysis stage is modular: adding a new metric requires only one function and one dictionary entry; adding a new data source requires only a download script that outputs a two-column CSV in the standard format. The whole pipeline can therefore be rerun end-to-end when new data becomes available without any structural changes.
+
+Every figure and table in the thesis is generated from Jupyter notebooks and exported via a helper module that keeps the PDF figures synchronised with the data. A single command regenerates all figures, which proved essential as the dataset was rebuilt multiple times during the project.
+
+The codebase is covered by a pytest test suite that validates each stage of the pipeline --- from filtering and aggregation to the metric calculations themselves --- using synthetic data with known mathematical properties. This made it possible to refactor the code confidently and catch errors early, despite working with hundreds of languages that could not all be inspected manually.
+
+\section*{Limitations}
+
+The main limitation of the work is the uneven quality and size of the available corpora. Some languages are represented by only a few thousand tokens, which limits the reliability of the metrics. The reliance on written text introduces biases related to orthographic conventions, and languages without word-boundary spaces required special tokenisation that may not be perfectly comparable with space-delimited languages. The morphological segmentation model is still in an early stage of development for many of the languages, which constrains what the segmentation-based metrics can reveal at this point.
+
+\section*{Future work}
+
+There are several natural directions for extending this work. As more corpus data becomes available online, the pipeline can ingest them and produce updated results with minimal effort. The morphological segmentation could be improved by training language-specific models or by incorporating newer multilingual segmentation tools as they mature. Additional complexity metrics --- for example, based on syntactic annotations or phonological data --- could be added alongside the current ones to provide a more complete picture of language complexity. Finally, the standardised wordlists themselves may find use in other areas of computational linguistics, such as language identification, lexical distance computation, or cross-lingual transfer learning.
+
 The main metrics and statistical data are available in the appendix.
