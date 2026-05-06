@@ -32,7 +32,7 @@ aym,Aymara,,,aym,,,,aym,Latin,99.78,,0.0,105708,540229,,,,,,,"glot500, wikipedia
 ayr,Aymara (Central),,,,,,ayr,ayr,Latin,100.0,,0.0,15424,29818,Aymaran,Aymaran,South America,-17.0,-69.0,Chile; Bolivia; Peru,glot500
 azb,South Azerbaijani,Azari (Iranian),,azb,,,azb,azb,Arabic,68.33,Latin,30.3,17617,45142,Altaic,Turkic,Eurasia,37.5,47.0,Iran; Iraq,"glot500, wikipedia"
 aze,Azerbaijani,,,aze,,az,,aze,Latin,86.94,Arabic,12.44,13245703,494773437,,,,,,,"glot500, news, newscrawl, wikipedia"
-azj,,,,,,,,azj,Latin,99.02,Cyrillic,0.84,1003045,18912444,,,,,,,glot500
+azj,North Azerbaijani,,,,,,,azj,Latin,99.02,Cyrillic,0.84,1003045,18912444,,,,,,,glot500
 bak,Bashkir,,,bak,,ba,bak,bak,Cyrillic,74.08,Latin,25.73,1900113,46265335,Altaic,Turkic,Eurasia,53.0,58.0,Russia,"community, glot500, wikipedia"
 bam,Bambara,,,bam,,,bam,bam,Latin,99.57,,0.0,50153,457506,Mande,Western Mande,Africa,12.5,-7.5,Mali,"glot500, wikipedia"
 ban,Balinese,,,ban,,,ban,ban,Latin,99.78,,0.0,95097,989938,Austronesian,Malayo-Sumbawan,Papunesia,-8.33333333333,115.25,Indonesia,"glot500, wikipedia"
@@ -143,7 +143,7 @@ heb,Hebrew,Hebrew (Modern Ashkenazic),,heb,,,heb,heb,Hebrew,93.93,Latin,5.81,542
 hif,Fiji Hindi,,,hif,,,,hif,Latin,99.77,,0.0,526182,11909669,,,,,,,"glot500, wikipedia"
 hil,Hiligaynon,,,,,,hil,hil,Latin,100.0,,0.0,565,1649,Austronesian,Greater Central Philippine,Papunesia,10.25,123.0,Philippines,glot500
 hin,Hindi,,,hin,,,hin,hin,Devanagari,83.33,Latin,16.5,4142136,552586610,Indo-European,Indic,Eurasia,25.0,77.0,India,"bible, glot500, news, web, wikipedia"
-hmn,,,,,,,,hmn,Latin,97.95,Cyrillic,0.83,1550383,61626477,,,,,,,glot500
+hmn,Hmong,,,,,,,hmn,Latin,97.95,Cyrillic,0.83,1550383,61626477,,,,,,,glot500
 hmo,,,,,,,,hmo,Latin,100.0,,0.0,7294,957646,,,,,,,glot500
 hne,,,,,,,,hne,Devanagari,93.97,Latin,5.93,32234,314932,,,,,,,glot500
 hnj,Hmong Njua,,,,,,hnj,hnj,Latin,100.0,,0.0,509,2615,Hmong-Mien,Hmongic,Eurasia,28.0,105.0,China,glot500
@@ -159,7 +159,7 @@ iba,Iban,,,,,,iba,iba,Latin,100.0,,0.0,185,290,Austronesian,Malayo-Sumbawan,Papu
 ibo,Igbo,,,ibo,,,ibo,ibo,Latin,99.47,,0.0,1324636,45904945,Niger-Congo,Igboid,Africa,6.0,7.33333333333,Nigeria,"community, glot500, wikipedia"
 ido,Ido,,,ido,,,,ido,Latin,99.21,,0.0,279386,9379265,,,,,,,"glot500, wikipedia"
 ikk,,,,,,,,ikk,Latin,100.0,,0.0,11568,198774,,,,,,,glot500
-iku,,,,,,,,iku,Canadian_Aboriginal,98.68,Latin,1.32,1436860,5244508,,,,,,,glot500
+iku,Inuktitut,,,,,,,iku,Canadian_Aboriginal,98.68,Latin,1.32,1436860,5244508,,,,,,,glot500
 ile,Occidental,,,ile,,,,ile,Latin,99.45,,0.0,66389,941926,,,,,,,"glot500, wikipedia"
 ilo,Iloko,Ilocano,,ilo,,,ilo,ilo,Latin,99.71,,0.0,263989,4154961,Austronesian,Northern Luzon,Papunesia,16.0,121.0,Philippines,"community, glot500, web, wikipedia"
 ina,Interlingua,,,ina,,,,ina,Latin,99.6,,0.0,416262,5934314,,,,,,,"glot500, wikipedia"
@@ -260,7 +260,7 @@ myv,Erzya,Mordvin (Erzya),,myv,,,myv,myv,Cyrillic,98.05,Latin,1.88,125124,677041
 mzh,Wichí,,,,,,mzh,mzh,Latin,100.0,,0.0,26346,684575,Matacoan,Matacoan,South America,-22.5,-62.5833333333,Bolivia; Argentina,glot500
 mzn,Mazanderani,,,mzn,,,mzn,mzn,Arabic,95.84,Latin,3.83,90057,1944415,Indo-European,Iranian,Eurasia,36.5,52.0,Iran,"community, glot500, wikipedia"
 nah,Nahuatl,,,nah,,,,nah,Latin,99.62,,0.0,16710,56511,,,,,,,wikipedia
-nan,Min Nan Chinese,,,nan,,,,nan,Latin,95.75,Han,3.64,532383,11789109,,,,,,,"glot500, wikipedia"
+nan,Min Nan Chinese,,,nan,,,,nan,Latin,95.75,Han,3.64,532383,11789109,Sino-Tibetan,Chinese,Eurasia,25.0,118.0,Taiwan; China,"glot500, wikipedia"
 nap,Neapolitan,Italian (Napolitanian),,nap,,,nap,nap,Latin,99.84,,0.0,159809,1154696,Indo-European,Romance,Eurasia,40.9166666667,14.25,Italy,"glot500, wikipedia"
 naq,Nama,,,,,,naq,naq,Latin,100.0,,0.0,12241,170555,Khoe-Kwadi,Khoe-Kwadi,Africa,-25.5,18.0,Namibia,glot500
 nau,Nauru,Nauruan,,nau,,,nau,nau,Latin,100.0,,0.0,517,1281,Austronesian,Oceanic,Papunesia,-0.5,166.916666667,Nauru,wikipedia

@@ -8,3 +8,4 @@ notebooks/scripts/img/*.png
 results/1_preprocessing/affixes/*.prep
 results/1_preprocessing/affixes/*.post
 .pytest_cache/
+.vscode/

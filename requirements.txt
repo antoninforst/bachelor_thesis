@@ -6,3 +6,4 @@ scipy
 tqdm
 jieba
 pythainlp
+PyYAML

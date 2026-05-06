@@ -57,7 +57,7 @@ entropy_by_typology_violin:
 freq_rank:
   file: freq_rank.pdf
   source: cutoffs.ipynb
-  timestamp: '2026-05-06T01:21:27+00:00'
+  timestamp: '2026-05-06T01:29:14+00:00'
 hapax_overlap:
   file: hapax_overlap.pdf
   source: filtration.ipynb
