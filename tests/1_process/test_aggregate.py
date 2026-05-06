@@ -7,7 +7,9 @@ Tests: aggregate.py merging raw files, cleaning, ignoring, and report generation
 import csv
 from pathlib import Path
 
+import aggregate
 from aggregate import main as agg_main
+from lib import load_script_codes
 
 
 def _read_csv(path: Path) -> list[dict]:
@@ -21,6 +23,11 @@ def _write_csv(path: Path, header: list[str], rows: list[list]):
         writer = csv.writer(fh)
         writer.writerow(header)
         writer.writerows(rows)
+
+
+def _write_text(path: Path, text: str):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8")
 
 
 class TestAggregate:
@@ -125,6 +132,51 @@ class TestAggregate:
         agg_main(["bbb", "--raw-dir", str(raw_dir), "--out-dir", str(agg_out)])
         assert (agg_out / "bbb.csv").exists()
         assert not (agg_out / "aaa.csv").exists()
+
+    def test_no_report_matches_default_output(self, raw_dir, tmp_path):
+        """--no-report skips report metrics without changing aggregate CSVs."""
+        normal_out = tmp_path / "agg_normal"
+        no_report_out = tmp_path / "agg_no_report"
+        agg_main(["--raw-dir", str(raw_dir), "--out-dir", str(normal_out)])
+        agg_main(["--raw-dir", str(raw_dir), "--out-dir", str(no_report_out), "--no-report"])
+        assert _read_csv(normal_out / "aaa.csv") == _read_csv(no_report_out / "aaa.csv")
+        assert _read_csv(normal_out / "bbb.csv") == _read_csv(no_report_out / "bbb.csv")
+
+    def test_load_script_codes_accepts_comma_and_semicolon(self, tmp_path):
+        comma = tmp_path / "scripts_comma.csv"
+        semicolon = tmp_path / "scripts_semicolon.csv"
+        _write_text(comma, "Latin,Latn\nThai,Thai\n")
+        _write_text(semicolon, "Latin;Latn\nThai;Thai\n")
+
+        assert load_script_codes(comma) == {"Latin": "Latn", "Thai": "Thai"}
+        assert load_script_codes(semicolon) == {"Latin": "Latn", "Thai": "Thai"}
+
+    def test_skip_existing_uses_expected_script_suffix(self, tmp_path):
+        """An old fallback lang.csv must not skip the expected lang_Script.csv."""
+        raw = tmp_path / "raw_suffix"
+        raw.mkdir()
+        _write_csv(raw / "lll_source.csv", ["word", "frequency"], [["hello", 10]])
+
+        agg_out = tmp_path / "agg_suffix"
+        agg_out.mkdir()
+        _write_csv(agg_out / "lll.csv", ["word", "frequency"], [["old", 1]])
+
+        scripts_csv = tmp_path / "scripts.csv"
+        overview_csv = tmp_path / "language_overview.csv"
+        _write_text(scripts_csv, "Latin,Latn\n")
+        _write_csv(overview_csv, ["used_shortcut", "primary_script"], [["lll", "Latin"]])
+
+        agg_main([
+            "--raw-dir", str(raw),
+            "--out-dir", str(agg_out),
+            "--scripts-csv", str(scripts_csv),
+            "--lang-overview", str(overview_csv),
+            "--skip-existing",
+            "--no-report",
+        ])
+
+        assert (agg_out / "lll.csv").exists()
+        assert (agg_out / "lll_Latn.csv").exists()
 
     def test_repair_mode(self, tmp_path):
         """--repair re-cleans an already-aggregated file."""
