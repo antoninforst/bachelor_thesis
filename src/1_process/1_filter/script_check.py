@@ -29,7 +29,7 @@ csv.field_size_limit(10 * 1024 * 1024)
 
 RAW_DIR = Path("data/0_raw")
 OUTPUT_DIR = Path("results/1_process/1_filter")
-SCRIPTS_CSV = Path("src/1_process/1_filter/scripts.csv")
+SCRIPTS_CSV = Path("metadata/scripts.csv")
 WORD_STEP = 5
 LETTER_STEP = 3
 MAX_SAMPLED_WORDS = 10_000
@@ -56,6 +56,7 @@ class ScriptDetector:
         scripts: list[str] = []
         with open(path, encoding="utf-8", newline="") as fh:
             reader = csv.reader(fh)
+            next(reader, None)  # skip header
             for row in reader:
                 if len(row) == 1 and "," in row[0]:
                     row = row[0].split(",")

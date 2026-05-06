@@ -56,13 +56,14 @@ def _valid_row(row: list[str]) -> tuple[list[str], int] | None:
         return None
 
 
-def truncate_file(source_path: Path, target_path: Path, keep_types: int, rng: random.Random) -> int:
-    """Write a truncated two-column copy and return the number of data rows written."""
+def truncate_file(source_path: Path, target_path: Path, keep_types: int,
+                  total_frequency: int, rng: random.Random) -> int:
+    """Write a truncated copy with a PPM column and return the number of rows written."""
     with open(source_path, encoding="utf-8-sig", newline="") as fh:
         reader = csv.reader(fh)
-        header = next(reader, ["word", "frequency"])[:2]
+        next(reader, None)  # skip header
         if keep_types <= 0:
-            return _write_rows(target_path, header, [])
+            return _write_rows(target_path, [], total_frequency)
 
         kept: list[list[str]] = []
         band_start = 0        # index where the current frequency band begins
@@ -80,7 +81,7 @@ def truncate_file(source_path: Path, target_path: Path, keep_types: int, rng: ra
             if len(kept) == keep_types:
                 break
         else:
-            return _write_rows(target_path, header, kept)
+            return _write_rows(target_path, kept, total_frequency)
 
         # Collect any extra rows tied at the boundary frequency.
         tied_below: list[list[str]] = []
@@ -93,22 +94,25 @@ def truncate_file(source_path: Path, target_path: Path, keep_types: int, rng: ra
             tied_below.append(parsed[0])
 
     if not tied_below:
-        return _write_rows(target_path, header, kept)
+        return _write_rows(target_path, kept, total_frequency)
 
     above = kept[:band_start]
     band = kept[band_start:] + tied_below
     needed = keep_types - len(above)
     chosen = sorted(rng.sample(range(len(band)), needed))
     rows = above + [band[i] for i in chosen]
-    return _write_rows(target_path, header, rows)
+    return _write_rows(target_path, rows, total_frequency)
 
 
-def _write_rows(path: Path, header: list[str], rows: list[list[str]]) -> int:
+def _write_rows(path: Path, rows: list[list[str]], total_frequency: int) -> int:
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", encoding="utf-8", newline="") as fh:
         writer = csv.writer(fh)
-        writer.writerow(header)
-        writer.writerows(rows)
+        writer.writerow(["word", "frequency", "ppm"])
+        for word, freq_str in rows:
+            freq = int(freq_str)
+            ppm = freq / total_frequency * 1_000_000
+            writer.writerow([word, freq_str, f"{ppm:.3f}"])
     return len(rows)
 
 
@@ -167,7 +171,8 @@ def run(
         source_path = source_dir / f"{lang}.csv"
         if not source_path.exists():
             continue
-        truncate_file(source_path, target_dir / source_path.name, stats[lang]["keep_types"], rng)
+        truncate_file(source_path, target_dir / source_path.name,
+                      stats[lang]["keep_types"], stats[lang]["total_frequency"], rng)
         processed += 1
         iterator.set_postfix_str(lang)
     return processed

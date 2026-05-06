@@ -18,13 +18,15 @@ Run from [src/1_process](.) with `make ACTION`.
 | `filter_hapax` | Create overlap report and hapax-only ignore list. |
 | `filter_script` | Run script check and add script reasons to ignore list. |
 | `aggregate` | Create cleaned aggregated language files. |
+| `aggregate_continue` | Continue aggregation by skipping existing files and not writing the report. |
+| `parse_words` | Segment Chinese and Thai words in aggregated files. |
 | `statistics` | Compute coverage statistics. |
-| `truncate` | Create annotated/truncated files. |
+| `truncate` | Create annotated/truncated files with PPM column. |
 | `clear` | Remove aggregated and annotated files. |
 | `clear_aggregated` | Remove aggregated files only. |
 | `clear_annotated` | Remove annotated files only. |
 
-Useful variables: `LANGS="ces eng"`, `COVERAGE=94`, `PYTHON=python`.
+Useful variables: `LANGS="ces eng"`, `COVERAGE=94`, `TOP_N=100`, `WORKERS=4`, `PYTHON=python`.
 
 ## 2. File filtering
 
@@ -191,10 +193,10 @@ The aggregation pipeline has two commands:
 
 ```bash
 python src/1_process/2_aggregate/aggregate.py --ignore results/1_process/1_filter/ignored_files.csv
-python src/1_process/2_aggregate/language_overview.py
+python src/1_process/2_aggregate/parse_words.py
 ```
 
-The first command reads raw files, skips ignored files, cleans word types, and aggregates frequencies. The second command creates a language-level overview from the aggregated data and metadata.
+The first command reads raw files, skips ignored files, cleans word types, aggregates frequencies, and appends a script suffix to the output filename (e.g. `eng_Latn.csv`). The second command segments compound words for Chinese and Thai languages in-place.
 
 ### 3.1 Word-type filtering
 
@@ -219,6 +221,16 @@ python src/1_process/2_aggregate/aggregate.py \
   --raw-dir data/0_raw \
   --out-dir data/1_aggregated \
   --ignore results/1_process/1_filter/ignored_files.csv
+
+python src/1_process/2_aggregate/aggregate.py \
+  --ignore results/1_process/1_filter/ignored_files.csv \
+  --skip-existing \
+  --no-report
+
+python src/1_process/2_aggregate/aggregate.py ces eng \
+  --ignore results/1_process/1_filter/ignored_files.csv \
+  --no-report \
+  --jobs 2
 ```
 
 Options:
@@ -230,6 +242,9 @@ Options:
 | `--out-dir` | `data/1_aggregated` | Directory where aggregated language files are written. |
 | `--ignore` | not used | Path to `ignored_files.csv`; files listed there are skipped. |
 | `--repair` | off | Re-cleans files already in `--out-dir` instead of reading raw files. |
+| `--skip-existing` | off | Skip languages that already have an output file in `--out-dir`. |
+| `--jobs` | `1` | Number of languages to process in parallel. Use `0` for all available CPUs. |
+| `--no-report` | off | Skip `aggregation_report.csv` and report-only metrics. |
 
 Internal cleaning settings:
 
@@ -249,7 +264,23 @@ Each language file has two columns:
 | `word` | Cleaned word type. |
 | `frequency` | Frequency summed across all non-ignored raw files for the language. |
 
-The script also writes [aggregation_report.csv](../../results/1_process/aggregation_report.csv).
+The full aggregation run writes [aggregation_report.csv](../../results/1_process/aggregation_report.csv). Continue runs should use `--skip-existing --no-report`, because the report would contain only newly processed files and would overwrite the full-run report.
+
+The make targets follow this rule:
+
+```bash
+make aggregate
+make aggregate_continue
+make aggregate WORKERS=4
+make aggregate_continue WORKERS=4
+make aggregate_continue WORKERS=8
+```
+
+`make aggregate` writes the report. `make aggregate_continue` skips existing output files and does not write the report. `WORKERS` is passed to `aggregate.py` as `--jobs`, so `WORKERS=0` uses all available CPUs and `WORKERS=1` keeps the run sequential.
+
+`WORKERS` is a maximum. With several large languages, memory-aware scheduling may run fewer workers at once. The scheduler starts the largest missing language that fits the current memory estimate, then fills remaining worker and memory headroom with smaller languages. If no estimate fits and no worker is active, it starts the smallest missing language so the continue run still makes progress. The biggest memory costs are the per-language frequency dictionaries, the temporary cleaned dictionary for the current raw file, and the sorted output list created just before writing. The memory limit and scheduling multiplier are constants in [aggregate.py](2_aggregate/aggregate.py). The multiplier estimates RAM cost from raw input size: for example, a 500 MB raw input is treated as roughly 4 GB of RAM when the multiplier is `8`. This is conservative because Python dictionaries store each word as objects, hashes, pointers, and integer values, so they use much more memory than the compact CSV text on disk.
+
+Use `--no-report` when the aggregation report is not needed. It skips report-only metric collection and does not write [aggregation_report.csv](../../results/1_process/aggregation_report.csv).
 
 Important report columns:
 
@@ -264,52 +295,46 @@ Important report columns:
 | `avg_deleted_punc_per_token` | Average number of stripped boundary punctuation characters per token. |
 | `new_types_from_previous_file` | Number of cleaned types not seen in earlier files for the same language. |
 
-### 3.2 Aggregation
+### 3.2 Word segmentation
 
-[language_overview.py](2_aggregate/language_overview.py) creates one metadata row per aggregated language. It combines language names, script information, aggregated statistics, family information, coordinates, countries, and data-source labels.
+[parse_words.py](2_aggregate/parse_words.py) segments compound words in aggregated files for languages that lack whitespace word boundaries. It reads each word-frequency pair, splits the word into sub-words using a language-specific tokenizer, assigns the original frequency to each sub-word, re-aggregates duplicates, re-applies the standard cleaning pipeline, and overwrites the aggregated file.
 
-Prerequisites: run aggregation first. For complete columns, also run script check and statistics before creating the overview.
+Supported language groups:
+
+| Group | Languages | Tokenizer |
+| --- | --- | --- |
+| Chinese | `zho` `cmn` `yue` `wuu` `lzh` | jieba |
+| Thai | `tha` | pythainlp (newmm engine) |
+
+Romanized Chinese variants (`nan`, `hak`, `cdo`) are excluded because jieba destructively splits Latin-script text character by character.
+
+Prerequisite: run aggregation first. The script modifies aggregated files in-place.
 
 #### How to run it
 
 ```bash
-python src/1_process/2_aggregate/language_overview.py
+python src/1_process/2_aggregate/parse_words.py
+```
+
+Examples:
+
+```bash
+python src/1_process/2_aggregate/parse_words.py zho tha
+
+python src/1_process/2_aggregate/parse_words.py \
+  --agg-dir data/1_aggregated
 ```
 
 Options:
 
-This script has no command-line options. Paths are constants inside the file.
-
-Internal paths:
-
-| Setting | Value | Meaning |
+| Option | Default | Meaning |
 | --- | --- | --- |
-| `AGGREGATED_DIR` | `data/1_aggregated` | Languages included in the overview. |
-| `RAW_DIR` | `data/0_raw` | Used to list data-source labels. |
-| `STATISTICS_CSV` | `results/1_process/3_truncate/statistics.csv` | Adds distinct-word and total-frequency columns. |
-| `SCRIPT_CHECK_CSV` | `results/1_process/1_filter/script_check.csv` | Adds primary and secondary script columns. |
-| `OUTPUT_CSV` | `results/1_process/2_aggregate/language_overview.csv` | Output file. |
+| `LANG ...` | all known segmentation languages | Optional three-letter language codes to process. |
+| `--agg-dir` | `data/1_aggregated` | Directory with aggregated CSV files to modify in-place. |
 
 #### Output
 
-Output file: [language_overview.csv](../../results/1_process/2_aggregate/language_overview.csv)
-
-Important columns:
-
-| Column | Meaning |
-| --- | --- |
-| `used_shortcut` | Three-letter language code used by this project. |
-| `name` | Main language name. |
-| `alternative_name` | Alternative name when available. |
-| `ud_name` | Universal Dependencies language name when mapped. |
-| `leipzig_shortcut`, `ud_shortcut`, `til_shortcut`, `wals_shortcut` | Matching identifiers in external sources. |
-| `iso_code` | ISO code, normally the same as `used_shortcut`. |
-| `primary_script`, `primary_script_pct` | Main script and its average share. |
-| `secondary_script`, `secondary_script_pct` | Second script when it is large enough to report. |
-| `distinct_words`, `total_frequency` | Statistics from aggregated files. |
-| `family`, `genus`, `macroarea` | Language-family metadata. |
-| `latitude`, `longitude`, `countries` | Geographic metadata. |
-| `data_sources` | Raw source labels found for the language. |
+The script overwrites the existing aggregated CSV files. The format stays the same (two columns: `word`, `frequency`). The number of word types typically increases because compound entries are split into their components.
 
 ## 4. Truncation
 
@@ -416,6 +441,47 @@ Each truncated file has the same two columns as the aggregated files:
 | --- | --- |
 | `word` | Word type kept after truncation. |
 | `frequency` | Frequency from the aggregated file. |
+| `ppm` | Parts per million relative to the original corpus total frequency. |
 
 The number of rows in each output file is taken from the selected coverage column in [statistics.csv](../../results/1_process/3_truncate/statistics.csv).
+
+### 4.3 Quality check
+
+[quality_check.py](3_truncate/quality_check.py) computes per-file quality metrics for truncated word-frequency files. It reuses `ScriptDetector` from the filtration step for script classification.
+
+Each metric is an independent check function. Adding a new metric means writing one function and appending it to the `_CHECKS` list.
+
+#### How to run it
+
+```bash
+python src/1_process/3_truncate/quality_check.py
+python src/1_process/3_truncate/quality_check.py ces eng
+python src/1_process/3_truncate/quality_check.py --input-dir data/1_aggregated
+```
+
+Options:
+
+| Option | Default | Meaning |
+| --- | --- | --- |
+| `LANG ...` | all files | Optional language codes to limit processing. |
+| `--input-dir` | `data/2_annotated` | Directory with word-frequency CSVs. |
+| `--output` | `results/1_process/3_truncate/quality.csv` | Output CSV path. |
+
+#### Output
+
+Output file: [quality.csv](../../results/1_process/3_truncate/quality.csv)
+
+| Column | Meaning |
+| --- | --- |
+| `file` | Input file name. |
+| `language` | Three-letter language code. |
+| `script` | ISO 15924 script code from the filename. |
+| `foreign_script_pct` | % of word types in a different script than expected. |
+| `long_outlier_pct` | % of word types longer than Q3 + 3·IQR. |
+| `top20_long_pct` | % of the 20 most frequent words that are length outliers. |
+| `punct_char_pct` | Share of punctuation characters (frequency-weighted). |
+| `program_pct` | % of word types that look like web/programming artifacts. |
+| `corrupted_pct` | % of word types flagged by any of the above. |
+| `corrupted_freq_pct` | Token share of corrupted word types. |
+| `eng_stopwords` | Number of English stopwords found (0 for English files). |
 

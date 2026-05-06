@@ -28,7 +28,7 @@ class TestTruncate:
         assert (out_dir / "aaa.csv").exists()
         assert (out_dir / "bbb.csv").exists()
 
-    def test_preserves_two_frequency_columns(self, agg_dir, out_dir, stats_csv):
+    def test_output_has_ppm_column(self, agg_dir, out_dir, stats_csv):
         truncate_main([
             "--src", str(agg_dir),
             "--out", str(out_dir),
@@ -36,7 +36,20 @@ class TestTruncate:
             "--seed", "42",
         ])
         rows = _read_csv(out_dir / "aaa.csv")
-        assert list(rows[0]) == ["word", "frequency"]
+        assert list(rows[0]) == ["word", "frequency", "ppm"]
+
+    def test_ppm_uses_original_total(self, agg_dir, out_dir, stats_csv):
+        """PPM is computed relative to total_frequency (282 for aaa)."""
+        truncate_main([
+            "--src", str(agg_dir),
+            "--out", str(out_dir),
+            "--stats", str(stats_csv),
+            "--seed", "42",
+        ])
+        rows = _read_csv(out_dir / "aaa.csv")
+        hello = next(r for r in rows if r["word"] == "hello")
+        # 150 / 282 * 1_000_000 ≈ 531914.894
+        assert abs(float(hello["ppm"]) - 531914.894) < 1
 
     def test_keeps_exact_count(self, agg_dir, out_dir, stats_csv):
         """Output has exactly as many rows as statistics.csv says."""
