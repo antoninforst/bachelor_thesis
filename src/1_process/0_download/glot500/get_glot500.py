@@ -35,6 +35,7 @@ HF_SPLITS_API = "https://datasets-server.huggingface.co/splits"
 
 # Seconds to wait between retries
 RETRY_DELAYS = [5, 15, 30, 60, 120]
+max_attempts = len(RETRY_DELAYS)
 
 
 def fetch_json(url: str, timeout: int = 60):
@@ -77,7 +78,6 @@ def validate_parquet(path: str) -> bool:
 
 def download_parquet(url: str, dest: str) -> None:
     """Download a parquet file with retries and progress output."""
-    max_attempts = len(RETRY_DELAYS)
     for attempt in range(max_attempts):
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
