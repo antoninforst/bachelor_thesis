@@ -1,3 +1,37 @@
+
+@book{AndersonEtAl2022,
+  author    = {Anderson, Catherine and Bjorkman, Bronwyn and Denis, Derek and Doner, Julianne and Grant, Margaret and Sanders, Nathan and Taniguchi, Ai},
+  title     = {Essentials of Linguistics},
+  edition   = {2},
+  year      = {2022},
+  publisher = {eCampusOntario},
+  address   = {Hamilton, Ontario},
+  isbn      = {978-1-927565-50-6},
+  url       = {https://essentialsoflinguistics.ca/}
+}
+
+@inproceedings{Leipzig,
+  author    = {Goldhahn, Dirk and Eckart, Thomas and Quasthoff, Uwe},
+  title     = {Building Large Monolingual Dictionaries at the Leipzig Corpora Collection: From 100 to 200 Languages},
+  booktitle = {Proceedings of the Eighth International Conference on Language Resources and Evaluation (LREC'12)},
+  year      = {2012},
+  address   = {Istanbul, Turkey},
+  publisher = {European Language Resources Association (ELRA)},
+  url       = {https://wortschatz.uni-leipzig.de/en},
+  note      = {Dataset. Accessed: 2026-04-01}
+}
+
+@article{BibleCorpus,
+  author  = {Christodoulopoulos, Christos and Steedman, Mark},
+  title   = {A massively parallel corpus: the Bible in 100 languages},
+  journal = {Language Resources and Evaluation},
+  year    = {2015},
+  volume  = {49},
+  number  = {2},
+  pages   = {375--395},
+  doi     = {10.1007/s10579-014-9287-y}
+}
+
 @article{Coltekin2022,
   author = {Çöltekin, Çağrı and Rama, Taraka},
   title = {What do complexity measures measure? Correlating and validating corpus-based measures of morphological complexity},
@@ -33,16 +67,6 @@
   doi = {10.1146/annurev-linguistics-011415-040752}
 }
 
-@book{AndersonEtAl2022,
-  author    = {Anderson, Catherine and Bjorkman, Bronwyn and Denis, Derek and Doner, Julianne and Grant, Margaret and Sanders, Nathan and Taniguchi, Ai},
-  title     = {Essentials of Linguistics},
-  edition   = {2},
-  year      = {2022},
-  publisher = {eCampusOntario},
-  address   = {Hamilton, Ontario},
-  isbn      = {978-1-927565-50-6},
-  url       = {https://essentialsoflinguistics.ca/}
-}
 
 @book{Panocova2021,
   author    = {Panocová, Renáta},
@@ -64,36 +88,31 @@
   url         = {https://milicka.ff.cuni.cz/habilitace.pdf}
 }
 
-@inproceedings{Leipzig,
-  author    = {Biemann, Chris and Heyer, Gerhard and Quasthoff, Uwe and Richter, Matthias},
-  title     = {The Leipzig Corpora Collection: Monolingual Corpora of Standard Size},
-  booktitle = {Proceedings of Corpus Linguistics 2007},
-  howpublished = {\url{https://corpora.wortschatz-leipzig.de?corpusId=eng-zw_web_2019}},
-  year      = {2007},
-  note         = {Dataset. Accessed: 2026-04-01}
-}
-
-@article{BibleCorpus,
-  author  = {Christodoulopoulos, Christos and Steedman, Mark},
-  title   = {A massively parallel corpus: the Bible in 100 languages},
-  journal = {Language Resources and Evaluation},
-  year    = {2015},
-  volume  = {49},
-  number  = {2},
-  pages   = {375--395},
-  doi     = {10.1007/s10579-014-9287-y}
-}
-
-@inproceedings{imanigooghari-etal-2023-glot500,
-	title        = {Glot500: Scaling Multilingual Corpora and Language Models to 500 Languages},
-	author       = {ImaniGooghari, Ayyoob  and Lin, Peiqin  and Kargaran, Amir Hossein  and Severini, Silvia  and Jalili Sabet, Masoud  and Kassner, Nora  and Ma, Chunlan  and Schmid, Helmut  and Martins, Andr{\'e}  and Yvon, Fran{\c{c}}ois  and Sch{\"u}tze, Hinrich},
-	year         = 2023,
-	month        = jul,
-	booktitle    = {Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
-	publisher    = {Association for Computational Linguistics},
-	address      = {Toronto, Canada},
-	pages        = {1082--1117},
-	url          = {https://aclanthology.org/2023.acl-long.61}
+@inproceedings{glot500,
+    title = "Glot500: Scaling Multilingual Corpora and Language Models to 500 Languages",
+    author = {Imani, Ayyoob  and
+      Lin, Peiqin  and
+      Kargaran, Amir Hossein  and
+      Severini, Silvia  and
+      Jalili Sabet, Masoud  and
+      Kassner, Nora  and
+      Ma, Chunlan  and
+      Schmid, Helmut  and
+      Martins, Andr{\'e}  and
+      Yvon, Fran{\c{c}}ois  and
+      Sch{\"u}tze, Hinrich},
+    editor = "Rogers, Anna  and
+      Boyd-Graber, Jordan  and
+      Okazaki, Naoaki",
+    booktitle = "Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+    month = jul,
+    year = "2023",
+    address = "Toronto, Canada",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2023.acl-long.61/",
+    doi = "10.18653/v1/2023.acl-long.61",
+    pages = "1082--1117",
+    abstract = "The NLP community has mainly focused on scaling Large Language Models (LLMs) vertically, i.e., making them better for about 100 languages. We instead scale LLMs horizontally: we create, through continued pretraining, Glot500-m, an LLM that covers 511 predominantly low-resource languages. An important part of this effort is to collect and clean Glot500-c, a corpus that covers these 511 languages and allows us to train Glot500-m. We evaluate Glot500-m on five diverse tasks across these languages. We observe large improvements for both high-resource and low-resource languages compared to an XLM-R baseline. Our analysis shows that no single factor explains the quality of multilingual LLM representations. Rather, a combination of factors determines quality including corpus size, script, ``help'' from related languages and the total capacity of the model. Our work addresses an important goal of NLP research: we should notlimit NLP to a small fraction of the world{'}s languages and instead strive to support as many languages as possible to bring the benefits of NLP technology to all languages and cultures. Code, data and models are available at \url{https://github.com/cisnlp/Glot500}."
 }
 
 @misc{UniversalDependenciesWeb,
@@ -119,4 +138,25 @@
   title   = {Archiving and Language Typology},
   journal = {International Journal of American Linguistics},
   year    = {1954}
+}
+
+@inproceedings{John2026,
+  author    = {John, Vojtěch and Žabokrtský, Zdeněk and Reeves, Benjamin},
+  title     = {Modeling Word-Internal Structures: Morphological Segmentation Across 58 Languages},
+  booktitle = {Proceedings of the Workshop on Structured Linguistic Data and Evaluation (SLiDE 2026)},
+  year      = {2026},
+  address   = {Palma, Mallorca, Spain},
+  note      = {To appear},
+  url       = {https://www.slide-workshop.org/}
+}
+
+@book{coulmas2003writing,
+  title={Writing Systems: An Introduction to Their Linguistic Analysis},
+  author={Coulmas, F.},
+  isbn={9780521787376},
+  lccn={2003268845},
+  series={Cambridge Textbooks in Linguistics},
+  url={https://books.google.co.uk/books?id=kmKLxzTnL9IC},
+  year={2003},
+  publisher={Cambridge University Press}
 }

@@ -102,3 +102,9 @@ please contact Martin Mareš directly or create an issue.
 We also maintain [other material](https://mj.ucw.cz/vyuka/bc/)
 on writing of theses and scientific writing in general.
 Again, this still waits for translation to English.
+
+# Run
+
+```sh
+latexmk -pdf -outdir=out thesis
+```

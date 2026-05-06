@@ -65,7 +65,8 @@
 \usepackage{dcolumn}        % improved alignment of table columns
 \usepackage{floatrow}       % custom float environments
 \usepackage{graphicx}       % embedding of pictures
-\usepackage{indentfirst}    % indent the first paragraph of a chapter
+%\usepackage{indentfirst}    % indent the first paragraph of a chapter
+\usepackage{parskip}
 \usepackage[nopatch=item]{microtype}   % micro-typographic refinement
 \usepackage{paralist}       % improved enumerate and itemize
 \usepackage[nottoc]{tocbibind} % makes sure that bibliography and the lists
@@ -100,7 +101,9 @@
 % ISO 690 with alphanumeric references (abbreviations of authors' names)
 %\usepackage[natbib,style=iso-alphabetic]{biblatex}
 % ISO 690 with references Author (year)
-\usepackage[natbib,style=iso-authoryear]{biblatex}
+\usepackage{polyglossia}
+
+\usepackage[natbib,style=authoryear,language=english, autolang=none]{biblatex}
 %
 % Some fields of research prefer a simple format with numbered references
 % (sorting=none tells that bibliography should be listed in citation order)
@@ -111,9 +114,10 @@
 %\usepackage[natbib,style=alphabetic]{biblatex}
 
 % MY PACKAGES
+\usepackage{xurl}
 \usepackage{float}
+\usepackage{subcaption}
 \usepackage{listings}
-\usepackage{xcolor}
 \lstset{
   basicstyle=\ttfamily\small,
   keywordstyle=\color{blue},
@@ -123,7 +127,25 @@
   breaklines=true,
   frame=single
 }
-\usepackage{makecell}
+\DeclareLanguageMapping{sanskrit}{english}
+\DeclareLanguageMapping{arabic}{english}
+
+\usepackage{fontspec}
+
+\setmainlanguage{english}
+\setotherlanguage{russian}
+\setotherlanguage{sanskrit}
+\setotherlanguage{arabic}
+\newfontfamily\russianfont{Times New Roman}
+\newfontfamily\devanagarifont[Script=Devanagari]{Noto Serif Devanagari}
+\newfontfamily\arabicfont[Script=Arabic]{Amiri}
+
+
+%\setmonofont{Latin Modern Mono}[RawFeature={fallback=monofallback}]
+\newcommand{\ttt}[1]{`\texttt{#1}'}
+\usepackage{array}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 
 % Load the file with bibliography entries
 \addbibresource{bibliography.bib}
@@ -133,6 +155,7 @@
 
 %%% Title page and various mandatory informational pages
 \begin{document}
+\pagenumbering{Roman}
 \include{title}
 
 %%% A page with automatically generated table of contents of the thesis
@@ -140,6 +163,8 @@
 \tableofcontents
 
 %%% Each chapter is kept in a separate file
+\clearpage
+\pagenumbering{arabic}
 \include{preface}
 \include{chap01}
 \include{chap02}
@@ -161,7 +186,7 @@
 
 %%% Abbreviations used in the thesis, if any, including their explanation
 %%% In mathematical theses, it could be better to move the list of abbreviations to the beginning of the thesis.
-\chapwithtoc{List of Abbreviations}
+%\chapwithtoc{List of Abbreviations}
 
 
 %%% Doctoral theses must contain a list of author's publications

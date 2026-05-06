@@ -15,7 +15,7 @@
 
 % Thesis title in English (exactly as in the official assignment)
 % (Note: \xxx is a "ToDo label" which makes the unfilled visible. Remove it.)
-\def\ThesisTitle{\xxx{Measuring Morphological Complexity of Languages Using Broadly Multilingual Data}}
+\def\ThesisTitle{\xxx{Measuring Morphological Complexity of~Languages Using Broadly Multilingual Data}}
 
 % Author of the thesis (you)
 \def\ThesisAuthor{\xxx{Antonín Forst}}
@@ -43,25 +43,35 @@
 
 % An optional dedication: you can thank whomever you wish (your supervisor,
 % consultant, who provided you with tea and pizza, etc.)
-\def\Dedication{%
-\xxx{Dedication.}
+\def\Dedication{
+
+At this place, I would especially like to thank my supervisor, Professor Zdeněk Žabokrtský, for his patient work with me. His advice and guidance helped me not only with the factual and professional aspects of the thesis, but also more generally with the process of preparing a larger coherent piece of work.
+
+I would also like to thank Mgr. Vojtěch John for providing the morphological segmentation of the data essential for this thesis.
+
+Last but not least, I would like to thank my family, who continue to support me in my seemingly never-ending studies
+
+Thank you.
 }
+
 
 % Abstract (recommended length around 80-200 words; this is not a copy of your thesis assignment!)
 \def\Abstract{%
-\xxx{Use the most precise, shortest sentences that state what problem the
-thesis addresses, how it is approached, pinpoint the exact result achieved, and
-describe the applications and significance of the results. Highlight anything
-novel that was discovered or improved by the thesis. Maximum length is 200
-words, but try to fit into 120. Abstracts are often used for deciding if
-a reviewer will be suitable for the thesis; a well-written abstract thus
-increases the probability of getting a reviewer who will like the thesis.}
+\xxx{
+The thesis investigates morphological complexity of languages using broadly multilingual data. It obtains and preprocesses corpus data for 443 languages from multiple sources. It applies various complexity metrics to a 175 of them. The metrics are based on corpus data. The thesis further proposes metrics for morphological segmentation and applies them on segmented data for 40 languages. It required to process gigabytes of raw linguistic data of different quality, different scripts, and other properties. The results are analyzed and compared with each other, applied to other linguistic categories and showing various patterns and implications on multiple different presented graphs.
+}
 }
 
 % 3 to 5 keywords (recommended) separated by \sep
 % Keywords are useful for indexing and searching for the theses by topic.
 \def\ThesisKeywords{%
-\xxx{keyword\sep key phrase}
+\xxx{
+morphological complexity \sep
+complexity metrics \sep
+broadly multilingual data \sep
+corpus linguisitics \sep
+morphological segmentation
+}
 }
 
 % If any of your metadata strings contains TeX macros, you need to provide
@@ -87,9 +97,15 @@ increases the probability of getting a reviewer who will like the thesis.}
 \def\StudyProgrammeCS{\xxx{Umělá inteligence}}
 
 \def\ThesisKeywordsCS{%
-\xxx{klíčová slova\sep klíčové fráze}
+\xxx{
+morfologická komplexita \sep
+metriky komplexity \sep
+široce multilingvální data \sep
+korpusová lingvistika \sep
+morfologická segmentace
+}
 }
 
 \def\AbstractCS{%
-\xxx{Abstrakt práce přeložte také do češtiny.}
+\xxx{Tato práce zkoumá morfologickou komplexitu jazyků s využitím široce vícejazyčných dat. Získává a předzpracovává korpusová data pro 443 jazyků z několika zdrojů. Na 175 z nich aplikuje různé metriky komplexity založené na korpusových datech. Práce dále navrhuje metriky pro morfologickou segmentaci a aplikuje je na segmentovaná data pro 40 jazyků. Pro tyto účely bylo potřeba zpracovat gigabyty dat různé kvality, písem a dalších vlastností. Výsledky jsou analyzovány a vzájemně porovnány, aplikovány na další lingvistické kategorie a jsou zdůrazněny různé vzory a jejich důsledky na přiložených grafech.}
 }

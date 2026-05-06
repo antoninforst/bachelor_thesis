@@ -1,20 +1,21 @@
-\chapter{Metrics}
+\chapter{Complexity metrics}
 \label{sec:metrics}
+
+As explained in the previous chapter, complexity is not directly measurable. This chapter introduces several main metrics and few complementary ones that may capture some aspects of morphological complexity. The assumed influence of any particular metric on complexity is always a hypothesis to be tested by checking whether the metric truly correlates with other complexity measures.
 
 The metrics can be divided into three categories:
 
 \begin{itemize}
     \item plain corpus based,
     \item annotated corpus based,
-    \item morphology segmentation based.
+    \item morphological segmentation based.
 \end{itemize}
 
-The metrics based on the plain corpus are the most easy-to-access with respect to the data used. Annotated corpus provides many interesting metrics, but the annotation would add a whole new level of complexity and it is for the expected complexity of a bachelor's thesis omitted. The added value would be nevertheless large.
+The metrics based on plain corpora are the easiest to obtain with respect to the data used in this thesis. Annotated corpora provide many interesting metrics, but using them would add a whole new layer of complexity to the thesis, and they are therefore not included. Segmentation-based metrics are applied only to a subset of the languages. The following section describes all the metrics used.
 
-Since one of the objectives of this theses is the morphological segmentation. These metrics the most relevant in this case. Most of them are abstraction of metrics that are applicable for words.
+A known limitation of all these metrics is their dependence on dataset size. As the dataset grows, new word types are likely to appear, which can affect the resulting values. All metrics therefore have to be tested against the original size of the dataset.
 
-The following sections are describing all used metrics. 
-
+\newpage{}
 \section{Corpus based metrics}
 
 \subsection{Type to token ratio (TTR)}
@@ -23,13 +24,13 @@ $$
 \frac{\text{\# Word types}}{\text{\# Tokens}}
 $$
 
-This metric is suggested by \textcite{Coltekin2022}. In this title it is calculated as average over floating window of fixed size. In the case of source data being the whole corpus, this metric can be calculated simply from the frequency list. Higher TTR should suggest the variability of paradigms and higher word-form count in a lexeme. Compare two corpora with $10$ tokens:
+This metric is suggested by \textcite{Coltekin2022}. In that paper, it is calculated as an average over a sliding window of fixed size. When the source data is the whole corpus, the metric can be computed directly from the frequency list. A higher TTR should reflect greater paradigm variability and a higher number of word-forms per lexeme. Compare two corpora with $10$ tokens.
 \begin{itemize}
-    \item only $5$ word types leads to TTR being $\frac{1}{2}$
-    \item only $10$ word types leads to TTR being $1$
+    \item only $5$ word types gives TTR equal to $\frac{1}{2}$,
+    \item all $10$ tokens being distinct word types gives TTR equal to $1$.
 \end{itemize}
 
-Higher TTR might suggest higher complexity.
+A higher TTR may suggest higher complexity. Languages with higher TTR have a broader vocabulary and richer paradigms, so the metric is an indicator of lexical diversity.
 
 \subsection{Word-type entropy}
 \parencite{Coltekin2022}
@@ -39,72 +40,93 @@ H=-\sum_{w \in V} p(w)\log p(w)
 $$
 Where
 \begin{itemize}
-    \item $V$ is a set of all word types,
-    \item $p(w)$ is the probability of the word-type $$\frac{\text{\# token count of one word-type}}{\text{\# all tokens}}$$.
+    \item $V$ is the set of all word types,
+    \item $p(w)$ is the probability of the word type, $$\frac{\text{\# token count of one word type}}{\text{\# all tokens}}.$$
 \end{itemize}
 
-Higher entropy means that the frequencies are distributed more evenly across many word types. Lower entropy means that relatively small amount of word types account for a large proportion of all tokens. In this sense, entropy captures the uncertainty of the word distribution: if the next token is difficult to predict because many word types have comparable probabilities, the entropy is high, which might suggest more complexity.
+A higher entropy means that the frequencies are distributed more evenly across many word types. Lower entropy means that a relatively small number of word types account for a large proportion of all tokens. In this sense, entropy captures the uncertainty of the word distribution. If the next token is hard to predict because many word types have comparable probabilities, the entropy is high, which can suggest higher complexity.
+
+Complex morphology produces many rare and highly specific word forms. This results in a longer tail in the frequency distribution, which makes words less predictable and drives the entropy up. A morphologically poor language has to rely more on function words to carry meaning. Because these function words are highly frequent, they make the text more predictable and drive the entropy down.
 
 \textbf{Perplexity} can be derived from entropy as
 $$
-\mathrm{PP} = 2^H
+\mathrm{PP} = 2^H,
 $$
 which can be interpreted as the effective number of equally probable word types.
 
 \subsection{Information in word structure}
 \parencite{Coltekin2022}
 $$
-\frac{\text{Size of compressed text}}{\text{Size of compressed text with randomized words}}
+I_{str}=1-\frac{\text{size of compressed original}}{\text{size of compressed randomized version}}
 $$
-This measure captures the information encapsulated in the word structure. The question is how much is the text compressible if letters are randomized. Words are randomized so that they are the same size, same proportions of letters in general, but no patterns.
 
-There is a variant to use the same randomization for the same word-types.
+This measure captures the information stored in the internal structure of words. If characters within words follow predictable patterns (common prefixes, suffixes, consonant-vowel sequences), the original text compresses better than the randomised version and $I_{str}$ is high. If the character ordering carries little information, both versions compress similarly and $I_{str}$ is close to zero.
 
-This metric was calculated in following way:
+This metric was calculated as follows.
 \begin{enumerate}
-    \item It was assigned a unique random 16 bit long sequence to all unicode characters used in all datasets.
-    \item For each language, a file with $100\ 000$ tokens was created. Words were generated by random with respect to the frequency list.
-    \item All letters in the file were replaced with the assigned random sequence. The tokens were separated by 16 bit long sequence of zeros.
-    \item The file was compressed.
+    \item Every character occurring across all datasets was assigned a unique random 2-byte (16-bit) code, shared globally across all languages. This ensures that all characters occupy the same space regardless of the writing system.
+    \item For each language, $100\,000$ tokens were sampled at random with respect to word frequency. Each character was replaced with its assigned 2-byte code. Words were separated by two null bytes (\texttt{0x0000}).
+    \item This binary file was compressed using ZIP (DEFLATE). Let the compressed size be $n$.
+    \item The same token sequence was taken and the characters within each token were shuffled randomly, preserving word length and character frequency distribution but destroying internal patterns.
+    \item The shuffled text was encoded in the same way and compressed. Let the compressed size be $m$.
+    \item The information in word structure is
+$$
+I_{str}=1-\frac{n}{m}.
+$$
 \end{enumerate}
 
-\subsection{Hapax legomenon}
+The only difference between the method of \textcite{Coltekin2022} and the one used here is the unification of the character size. This step is needed because writing systems differ in the number of bytes per character.
+
+An attempt was made to repeat the procedure six times, but the results showed almost $100\%$ correlation with a single run, so this was not pursued further.
+
+Since $n \leq m$ (the original text with its patterns is always at least as compressible as the randomised version), $I_{str} \in [0, 1]$. According to \textcite{Coltekin2022}, morphologically complex languages have highly structured internal word patterns, so even without explicit morphological segmentation the compression algorithm can detect them. Languages with rich agglutinative morphology (e.g.\ Volapük, Malagasy, Kalaallisut) score high, while isolating languages with little internal word structure (e.g.\ Chinese varieties) score low.
+
+\subsection{Hapax legomena}
 \parencite{Milicka2022}
 
-Proportion of words that occurring only once in the text. It can represent how many unique word-types the speaker needs. This measure is however applicable to smaller datasets. In large corpora, it measures only the amount of noise present in the dataset. It is more useful in the morpheme part.
+The proportion of words that occur only once in the text. It can represent how many unique word types speakers need and create. These can be words that are not even listed in dictionaries. The measure is, however, applicable mainly to small datasets of high quality. In large corpora, it mostly measures the amount of noise present in the dataset, and it is therefore not used in this thesis.
+
+The rest of the metrics in Chapter~\ref{sec:metrics} are proposed metrics by the author.
 
 \subsection{Zipf slope}
 
-Zipf law was explained shown on Figure~\ref{fig:freq_rank_three}. This metric can proof, whether it is true that all languages are governed with the same principal, or some of them are declining faster that others.
+Zipf's law was explained in Chapter~\ref{sec:truncation} and shown at Figure~\ref{fig:freq_rank_three}. This metric tests whether all languages really follow the same principle, or whether some of them decline faster than others. The Zipf slope is likely to behave similarly to entropy, since the two metrics try to capture the same phenomenon.
 
 \subsection{Other statistics}
 
-The basic statistical measures are listed here:
+A few basic statistical measures are listed below. They give a general overview of the dataset.
 \begin{itemize}
-    \item Average word length (of types and tokens)
-    \item Word length variance
-    \item Word-type size after normalization. The truncation was specifically optimized for original word-type count be independent on the truncation rule. It might be interesting to see how many word-types remained in the dataset. 
+    \item Word length (of types and tokens).
+    \item Mean, variance and entropy.
+    \item Word-type count after normalisation. The truncation was specifically optimised so that the original word-type count would be independent of the truncation rule. It is therefore interesting to see how many word types remain in the dataset.
 \end{itemize}
+
+
 
 \newpage{}
 \section{Metrics based on segmentation}
 
-Let's first introduce some more morph-specific terminology. Morph token is a occurrence of a morph in a text. Morph-types are the distinct morphs in the dataset. Frequency of a morph-type is
+If the inner structure of words is known, it can be used directly. Complex morphology relies on a complex system of morphemes.
+
+The token count of a morph type is
 $$
-f_{m}=\sum_{\forall m_i\in M,\ w_i:=m_i\in w_i}w_i
+f_{m}=\sum_{\forall m_i\in M,\ w_i:=m_i\in w_i}w_i,
 $$
-for each occurrence of the morph sum the word frequency that the morph is part of.
+that is, for each occurrence of the morph the frequency of the word it appears in is summed.
+
+Part of those metrics are an abstraction of metrics from the previous chapter, the rest is newly proposed
 
 \subsection{Type to token ratio (TTR)}
 $$
 \frac{\text{\# Morph types}}{\text{\# Morph tokens}}
 $$
 
-This metric is a abstraction of TTR to the morpheme case. Lower TTR means higher reusability of morphs. Compare two corpora with $10$ morph tokens:
+This metric is the morpheme-level analogue of TTR. A lower morph TTR means higher reusability of morphemes. Compare two corpora with $10$ morph tokens.
 \begin{itemize}
-    \item only $5$ morph types leads to TTR being $\frac{1}{2}$
-    \item only $10$ word types leads to TTR being $1$
+    \item only $5$ morph types gives TTR equal to $\frac{1}{2}$,
+    \item all $10$ tokens being distinct morph types gives TTR equal to $1$.
 \end{itemize}
+A low morph TTR means that the language reuses the same morpheme in many words, which suggests that morphs are highly productive and that the language has a complex morphological system. The metric can balance out rich inflection, because a single lemma that originally had $n$ word-forms is now represented as one morph plus $n$ universal inflectional morphs. On the other hand, a high morph TTR can be a sign of strong allomorphy.
 
 \subsection{Morph-type entropy}
 $$
@@ -112,36 +134,42 @@ H=-\sum_{w \in V} p(w)\log p(w)
 $$
 Where
 \begin{itemize}
-    \item $V$ is a set of all morph types,
-    \item $p(w)$ is the probability of the morph-type $$\frac{ f_m } {\text{\# all morph tokens}}$$.
+    \item $V$ is the set of all morph types,
+    \item $p(w)$ is the probability of the morph type, $\frac{ f_m } {\text{\# all morph tokens}}$.
 \end{itemize}
 
-Higher entropy means that the frequencies are distributed more evenly across morph types. Lower entropy means that relatively small amount of morph types account for a large proportion of all tokens. In this sense, entropy captures the uncertainty of the morph distribution: if the next morph is difficult to predict because many morph types have comparable probabilities, the entropy is high.
+A higher entropy means that the frequencies are distributed more evenly across morph types. A lower entropy means that a relatively small number of morph types account for a large proportion of all tokens. Low entropy suggests smaller and more universal building blocks, and therefore more predictable word structure.
 
-\textbf{Perplexity} can be derived from entropy as
-$$
-\text{PP} = 2^H
-$$
-meaning the number of equally probable morph types.
+\subsection{Morph types in word types}
 
-\subsection{Hapax legomenon}
-This metric is actually more reasonable in this context. It says how many morphs are unique for only a single word-type. It again suggests the reusability of morphs in the language.
+The metrics above can be calculated either over word types or over tokens. The last two metrics can also be computed over word types only, without taking frequency into account. This approach does not penalise low-frequency words, which are more likely to be morphologically rich.
 
-\subsection{Other statistics}
-
-The basic statistical measures are listed here:
-\begin{itemize}
-    \item Average morpheme count per word-type
-    \item Morph-type to word-type ratio = captures the repetition of morphs
-\end{itemize}
+\subsection{Hapax legomena}
+This metric is somewhat more meaningful in the context of morphs. It says how many morphs occur in only a single word type. It is again an indicator of the reusability of morphs in the language. However, it can be strongly affected by noise in the dataset.
 
 \subsection{Metrics based on the type of morpheme}
 
+When the data are enriched with information about the morpheme type (prefix, suffix, root), the following metrics become available. All those metrics are proposed by the author.
+
 \begin{itemize}
-    \item Average root count in the word-type
-    \item Deviation of suffix and prefix
+    \item Compounding index, the root-to-affix ratio,
+    $$\sum_{w\in\text{words}}\frac{\text{\# Roots}_w-1}{\text{\# Morphs}_w}.$$
+    \begin{itemize}
+        \item It captures the amount of compounding in the language. That is, whether the language prefers to create new words by compounding or by affixation. Every word contains at least one root and it cannot be dropped that is why the first root can be subtracted.
+    \end{itemize}
+    \item Affix deviation,
+    $$\frac{1}{\abs{W}}\sum_{w\in W}\frac{\text{suffix}_w-\text{pref}_w}{\min{(\text{pref}_w,\text{suffix}_w)}}.$$
+    \begin{itemize}
+        \item It represents the language's preference for building complexity before or after the root. Positive values indicate a preference for suffixes, negative values a preference for prefixes.
+        \item The formula gives symmetrical values for prefix and suffix dominance, except for the sign. If a word has, on average, one suffix and one prefix, the result is zero, that is, a balanced result. Adding one to the average prefix count shifts the deviation by one.
+    \end{itemize}
+    \item Affix entropy,
+    $$
+    H(A)=-\sum_{a\in A_{\text{types}}}p(a)\log p(a),
+    $$
+    \begin{itemize}
+        \item where $A_{\text{types}}$ is the set of all affix types and $p(a)$ is the relative frequency of affix $a$ among all affix tokens.
+        \item It captures how predictable the choice of affix is. A low entropy means that a small number of affixes dominate the system, while a high entropy indicates that the language uses a larger and more evenly distributed affix inventory.
+        \item It may also be reasonable to calculate this metric separately for prefixes and suffixes.
+    \end{itemize}
 \end{itemize}
-
-\subsection{Bigrams and trigrams}
-
-Does approximation with bigrams and trigrams correlate with the metrics based on the modeled segmentation?

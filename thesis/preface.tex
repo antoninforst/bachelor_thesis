@@ -1,8 +1,44 @@
-\chapter*{Introduction}
-\addcontentsline{toc}{chapter}{Introduction}
+\chapter{Introduction}
 
-motivation,
-goal of the thesis,
-hypothesis,
-overview of the structure of the paper,
-use of AI
+The motivation for this thesis is the desire to understand the fundamental properties of human languages. One of those properties is the complexity of a language. What are the most complex languages in the world? Is there even such a thing as easier and harder languages? Is there a way to objectively measure the complexity of a language on a large scale?
+
+\textbf{Complexity} is not a single value with a precise definition. It is a concept that could be viewed from many different angles. It is possible to see it from the perspective of users and learners or try to determine properties of languages based on the inner structure of the language. Based on rules of grammar, corpora, and other data available by the language as it is. This thesis is trying to capture the latter, data oriented internal structure of languages.
+
+\section{Design decisions}
+
+The aim of this thesis, as the instructions state, is to focus on broad multilingualism. The priority of having a broad range of languages was the first design decision, for which some other priorities had to step aside. The research was done on languages that that the author is not familiar with. Not only that I do not speak these languages, but most of the names of the languages were unfamiliar at the beginning. Any manual testing and going through the data was unrealistic due to the number of languages and the author's lack of more deep knowledge of them. For the languages that are present in the European environment, it is possible to at least catch the patterns, recognize international words or even see the Indo-european heritage, which obviously makes the analysis harder for such languages that are very distant from any other languages in the world and rely on concepts that very rare and remote. Nevertheless, that is what makes it so interesting. Therefore as well, the analysis had to rely heavily on automatic testing, and multiple testing mechanisms had to be developed to filter out unusable data and check the quality of the datasets.
+
+The second most important design decision was to rely on corpus data. When we want to look at a broad range of languages and assess the complexity from the most data-oriented and computationally interesting side, corpus data are a good option, because they are accessible and easy to analyze automatically. In the thesis, multiple other approaches that could have been taken are described as well, but this method was chosen at the beginning as a starting point for further work, because there are multiple sources of corpus data for a large number of languages, it is computationally interesting to process them, and they are relatively easy to obtain in comparison with different types of data.
+
+It is also necessary to process the language as it is written. It, of course, brings a lot of problems and limitations that it is necessary to be aware of. Some words can be written in the same way but read differently --- with `read' being an example. Written text introduces typos and mistakes, and written language can differ from the spoken version. 
+
+It was not possible, despite the broad scope, to use annotated data, because for most of the analyzed languages, not much annotated data is available.
+
+
+Despite all these limitations, I believe that there is a lot of interesting data hidden in the corpora that can be analyzed using computational methods and presented in this thesis. 
+
+\section{Goals of the thesis}
+
+There are three main goals of this thesis:
+\begin{itemize}
+    \item to collect a frequency-list dataset that covers as many languages as possible. Filtering and determining the quality of the data and keeping the data comparable across all languages. During the work, standardized wordlists for 200 languages were composed and prepared for future analysis not only by this thesis but also by other linguists.
+    \item to implement complexity metrics from related papers and reproduce their results on this larger and more diverse set of languages.
+    \item to design and evaluate additional metrics based on morphological segmentation and to analyze the results. Compare the results with other properties of the languages and answer the question whether the metrics are useful and represent some real-world aspects of the languages, such as their relationships and morphological typology, and whether the metrics correlate with each other.
+\end{itemize}
+
+The dataset and the codebase are designed to be reusable for future research, universal and extensible. With future development of informatics, it is probable that the data available online will be more and more accessible and the research around corpus linguistics can bring more complete analysis.
+
+The thesis is trying to answer the following questions: Whether there exists a way to get information from wordlists indicating some real-world properties of the language. Is it possible and useful to use morphological segmentation to obtain more complex information about complexity. Are there any additional properties and takeaways from those metrics. 
+\newpage
+\section*{Structure of the thesis}
+
+This thesis presents the results of my work in the following order:
+
+\begin{itemize}
+    \item \textbf{Theoretical Background} introduces the necessary terminology from morphology and other necessary parts of linguistics. It reviews previous approaches to measuring language complexity.
+    \item \textbf{Data sources and preprocessing} describes the data sources used in this thesis, the filtering and cleaning pipeline. It also describes different approaches to the task of making ``standardized wordlists'' for all the languages.
+    \item \textbf{Metrics} defines the metrics used in the analysis, both corpus-based and segmentation-based, together with their motivation. Some of those are inspired by the related work, but most of them being developed and proposed by me.
+    \item \textbf{Implementation} explains the implementation of the whole pipeline: how the data flows through the codebase, which software decisions were taken, and how the work can be reproduced or extended.
+    \item \textbf{Results} presents the results, compares them with previous work, and discusses what the metrics reveal about related languages and language typology.
+    \item The \textbf{Conclusion} summarises what was achieved, what the limitations are, and what would be the natural next steps.
+\end{itemize}

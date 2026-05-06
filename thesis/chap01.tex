@@ -1,73 +1,165 @@
-\chapter{Theoretical Background}
+﻿\chapter{Theoretical Background}
 
 \section{Terminology}
 
 \subsection{Morphology}
 
-Basic morphologic unit is called a \textbf{word}. For the purpose of this thesis, the term \textit{word} will be strictly orthographic (spelling-based), since the paper works with large data and any softer definition will be hard to apply. The Essential of Linguistic \parencite{AndersonEtAl2022} suggests that a \textit{word} should be the smallest separable unit in language. However, it is possible to break the word itself but it gets more difficult.
+The basic morphological unit is called a \textbf{word}. For the purpose of this thesis, the term \textit{word} is used in a strictly orthographic (spelling-based) sense, since the paper works with large data and any looser definition would be hard to apply consistently. \textcite{AndersonEtAl2022} suggest that a \textit{word} should be the smallest separable unit in a language. However, it is possible to break the word itself but it gets more difficult.
 
-Smaller pieces of a word are called \textbf{morphemes}. The same morpheme can have different spelling based on the surrounding word parts (for example \textit{necessary} → \textit{necessari-ly}). This phenomena is called an \textbf{allomorphy}. This concrete physical realizations of morphemes are called \textbf{morphs}. This paper works with orthographical version of the words (it does not cluster related allomorphs into morphemes), which makes the two terms effectively equivalent.
+Smaller pieces of a word are called \textbf{morphemes}. The same morpheme can be spelled differently depending on the surrounding word parts (for example \textit{necessary} $\rightarrow$ \textit{necessari-ly}). This phenomenon is called \textbf{allomorphy}. The concrete physical realisations of morphemes are called \textbf{morphs}. This paper works with the orthographic form of words (it does not cluster related allomorphs into morphemes), so the main unit in the words are morphs.
 
-One word can contain one or more morphemes. If there are multiple morphemes in a word, it is possible to divide them into two categories: \textit{roots} and \textit{affixes}.
+A word can contain one or more morphemes. If there are multiple morphemes in a word, they can be divided into two categories: \textit{roots} and \textit{affixes}.
 
-\textbf{Affixes} cannot stand on their own, they are always attached on a \textbf{base}. The smallest inseparable \textit{base} is called the \textbf{root} \parencite{AndersonEtAl2022}. Some words can even have multiple roots, because sometimes it is not clear which part of the word is the base and which is appended. A criterion for a second root is also that this morpheme independently forms a word with its suffixes where it stands as a root. Examples being: \textit{fire-fighter} or \textit{heart-break}. The set of all words derivated from one root is called a root’s inflectional paradigm or just a \textbf{paradigm}.
+\textbf{Affixes} cannot stand on their own, they are always attached to a \textbf{base}. The smallest inseparable \textit{base} is called the \textbf{root} \parencite{AndersonEtAl2022}. Words can also contain multiple roots. This effect is called \textbf{compounding}. A criterion for identifying a second root is that the morpheme in question can independently form a word with its suffixes, in which it acts as the root. Examples include \textit{fire-fighter} or \textit{heart-break}. The set of all words derived from one root forms the root's derivational family.
 
-When annotating data a more robust definition of morph segmentation is necessary. If annotator is not sure on a concrete gap if it splits morphemes or it is one morph following questions are suggested:
+% lepší než gap
+When annotating data, a more robust definition of morph segmentation is necessary. If an annotator is unsure about a particular border, whether it splits two morphemes or lies inside a single morph, the following questions are suggested:
 \begin{itemize}
-    \item Does it exist in the language a related word, which share one of the halves of the word? This should identify the base.
-    \item Does it exist a pattern of words that shares the other half of the word but they are attached to different bases?
-    \item Is an average native speaker able to separate the morphemes and feel that there is a gap? Is a native speaker able to create a different word on the same base?
+    \item Does the language contain a related word that shares one of the two halves? This should identify the base.
+    \item Does there exist a pattern of words sharing the other half but attached to different bases?
+    \item Is the average native speaker able to separate the morphemes and feel that there is a border? Is a native speaker able to form a different word on the same base?
 \end{itemize}
 
-Affixes can be also divided into following categories
+
+\newpage
+
+
+Affixes can be further divided into the following categories:
 \begin{itemize}
     \item A \textbf{prefix} is attached before the base.
     \item A \textbf{suffix} follows the base.
     \item A \textbf{circumfix} is attached around the base.
-    \item An \textbf{infix} is attached inside the base and \textbf{transfix} across the base.
-    \item A \textbf{simultaneous affix} takes place at the same time as its base (in tonal and sign languages)
-    \item An \textbf{interfix} tights two bases together or two morphemes that are hard to pronounce together. \textit{(This affix is not mentioned by \textcite{AndersonEtAl2022}, but it is necessary for this paper)}
+    \item An \textbf{infix} is inserted inside the base, and a \textbf{transfix} across the base.
+    \item A \textbf{simultaneous affix} occurs at the same time as its base (in tonal and sign languages).
+    \item An \textbf{interfix} ties together two bases, or two morphemes that are hard to pronounce in direct contact. \textit{(This affix is not mentioned by \textcite{AndersonEtAl2022}, but it is necessary for this thesis.)}
 \end{itemize}
 
-This paper aimed for basic morpheme identification, and therefore some simplification was made. In the word one ore more roots are identified. All morphemes before the first root are called \textit{prefixes} and after the last root are called \textit{suffixes}. All other morphemes are identified as \textit{interfixes}, which in this context simply means affixes that the language uses between roots.
+This thesis aims at basic morpheme identification, so some simplification was made. One or more roots can be identified in one word. All morphemes preceding the first root are called \textit{prefixes}, and all morphemes following the last root are called \textit{suffixes}. Any remaining morphemes are labelled \textit{interfixes}, which in this context simply denotes affixes that the language places between roots.
+
+\newpage
 
 \subsection{Corpus linguistics}
 
-Corpus is a collection of texts. The purpose of corpus can vary:
+A corpus is a collection of texts. Its purpose can vary:
 \begin{itemize}
-    \item \textbf{Parallel} corpus serves for comparison of two or more languages. It uses the same texts translated into multiple languages.
-    \item Corpora can be \textbf{annotated} with morphological and syntactical tags. One of the best database for this is the Universal Dependencies.
-    \item \textbf{Frequency lists} are already aggregated data where all tokens of a word type are summed. The data are sorted in descending order.
+    \item A \textbf{parallel} corpus serves to compare two or more languages. It contains the same texts translated into multiple languages.
+    \item Corpora can be \textbf{annotated} with morphological and syntactic tags. One of the best resources of this kind is the Universal Dependencies project.
+    \item \textbf{Frequency lists} are pre-aggregated data in which all tokens of a given word type are summed. The data are sorted in descending order of frequency.
 \end{itemize}
 
-Corpus data contain all words as they appear in the texts. Which inherently means, that it includes inflected words as well as typos, proper names, words from different languages and other non-standard items. This feature is not necessarily beneficial or harmful. For example, some common typos can form a pattern. 
+Corpus data contain all words as they appear in the texts, which inherently means that they include inflected forms as well as typos, proper names, words from other languages, and other non-standard items. This property is not necessarily beneficial or harmful in itself. For example, some common typos can form a recognisable pattern.
 
-In the corpora terminology, more terms are commonly used:
+Several other terms are commonly used in corpus terminology:
 
-A \textbf{token} is one unit of data, a word in the original form, collected in the corpus. A word \textbf{type} is category of tokens that are identical. Every type is unique and has sertain ammount of tokens (occurances in the file). The \textbf{token count} of the corpus represents the total amount of collected data and the \textbf{type count} represents only the number of distinct words in the corpora. Since this paper works with frequency lists directly, the token count per word type is referred to as a frequency of the word and the total frequency in the corpus is equivalent term to token count.
+A \textbf{token} is a single unit of data. It is a word in the original form collected from the corpus. A word \textbf{type} is a category of identical tokens. Every type is unique and has a certain number of tokens (its occurrences in the corpus). The \textbf{token count} of the corpus represents the total amount of collected data, while the \textbf{type count} represents only the number of distinct words. Since this thesis works directly with frequency lists, the token count per word type is referred to as the \textit{frequency} of the word, and the total frequency in the corpus is an equivalent term for the token count.
 
-Unit of words in language can be abstracted into the term of \textbf{lexeme}. Lexeme is a set of word types that represent one word in multiple \textbf{word-forms} defined by inflection. Word-forms does not change the inherent meaning of the lexeme but its grammatical role. Inflection can be divided into declination of substantives and conjugation of verbs. The lexeme is usually present only once in a dictionary under a basic form which is called a \textbf{lemma}. The other word-forms are usually predictable or the dictionary lists the irregularities, for example: \textit{child, children} \parencite{Panocova2021}.
+A unit of words in a language can be abstracted as a \textbf{lexeme}. A lexeme is a set of word types that represent the same word in multiple \textbf{word-forms} defined by inflection. Word-forms do not change the inherent meaning of the lexeme, only its grammatical role. Inflection can be divided into the declination of nominals and the conjugation of verbs. A lexeme is usually present only once in a dictionary, under a basic form called a \textbf{lemma}. The other word-forms are typically predictable, or the dictionary lists the irregular forms, for example: \textit{child, children} . All forms of a lemma is called a \textbf{paradigm}. \parencite{Panocova2021}
+% paradigm
 
-\textbf{Hapax legomena} is a token that are unique in the whole corpus. 
+
+\textbf{Hapax legomena} are word types that occur only once in the entire corpus.
+
+\newpage
+
+\subsection{Scripts}
+\label{sec:scripts}
+
+Due to the variety of languages covered in this thesis, a wide range of scripts is also present. This section introduces a basic typology of scripts to be used in later phases of the thesis.
+
+First, there is a distinction between the terms \textbf{script} and \textbf{writing system}. A writing system is specific to each language and describes how the language uses a script, while a script is strictly the graphic form of the characters. \parencite{coulmas2003writing}
+
+
+\subsubsection{Basic typology}
+
+The typology of scripts is fundamental for studying complexity based on the written form of a language. Different scripts have different mechanisms that influence complexity measures. The typology was obtained from \textcite{coulmas2003writing}.
+
+\begin{itemize}
+    \item \textbf{Logographic}: the basic unit of the script is a word or a morpheme. Examples include Sumerian cuneiform and Chinese characters.
+    \item \textbf{Syllabic}: the basic unit of the script is a syllable. Examples include Japanese kana and Cherokee.
+    \item \textbf{Alphabetic}: the basic unit of the script is a phoneme and it is further divided into subtypes:
+    \begin{itemize}
+        \item \textbf{Abjad} scripts primarily represent consonants, while vowels are optional and indicated by diacritics. Examples include Arabic and Hebrew. The implication for complexity is that some words may be written identically, while having differences in pronunciation and meaning.
+        
+\begin{tabular}{lll}
+\textarabic{كَتَبَ} & kataba & = he wrote \\
+\textarabic{كُتِبَ} & kutiba & = it was written \\
+\textarabic{كُتُب}  & kutub  & = books \\
+\end{tabular}
+        \item \textbf{Abugida} scripts represent vowels through marks attached to a consonant character. This group includes the Brāhmī-derived scripts such as Devanagari, Tamil and Thai, as well as Ethiopic. It is important to note that in UTF-8 these characters are usually represented as two independent characters. For example, the symbol read as \ttt{ki} --- `\textsanskrit{कि}' --- is a combination of \ttt{ka} --- `\textsanskrit{क}' and the vowel marker \ttt{i} --- `\textsanskrit{ि}', where the consonant comes first.
+        \item  \textbf{Alphabet} scripts represent both consonants and vowels as independent characters. Examples are Greek-based scripts such as Latin and Cyrillic, as well as Armenian, Georgian and others. While Cyrillic usually represents one phoneme by one character, the Latin script has only 26 distinct letters, so alternations or combinations of letters are used to cover the full range of phonemes.
+    \end{itemize}
+\end{itemize}
+
+Some scripts do not mark spaces between words, such as Chinese and Thai.
+
+\newpage
+
+\subsection{Morphological typology}
+\label{chap:typology}
+
+Different languages employ different morphological tools. Morphological typology is one of fundamental basics of linguistics, even though it is simplifying. The typology is presented here from the overview of \textcite{Panocova2021}. The typology below classifies a language by its dominant morphological strategy. It is important to note that this is an extreme simplification and many languages are not easily categorised, or display features of several categories. Nevertheless, it is useful for capturing basic relationships.
+
+\subsection{Index of synthesis}
+
+The index of synthesis describes how many morphemes are typically combined in a single word.
+
+\begin{itemize}
+    \item \textbf{Isolating (analytic)} --- languages with little morphology; grammatical meanings are expressed mainly by word order, particles, or auxiliary words. Examples: Chinese, Vietnamese, Thai, English.
+    
+    \item \textbf{Synthetic} --- languages where words often contain several morphemes expressing grammatical categories. Examples: Czech, Latin, Russian, Turkish, Finnish, Hungarian.
+    
+    \item \textbf{Polysynthetic} --- highly synthetic languages where one word may correspond to a whole sentence. Examples: Inuktitut, Greenlandic, Mohawk.
+\end{itemize}
+
+\subsubsection{Index of Fusion}
+
+The index of fusion describes how clearly morphemes can be separated and how many meanings one morpheme expresses. It applies mainly to synthetic languages.
+
+\begin{itemize}
+    \item \textbf{Agglutinative} --- languages with clearly separable morphemes, each usually expressing one function. Examples: Turkish, Finnish, Hungarian, Japanese, Korean, Swahili.
+    
+    \item \textbf{Fusional} --- languages where one morpheme often expresses several grammatical meanings. Examples: Czech, Latin, Russian, Polish, Greek, German.
+\end{itemize}
+
+\subsubsection{Skalička's Typology}
+
+Skalička further distinguishes two types of fusional morphology.
+
+\begin{itemize}
+    \item \textbf{Introflexive} --- languages using internal changes of roots or patterns. Examples: Arabic, Hebrew, Amharic.
+    
+    \item \textbf{Inflectional} --- languages with rich affixation, where one affix may express several categories at the same time. Examples: Czech, Latin, Ancient Greek, Russian, Sanskrit.
+\end{itemize}
+
+\subsubsection{Final typology}
+
+In this work, following classification is used, combining the typologies described above. The categories are also listed in order of increasing complexity.
+\begin{enumerate}
+    \item \textbf{Isolating} (analytic)
+    \item Synthetic --- \textbf{Agglutinative}
+    \item Synthetic --- \textbf{Fusional} --- Inflectional
+    \item Synthetic --- Fusional --- \textbf{Introflexive} (treated as a special case of fusional)
+    \item \textbf{Polysynthetic}
+\end{enumerate}
+
+
 
 \newpage{}
 \section{Morphological complexity}
-\begin{quote}
-\textit{``Whether a given language is more complex than another is an intriguing question.''} \parencite{Coltekin2022}
-\end{quote}
 
-It is possible to look at the complexity of languages from two different perspectives. The first one is called \textbf{Integrative complexity} \parencite{Coltekin2022}. It measures how difficult it is for first-language learners (children learning their native language) and second-language learners to achieve basic communication skills in the language or achieve proficiency. Both groups acquire the language in vastly different ways. Children are learning without any rules, just observe and repeat, they are capable of learning all difficulties of the languages by hard and only implicitly perceiving the rules, which they can use and abstract from them afterwards. In the second group there are usually adults or older children capable of understanding the rules in their native languages. This metric can determine which languages to learn first, how much time and effort does it take master particular languages.
+Language complexity can be approached from two different perspectives. The first is called \textbf{integrative complexity} \parencite{Coltekin2022}. It measures how difficult it is for first-language learners (children acquiring their native language) and second-language learners to reach basic communication skills, or full proficiency, in the language. The two groups acquire a language in vastly different ways. Children learn without explicit rules: they just observe and repeat, and they are able to learn even the most difficult aspects of a language by heart, and only implicitly perceiving the underlying rules. The second group typically consists of adults or older children, who are already capable of understanding rules in their native language. This kind of measure can help decide which languages to learn first, or how much time and effort is needed to master a particular language.
 
-The other approach is called \textbf{Enumerative complexity} \parencite{Coltekin2022} and it measures how to look at language complexity is from its structure. This method is not looking at people learning the language but into the core of the language. The problem with this issue is, that it is not easily recognizable what language properties make it more complex and what do the opposite. I list some examples of methods. It is possible to
+%není lepší slovo?
+The other approach is called \textbf{enumerative complexity} \parencite{Coltekin2022} and measures the complexity of a language from its structure. This method does not focus on the speakers learning the language, but on the language itself. The difficulty here is that it is not easy to determine which linguistic properties make a language more complex and which have the opposite effect. Some example methods are listed below. It is possible to
 \begin{itemize}
-    \item tight the measures with the previous approach - what rules are \textbf{harder to learn}.
-    \item measure the \textbf{brain activity} of people while using the language
-    \item how much of a conversation in the language is \textbf{transferred through a noisy environment}. In other words, how much can a speaker understand the meaning of sentences in regard on particular levels of corrupting the speech.
-    \item \textbf{compare the measures with one another} and tell if they are measuring the same variable. If languages with one measure being high tend to have more complexity measures with higher values.  
+    \item tie the measures to the previous approach --- which rules are \textbf{harder to learn};
+    \item measure the \textbf{brain activity} of speakers while they use the language;
+    \item measure how much of a conversation is \textbf{transmitted through a noisy environment} --- in other words, how well a listener can recover the meaning of sentences at varying levels of speech corruption;
+    \item \textbf{compare different measures with one another} and check whether they capture the same underlying variable, that is, whether languages that score high on one measure tend to score high on others as well.
 \end{itemize}
 
-The implication of the integrative complexity is clear. However, what are the implications of enumerative complexity  might be more disguised. Language research helps us in general to understand how human communication works. How the languages behave in time. It help us understand why certain changes are occurring independently in multiple languages. Is there a relationship between the simplification of a language and number of speaker or number of second-language learners.
-The most fundamental question of the complexity field is the equi-complexity theory. That states that all languages have the same amount of complexity, tight to how much complexity humans need and can handle for talking, but the complexity manifests in different ways. For example, languages with lack of inflection tend to have more strict word order (compare English to Latin).
+The implications of integrative complexity are obvious. The implications of enumerative complexity, on the other hand, may be more disguised. Language research helps us in general to understand how human communication works and how languages behave over time. It also helps us understand why certain changes occur independently in multiple languages. Is there a relationship between the simplification of a language and the number of its speakers, or the number of second-language learners?
+The most fundamental question in the field of complexity is the equi-complexity hypothesis, which states that all languages possess roughly the same amount of complexity, tied to how much complexity humans need and can handle in everyday communication, but that this complexity manifests itself in different ways. For example, languages with little inflection tend to have a more rigid word order (compare English with Latin).
 
 \begin{quote}
 \textit{``Again, one can isolate the complexity of a language in phonemics, in morphophonemics, in tactics, etc.; but these isolable properties may hang together in such
@@ -75,19 +167,19 @@ a way that the total complexity of a language is approximately the same for all
 languages.''} Rulon S. Wells 1954 \parencite{Newmeyer2022}
 \end{quote}
 
-In the footnote, Wells acknowledges, that this idea comes from Charles Hockett (1952) \parencite{Newmeyer2022}.
+In the footnote, Wells acknowledges that this idea comes from Charles Hockett (1952) \parencite{Newmeyer2022}.
 
-\subsection{Integral complexity}
+\subsection{Enumerative complexity}
 
-The earlier paper by \textcite{Ehret2023} introduces shared task was featured at the ``Interactive Workshop on Measuring Language Complexity,'' which took place at the Freiburg Institute for Advanced Studies in September 2019 and lists multiple interesting approaches on measuring complexity. There are few topics just as an example:
+The earlier work by \textcite{Ehret2023} introduces a shared task featured at the ``Interactive Workshop on Measuring Language Complexity,'' which took place at the Freiburg Institute for Advanced Studies in September 2019, and lists several interesting approaches to measuring complexity. A few of the topics covered are, for example:
 \begin{itemize}
-    \item The complexity of Slavic languages correlates with average altitude of the speakers. More remote Slavic languages tend to preserve it's complexity
-    \item Syntagmatic redundancy, such as the use of multiple negatives, increases a language's absolute complexity but paradoxically facilitates the process of language acquisition and processing for its users.
-    \item Languages that are used in a broader range of communicative contexts (having higher ``situational diversity'') tend to decrease their grammatical complexity over time to remain adaptable.
+    \item The complexity of Slavic languages correlates with the average altitude at which their speakers live. More remote Slavic languages tend to preserve their complexity.
+    \item Syntagmatic redundancy, such as the use of multiple negatives, increases a language's absolute complexity, but paradoxically facilitates language acquisition and processing for its users.
+    \item Languages used in a broader range of communicative contexts (with higher ``situational diversity'') tend to reduce their grammatical complexity over time in order to remain adaptable.
 \end{itemize}
 
-It also contains more general papers, one of which is paper from \textcite{Coltekin2022}. Which partially confirms on multiple measures, that there is a correlation between those, suggesting some one underlying phenomena: one complexity. The concrete measures are listed in Chapter \ref{sec:metrics}. They comparing the order of languages based on various measures, correlation between them, doing a PSA transofrmation to find the sources of variation and also comparing it to WALS (language feature) database.
+It also contains more general papers, one of which is by \textcite{Coltekin2022}. That study partially confirms, across multiple measures, that there is a correlation between them, suggesting an underlying phenomenon: a single shared notion of complexity. The concrete measures are listed in Chapter~\ref{sec:metrics}. The authors compare the ordering of languages based on various measures and the correlations between them, perform a PCA transformation to identify the main sources of variation, and also compare the results to the WALS (language feature) database.
 
 \subsection{Position of this thesis}
 
-The primary goal of this paper is to thoroughly investigate integral complexity. To achieve this, various complexity metrics are tested on significantly larger corpus datasets that cover broader range of languages. Finally, these applied measures are systematically compared with one another to evaluate their relationships and performance.
+The primary goal of this thesis is to investigate enumerative complexity in depth. To achieve this, various complexity metrics are tested on substantially larger corpus datasets covering a broader range of languages. Finally, these metrics are systematically compared with one another in order to evaluate their relationships and performance.

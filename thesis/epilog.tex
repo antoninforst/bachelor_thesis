@@ -1,8 +1,14 @@
-\chapter*{Conclusion}
-\addcontentsline{toc}{chapter}{Conclusion}
+\chapter{Conclusion}
 
-repeat what was done,
-answer to goals of the thesis,
-key findings,
-limits,
-future work.
+In conclusion, several goals were achieved in this thesis.
+
+First, a carefully prepared wordlist of languages was assembled, together with various metrics for assessing the data quality. For each language, a frequency list from corpus data is provided. Out of the original 400 million word types in 443 languages, at least 200 languages are large enough and clean enough for some degree of analysis. The wordlist will be made available for future research on Lindat in three variants based on truncation method. The codebase is prepared for easy reuse if more data becomes available.
+
+The wordlists are not perfectly filtered. The thesis proposes several methods for further filtering, together with the drawbacks of such approaches. The data could in principle be cleaned more carefully, but thanks to the large amount of data the noise stays below a level that would significantly affect the results. The objective of the thesis was to work with a large number of languages, which prevented filtering tailored to individual languages.
+
+Secondly, metrics that correspond to related work in the field were implemented. The overlapping data suggest that the results are correct. The number of languages was extended from 45 to 154, including languages with non-alphabetical scripts.
+By showing various implications and patterns in the data, this thesis supports both the consistency and the relevance of the implemented metrics.
+
+Thirdly, metrics based on morphological segmentation were proposed and implemented. The results of these metrics are mixed. There are some strong and interesting patterns that were worth exploring, but the data are very limited by the number of languages, by the varying quality of the training data, and by the model that predicts morphological typology, that is, roots and affixes. Once better data becomes available, it is reasonable to believe that the proposed metrics will be able to capture morphological complexity. The codebase is fully prepared to process the next generation of data and to produce the corresponding graphs and tables on complexity.
+
+The main metrics and statistical data are available in the appendix.
