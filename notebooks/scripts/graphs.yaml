@@ -1,24 +1,136 @@
+affix_deviation:
+  file: affix_deviation.pdf
+  source: morphs.ipynb
+  timestamp: '2026-05-06T01:19:33+00:00'
+affixation_score:
+  file: affixation_score.pdf
+  source: morphs.ipynb
+  timestamp: '2026-05-03T09:52:12+00:00'
+compounding:
+  file: compounding.pdf
+  source: morphs.ipynb
+  timestamp: '2026-05-06T01:19:32+00:00'
+compounding_index:
+  file: compounding_index.pdf
+  source: morphs.ipynb
+  timestamp: '2026-05-03T10:17:35+00:00'
+compounding_index_by_segmentor_violin:
+  file: compounding_index_by_segmentor_violin.pdf
+  source: morphs.ipynb
+  timestamp: '2026-05-03T06:03:07+00:00'
+compounding_index_by_typology_violin:
+  file: compounding_index_by_typology_violin.pdf
+  source: morphs.ipynb
+  timestamp: '2026-05-03T06:02:22+00:00'
+compressibility_by_script_violin:
+  file: compressibility_by_script_violin.pdf
+  source: corpus.ipynb
+  timestamp: '2026-05-06T00:49:11+00:00'
+compressibility_by_typology_violin:
+  file: compressibility_by_typology_violin.pdf
+  source: corpus.ipynb
+  timestamp: '2026-05-03T17:58:16+00:00'
 data_sources:
-  file: data_sources.png
+  file: data_sources.pdf
   source: data_origin.ipynb
-  timestamp: '2026-04-27T09:03:54+00:00'
+  timestamp: '2026-05-05T20:44:28+00:00'
+dist_of_total_freq:
+  file: dist_of_total_freq.pdf
+  source: corpus_data.ipynb
+  timestamp: '2026-05-06T00:22:06+00:00'
 dominant_script_share:
-  file: dominant_script_share.png
+  file: dominant_script_share.pdf
   source: filtration.ipynb
-  timestamp: '2026-04-27T09:07:30+00:00'
+  timestamp: '2026-05-06T00:20:11+00:00'
 elbow:
-  file: elbow.png
+  file: elbow.pdf
   source: truncation_final.ipynb
-  timestamp: '2026-04-27T04:48:22+00:00'
-freq_rank_three:
-  file: freq_rank_three.png
-  source: data_origin.ipynb
-  timestamp: '2026-04-26T18:15:37+00:00'
+  timestamp: '2026-05-03T17:01:49+00:00'
+entropyToCompressibility:
+  file: entropyToCompressibility.pdf
+  source: corpus.ipynb
+  timestamp: '2026-05-06T00:49:08+00:00'
+entropy_by_typology_violin:
+  file: entropy_by_typology_violin.pdf
+  source: corpus.ipynb
+  timestamp: '2026-05-06T00:52:49+00:00'
+freq_rank:
+  file: freq_rank.pdf
+  source: cutoffs.ipynb
+  timestamp: '2026-05-06T01:21:27+00:00'
 hapax_overlap:
-  file: hapax_overlap.png
+  file: hapax_overlap.pdf
   source: filtration.ipynb
-  timestamp: '2026-04-27T09:06:41+00:00'
+  timestamp: '2026-05-06T00:20:10+00:00'
+ie_entropy_compressibility:
+  file: ie_entropy_compressibility.pdf
+  source: corpus.ipynb
+  timestamp: '2026-05-06T00:57:10+00:00'
+metric_quality_matrix:
+  file: metric_quality_matrix.pdf
+  source: metric_quality_matrix.ipynb
+  timestamp: '2026-05-03T11:24:11+00:00'
+metric_quality_matrix_corpus:
+  file: metric_quality_matrix_corpus.pdf
+  source: metric_quality_matrix.ipynb
+  timestamp: '2026-05-03T11:46:41+00:00'
+metric_quality_matrix_segmented:
+  file: metric_quality_matrix_segmented.pdf
+  source: metric_quality_matrix.ipynb
+  timestamp: '2026-05-03T11:46:42+00:00'
+metric_quality_matrix_segmented_stretched:
+  file: metric_quality_matrix_segmented_stretched.pdf
+  source: metric_quality_matrix.ipynb
+  timestamp: '2026-05-03T11:44:50+00:00'
+morph_entropy_by_segmentor_violin:
+  file: morph_entropy_by_segmentor_violin.pdf
+  source: morphs.ipynb
+  timestamp: '2026-05-03T06:03:45+00:00'
+morph_entropy_vs_word_entropy:
+  file: morph_entropy_vs_word_entropy.pdf
+  source: morphs.ipynb
+  timestamp: '2026-05-03T06:01:19+00:00'
+morph_ttr_vs_entropy:
+  file: morph_ttr_vs_entropy.pdf
+  source: morphs.ipynb
+  timestamp: '2026-05-02T17:34:27+00:00'
+morph_word_entropy:
+  file: morph_word_entropy.pdf
+  source: morphs.ipynb
+  timestamp: '2026-05-06T01:19:29+00:00'
+morphemes:
+  file: morphemes.pdf
+  source: morphs.ipynb
+  timestamp: '2026-05-06T01:19:32+00:00'
+morphemes_weighted:
+  file: morphemes_weighted.pdf
+  source: morphs.ipynb
+  timestamp: '2026-05-06T01:19:34+00:00'
+morphology_grouping:
+  file: morphology_grouping.pdf
+  source: metric_quality_matrix.ipynb
+  timestamp: '2026-05-06T01:17:08+00:00'
+morphology_groupinh:
+  file: morphology_groupinh.pdf
+  source: metric_quality_matrix.ipynb
+  timestamp: '2026-05-03T11:46:42+00:00'
 original_vs_truncated:
-  file: original_vs_truncated.png
+  file: original_vs_truncated.pdf
   source: truncation_final.ipynb
-  timestamp: '2026-04-27T04:37:00+00:00'
+  timestamp: '2026-05-03T17:01:49+00:00'
+ttrToEntropy:
+  file: ttrToEntropy.pdf
+  source: corpus.ipynb
+  timestamp: '2026-05-06T00:49:07+00:00'
+typeLenToEntropy_typology:
+  file: typeLenToEntropy_typology.pdf
+  source: corpus.ipynb
+  timestamp: '2026-05-02T18:46:54+00:00'
+zipfSlopeComparison:
+  file: zipfSlopeComparison.pdf
+  source: corpus.ipynb
+  timestamp: '2026-05-06T00:49:10+00:00'
+zipfSlopeToEntropy:
+  file: zipfSlopeToEntropy.pdf
+  source: corpus.ipynb
+  timestamp: '2026-05-05T21:46:08+00:00'
