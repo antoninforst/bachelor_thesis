@@ -6,28 +6,34 @@ from pathlib import Path
 from typing import Callable, Any
 import pandas as pd
 import math
+from tqdm import tqdm
 
-ANNOTATED_DIR = Path("../../data/2_annotated")
-RESULTS_DIR = Path("../../results/3_analysis")
-STATISTICS_PATH = Path("../../results/0_data_processing/statistics.csv")
-SHORTCUTS_PATH = Path(__file__).resolve().parent.parent / "0_data_processing" / "corpora" / "leipzig" / "lepzig_shortcuts.csv"
+_SCRIPT_DIR = Path(__file__).resolve().parent
+_PROJECT_ROOT = _SCRIPT_DIR.parent.parent
 
-COLUMNS = ["word", "frequency"]
+ANNOTATED_DIR = _PROJECT_ROOT / "data" / "2_annotated"
+RESULTS_DIR = _PROJECT_ROOT / "results" / "3_analyze"
+STATISTICS_PATH = _PROJECT_ROOT / "results" / "0_data_processing" / "statistics.csv"
+SHORTCUTS_PATH = _PROJECT_ROOT / "src" / "0_data_processing" / "corpora" / "leipzig" / "lepzig_shortcuts.csv"
+
+COLUMNS = ["word", "frequency", "ppm"]
 
 @dataclass(frozen=True)
 class Row:
     word: str
-    frequency: int
+    frequency: float
+    ppm: float | None = None
 
 class Frequency:
     def __init__(self):
         self.data = {}
         self.total_count = 0
+        self.ppm_total_count = 0
         self.record_count = 0
         self.fhepax_count = 0
         self.hepax_count = 0
 
-    def add(self, key, count=1):
+    def add(self, key, count=1, ppm: float | None = None):
         if key in self.data:
             f, c = self.data[key]
             if f == 1:
@@ -41,6 +47,7 @@ class Frequency:
                 self.fhepax_count += 1
             self.hepax_count += 1
         self.total_count += count
+        self.ppm_total_count += count if ppm is None else ppm
         self.record_count += 1
     
     def add_range(self, keys):
@@ -74,6 +81,9 @@ class Frequency:
     
     def get_total_count(self):
         return self.total_count
+
+    def get_ppm_total_count(self):
+        return self.ppm_total_count
     
     def get_entropy(self):
         total = self.total_count
@@ -131,9 +141,14 @@ def read_csv_rows(path: Path) -> list[Row]:
         header = next(reader)
         word_idx = header.index("word")
         freq_idx = header.index("frequency")
+        ppm_idx = header.index("ppm") if "ppm" in header else None
         for r in reader:
             if r:
-                rows.append(Row(word=r[word_idx], frequency=int(r[freq_idx])))
+                rows.append(Row(
+                    word=r[word_idx],
+                    frequency=float(r[freq_idx]),
+                    ppm=float(r[ppm_idx]) if ppm_idx is not None and r[ppm_idx] else None,
+                ))
     return rows
 
 
@@ -179,8 +194,35 @@ def metric_frequency_perplexity(freq: Frequency) -> float:
     return 2 ** freq.get_entropy()
 
 def metric_ttr(freq: Frequency) -> float:
-    total = freq.get_total_count()
+    total = freq.get_ppm_total_count()
     return freq.get_unique_count() / total if total else 0.0
+
+def metric_zipf_slope(freq: Frequency) -> float:
+    """Slope of linear regression on log(rank) vs log(frequency)."""
+    if not freq.data:
+        return float("nan")
+    freqs = sorted((f for f, _ in freq.data.values()), reverse=True)
+    n = len(freqs)
+    if n < 2:
+        return float("nan")
+    log = math.log
+    sum_x = 0.0
+    sum_y = 0.0
+    sum_xx = 0.0
+    sum_xy = 0.0
+    for rank, f in enumerate(freqs, 1):
+        if f <= 0:
+            continue
+        x = log(rank)
+        y = log(f)
+        sum_x += x
+        sum_y += y
+        sum_xx += x * x
+        sum_xy += x * y
+    denom = n * sum_xx - sum_x * sum_x
+    if denom == 0:
+        return float("nan")
+    return (n * sum_xy - sum_x * sum_y) / denom
 
 class MorphStats:
     def __init__(self):
@@ -247,6 +289,7 @@ METRICS: dict[str, MetricFn] = {
     "count": metric_num_rows,
     "total_frequency": metric_total_frequency,
     "ttr": metric_ttr,
+    "zipf_slope": metric_zipf_slope,
     "hapax_count": metric_hapax_count,
     "hapax_ratio": metric_hapax_ratio,
     "freq_hapax_count": metric_freq_hapax_count,
@@ -269,13 +312,18 @@ def compute_metrics_for_file(path: Path, lang_names: dict[str, str], statistics:
     morph_stats = MorphStats()
     for row in rows:
         word, segmentation = break_word(row.word)
-        whole_words.add(word, row.frequency)
+        whole_words.add(word, row.frequency, row.ppm)
         for morph in segmentation:
-            morphs.add(morph, row.frequency)
+            morphs.add(morph, row.frequency, row.ppm)
         morph_stats.add(row)
     code = path.stem
     lang_code = code.split("_")[0]
-    out: dict[str, Any] = {"language": lang_names.get(lang_code, code)}
+    script_code = code[-4:] if len(code) >= 4 else code
+    out: dict[str, Any] = {
+        "language": lang_names.get(lang_code, code),
+        "lang": lang_code[:3],
+        "script": script_code,
+    }
 
     # join statistics
     if code in statistics:
@@ -305,12 +353,13 @@ def build_table(folder: Path, pattern: str, lang_names: dict[str, str], statisti
     print(f"foundFiles={len(files)}")
 
     records: list[dict[str, Any]] = []
-    for i, p in enumerate(files, 1):
-        print(f"[{i}/{len(files)}] processing={p.name}", flush=True)
+    pbar = tqdm(files, desc="Processing", unit="file")
+    for p in pbar:
+        pbar.set_postfix_str(p.stem)
         try:
             records.append(compute_metrics_for_file(p, lang_names, statistics))
         except Exception as e:
-            print(f"ERROR file={p.name} type={type(e).__name__} msg={e}", file=__import__("sys").stderr)
+            tqdm.write(f"ERROR file={p.name} type={type(e).__name__} msg={e}")
 
     return pd.DataFrame(records)
 
